@@ -7,8 +7,8 @@
 <br>
 <h2>Primera entrega</h2>
 <p>Creación de una página, aplicando la refactorización del código para mejorar su legibilidad y funcionalidad</p>
-<a href="https://albaromero6.github.io/PortFolio-JS-ES6/PrimeraEntrega/index.html" target="_blank" style="text-decoration: none;">
-  <button style="background-color: green; color: white; border: none; padding: 10px 20px; cursor: pointer;">Pulsa aquí</button>
+<a href="https://albaromero6.github.io/PortFolio-JS-ES6/PrimeraEntrega/index.html" target="_blank">
+  <img src="https://img.shields.io/badge/Pulsa_aqui-green?style=for-the-badge" alt="Pulsa aquí">
 </a>
 <br>
 <h2>Segunda entrega</h2>
