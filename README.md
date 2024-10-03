@@ -17,8 +17,4 @@
   <li>Confirm para preguntar al usuario si desea intentar de nuevo la introducción de datos</li>
   <li>Alert para dar la bienvenida en caso de introducir los datos correctamentes</li>
 </ul>
-<a href="https://tuenlace.com" target="_blank"><img src="![image](https://github.com/user-attachments/assets/90d124f9-66a2-4739-8fa3-9e9dd878c277)
-" alt="Botón"></a>
-
-
-
+<a href="https://tuenlace.com" target="_blank"><img src="https://www.flaticon.es/icono-gratis/boton-de-play_15338154?term=botones&page=3&position=10&origin=tag&related_id=15338154" alt="Botón"></a>
