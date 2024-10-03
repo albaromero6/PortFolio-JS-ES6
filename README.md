@@ -12,7 +12,7 @@
 <p>Creación de un script para que al cargar nuestra página nos aparezca:</p>
 <ul>
   <li>Prompt para introducir nuestro nombre de usuario y nuestra contraseña</li>
-  <li>Alert para avisarnos de posibles mensajes de error en caso de no introducir los datos correctamente</li>
+  <li>Alert para avisarnos de posibles mensajes de error en caso de no introducir los datos correctamente o para darnos la bienvenida en caso contrario</li>
   <li>Confirm para preguntar al usuario si desea intentar de nuevo la introducción de datos</li>
 </ul>
 
