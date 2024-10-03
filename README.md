@@ -6,14 +6,15 @@
 <p>CopyRight ©</p>
 <br>
 <h2>Primera entrega</h2>
-<p>Creación de una página web a raíz de una plantilla, aplicando la refactorización del código para mejorar su legibilidad y funcionalidad</p>
+<p>Creación de una página, aplicando la refactorización del código para mejorar su legibilidad y funcionalidad</p>
 <br>
 <h2>Segunda entrega</h2>
 <p>Creación de un script para que al cargar nuestra página nos aparezca:</p>
 <ul>
   <li>Prompt para introducir nuestro nombre de usuario y nuestra contraseña</li>
-  <li>Alert con posibles mensajes de error en caso de no introducir los datos correctamente o para darnos la bienvenida en caso contrario</li>
+  <li>Alert con posibles mensajes de error en caso de no introducir los datos correctamente</li>
   <li>Confirm para preguntar al usuario si desea intentar de nuevo la introducción de datos</li>
+  <li>Alert para dar la bienvenida en caso de introducir los datos correctamentes</li>
 </ul>
 
 
