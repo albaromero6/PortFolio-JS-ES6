@@ -4,9 +4,10 @@
 /*                              2 DAW                             */
 /******************************************************************/
 
-"use strict"
+"use strict";
 
 window.onload = function() {
+
     let nombre_usuario_cargado = "Alba";
     let contrasena_cargada = "Romero";
     let nombre_usuario;
