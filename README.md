@@ -5,5 +5,15 @@
 <p>Septiembre de 2024</p>
 <p>CopyRight ©</p>
 <br>
-<h2>Introducción</h2>
-<p>Página web inicial donde he realizado factorización del código y he implementado funciones de Java Script</p>
+<h2>Primera entrega</h2>
+<p>Creación de una página web a raíz de una plantilla, aplicando la refactorización del código para mejorar su legibilidad y funcionalidad</p>
+<br>
+<h2>Segunda entrega</h2>
+<p>Creación de un script para que al cargar nuestra página nos aparezca:</p>
+<ul>
+  <li>Prompt para introducir nuestro nombre de usuario y nuestra contraseña</li>
+  <li>Alert para avisarnos de posibles mensajes de error en caso de no introducir los datos correctamente</li>
+  <li>Confirm para preguntar al usuario si desea intentar de nuevo la introducción de datos</li>
+</ul>
+
+
