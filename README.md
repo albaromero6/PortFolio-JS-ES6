@@ -17,4 +17,5 @@
   <li>Confirm para preguntar al usuario si desea intentar de nuevo la introducción de datos</li>
   <li>Alert para dar la bienvenida en caso de introducir los datos correctamentes</li>
 </ul>
-<a href="https://tuenlace.com" target="_blank"><img src="https://www.flaticon.es/icono-gratis/boton-de-play_15338154?term=botones&page=3&position=10&origin=tag&related_id=15338154" alt="Botón"></a>
+[![Pulsa aquí](https://img.shields.io/badge/Pulsa%20aqu%C3%AD-green)](https://tuenlace.com)
+
