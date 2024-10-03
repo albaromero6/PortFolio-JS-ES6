@@ -7,6 +7,7 @@
 <br>
 <h2>Primera entrega</h2>
 <p>Creación de una página, aplicando la refactorización del código para mejorar su legibilidad y funcionalidad</p>
+<url>https://albaromero6.github.io/PortFolio-JS-ES6/PrimeraEntrega/index.html</url>
 <br>
 <h2>Segunda entrega</h2>
 <p>Creación de un script para que al cargar nuestra página nos aparezca:</p>
@@ -16,5 +17,6 @@
   <li>Confirm para preguntar al usuario si desea intentar de nuevo la introducción de datos</li>
   <li>Alert para dar la bienvenida en caso de introducir los datos correctamentes</li>
 </ul>
+<url></url>
 
 
