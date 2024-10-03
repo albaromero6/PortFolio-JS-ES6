@@ -17,5 +17,5 @@
   <li>Confirm para preguntar al usuario si desea intentar de nuevo la introducción de datos</li>
   <li>Alert para dar la bienvenida en caso de introducir los datos correctamentes</li>
 </ul>
-[![Pulsa aquí](https://img.shields.io/badge/Pulsa%20aqu%C3%AD-green)](https://tuenlace.com)
+[Pulsa aquí]([https://tuenlace.com](https://albaromero6.github.io/PortFolio-JS-ES6/PrimeraEntrega/index.html))
 
