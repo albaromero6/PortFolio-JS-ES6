@@ -4,7 +4,7 @@
 <p>Proyecto de web realizado para la asignatura Desarrollo Web en Entorno Cliente</p>
 <p>Septiembre de 2024</p>
 <p>CopyRight ©</p>
-<img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" alt="Descripción de la imagen" style="width: 10%; height: auto; border-radius: 89%;"/>
+<img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" alt="Descripción de la imagen" style="width: 10%; height: auto; border-radius: 50%;"/>
 <br>
 <h2>Primera entrega</h2>
 <p>Creación de una página, aplicando la refactorización del código para mejorar su legibilidad y funcionalidad</p>
