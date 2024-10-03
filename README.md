@@ -5,7 +5,7 @@
 <p>Septiembre de 2024</p>
 <p>CopyRight ©</p>
 <div style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%;">
-  <img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" alt="Descripción de la imagen" style="width: 10%; height: auto/;"/>
+  <img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" alt="Descripción de la imagen" style="width: 100%; height: auto; border-radius: 50%;"/>
 </div>
 <br>
 <h2>Primera entrega</h2>
@@ -25,4 +25,3 @@
 <a href="https://albaromero6.github.io/PortFolio-JS-ES6/SegundaEntrega/index.html" target="_blank">
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
 </a>
-
