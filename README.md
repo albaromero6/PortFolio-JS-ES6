@@ -5,7 +5,7 @@
 <p>Septiembre de 2024</p>
 <p>CopyRight ©</p>
 <div style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%;">
-  <img src="URL_DE_TU_IMAGEN" alt="Descripción de la imagen" style="width: 100%; height: auto;"/>
+  <img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" alt="Descripción de la imagen" style="width: 100%; height: auto;"/>
 </div>
 <br>
 <h2>Primera entrega</h2>
