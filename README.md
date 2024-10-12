@@ -52,12 +52,10 @@
 <h3>Number</h3>
 <hr>
 Además, para la sección de números, he añadido una opción desplegable en la barra de navegación que, al pasar el ratón sobre ella, muestra dos opciones: "Minicalculadora" y "Conversor de bases".
-<h3>Minicalculadora</h3>
+<h4>Minicalculadora</h4>
 <p></p>
 
 
 
-<a href="https://albaromero6.github.io/PortFolio-JS-ES6/TerceraEntrega/index.html" target="_blank">
-  <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
-</a>
+
 
