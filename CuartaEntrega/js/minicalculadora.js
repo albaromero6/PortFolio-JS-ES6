@@ -67,5 +67,5 @@ function factorial() {
 
 
 function mostrarResultado() {
-    document.getElementById("result").innerText = "Resultado: " + resultado; 
+    document.getElementById("result").innerText = resultado; 
 }
