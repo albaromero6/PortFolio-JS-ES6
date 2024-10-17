@@ -54,12 +54,11 @@
   <img src="CuartaEntrega/assets/SetSession.png" alt="Descripción de la imagen" width="50%">
 </p>
 <p>La función setSession(name, value) se utiliza para guardar datos en el almacenamiento local del navegador. Le pasas un nombre para identificar el dato y un valor que deseas almacenar. Al usar esta función, puedes recordar información importante entre visitas del usuario, ya que los datos se mantendrán disponibles incluso si el navegador se cierra.</p>
-h4>getSession</h4>
+<h4>getSession</h4>
 <p align="center">
   <img src="CuartaEntrega/assets/GetSession.png" alt="Descripción de la imagen" width="50%">
 </p>
 <p>La función getSession(name) se utiliza para recuperar datos del almacenamiento local del navegador. Al llamar a esta función, le pasas el nombre del dato que quieres obtener. Si el dato existe, la función devuelve su valor; si no, devuelve null. Esto te permite acceder a información previamente almacenada.</p>
-
 <h4>deleteSession</h4>
 <p align="center">
   <img src="CuartaEntrega/assets/DeleteSession.png" alt="Descripción de la imagen" width="50%">
