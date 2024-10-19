@@ -25,15 +25,15 @@
 </a>
 <br>
 <h2>Segunda entrega</h2>
-<p>Este código en JavaScript se activa al cargar la página y se encarga de autenticar a un usuario pidiéndole su nombre de usuario y contraseña. Al inicio, se definen algunas variables que guardan el nombre de usuario y la contraseña correctos, otra para almacenar lo que el usuario ingresa, y una flag que controla si este quiere intentarlo de nuevo. Dentro de un bucle, se le pide al usuario que escriba su nombre. Hay varias validaciones:</p>
+<p>Este código en JavaScript se activa al cargar la página y se encarga de autenticar a un usuario pidiéndole su nombre de usuario y contraseña. Al inicio, se definen algunas variables que guardan el nombre de usuario y la contraseña correctos, otra para almacenar lo que el usuario ingresa, y una <strong>flag</strong> que controla si este quiere intentarlo de nuevo. Dentro de un bucle, se le pide al usuario que escriba su nombre. Hay varias validaciones:</p>
 <ul>
-  <li>Si el usuario no escribe nada o cancela, se muestra un "Alert".</li>
-  <li>Si el nombre es demasiado corto, también se avisa con un "Alert".</li>
-  <li>Si el nombre no coincide con el que se tiene guardado, se dice que es incorrecto mediante otro "Alert".</li>
-  <li>Si algo no cuadra, se pregunta si quiere volver a intentarlo mediante un "Confirm".</li>
+  <li>Si el usuario no escribe nada o cancela, se muestra un <strong>Alert</strong>.</li>
+  <li>Si el nombre es demasiado corto, también se avisa con un <strong>Alert</strong>.</li>
+  <li>Si el nombre no coincide con el que se tiene guardado, se dice que es incorrecto mediante otro <strong>Alert</strong>.</li>
+  <li>Si algo no cuadra, se pregunta si quiere volver a intentarlo mediante un <strong>Confirm</strong>.</li>
   <li>Si el usuario indica que quiere cancelar, el script termina ahí y vuelve al inicio.</li>
-  <li>Si el nombre de usuario es correcto, se le solicita que ingrese la contraseña mediante un "Prompt".</li>
-  <li>Si acierta con la contraseña, se le da la bienvenida con otro "Alert" y se muestra el contenido de la página.</li>
+  <li>Si el nombre de usuario es correcto, se le solicita que ingrese la contraseña mediante un <strong>Alert</strong>Prompt.</li>
+  <li>Si acierta con la contraseña, se le da la bienvenida con otro <strong>Alert</strong> y se muestra el contenido de la página.</li>
   <li>Si se equivoca, se muestra un mensaje de error y se pregunta si quiere intentarlo de nuevo.</li>
   <li>Si acepta, la página se recarga para comenzar de nuevo.</li>
 </ul>
