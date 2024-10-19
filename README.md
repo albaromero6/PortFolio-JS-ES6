@@ -32,7 +32,8 @@
   <li>Si el usuario indica que quiere cancelar, el script termina ahí y vuelve al inicio.</li>
   <li>Si el nombre de usuario es correcto, se le solicita que ingrese la contraseña mediante un "Prompt".</li>
   <li>Si acierta con la contraseña, se le da la bienvenida con otro "Alert" y se muestra el contenido de la página.</li>
-  <li>Si se equivoca, se muestra un mensaje de error y se pregunta si quiere intentarlo de nuevo; si acepta, la página se recarga.</li>
+  <li>Si se equivoca, se muestra un mensaje de error y se pregunta si quiere intentarlo de nuevo.</li>
+  <li>Si acepta, la página se recarga para comenzar de nuevo.</li>
 </ul>
 <a href="https://albaromero6.github.io/PortFolio-JS-ES6/SegundaEntrega/index.html" target="_blank">
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
