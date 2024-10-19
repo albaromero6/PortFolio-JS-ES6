@@ -91,6 +91,7 @@ window.onload = function() {
 }
 ```
 
+<br>
 <a href="https://albaromero6.github.io/PortFolio-JS-ES6/SegundaEntrega/index.html" target="_blank">
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
 </a>
