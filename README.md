@@ -99,8 +99,41 @@ window.onload = function() {
 </a>
 <br>
 <h2>Tercera entrega</h2>
-<p>Creación de un script para que para acceder al contenido ingresemos con un Log In</p>
-<p>Todo ello realizando mediante un form en HTML y eventos de JS</p>
+<p>
+Este código JavaScript se ejecuta cuando la página web se carga. Tiene un nombre de usuario y una contraseña guardados ("Alba" y "Romero"). Cuando el usuario envía el formulario de inicio de sesión, el código evita que la página se recargue y recoge los datos que el usuario escribió. Si el nombre de usuario y la contraseña son correctos, oculta el formulario y muestra otro contenido en la página. Si los datos son incorrectos, muestra un mensaje de error y permite que el usuario intente de nuevo. En pocas palabras, este código se encarga de verificar si el usuario puede acceder o no.</p>
+<br>
+
+```javascript
+"use strict"
+
+window.onload = function() {
+
+    let nombre_usuario_cargado = "Alba";  
+    let contrasena_cargada = "Romero";
+
+    const formulario = document.getElementById("formulario_login");
+
+    formulario.onsubmit = function(event) {
+
+        event.preventDefault(); // Evitar que el formulario se envíe automáticamente
+
+        let nombre_usuario = document.getElementById("nombreUsuario").value;        // Obtener usuario
+        let contrasena_usuario = document.getElementById("passWordUsuario").value;  // Obtener contraseña
+
+        // Verificar si el nombre y la contraseña coinciden con los valores cargados
+        if (nombre_usuario === nombre_usuario_cargado && contrasena_usuario === contrasena_cargada) {
+            formulario.style.display = "none";                               // Ocultar formulario 
+            document.getElementById("contenido").style.display = "flex";     // Mostrar contenido
+        } else {
+            // Si los datos son incorrectos, mostrar el mensaje de error y permitir nuevos intentos
+            document.getElementById("mensaje_error").style.display = "block"; // Mostrar mensaje de error si los datos son incorrectos
+            formulario.querySelector('input[type="submit"]').disabled = false; // Asegurar que el botón no esté deshabilitado
+        }
+    };
+};
+````
+
+<br>
 <a href="https://albaromero6.github.io/PortFolio-JS-ES6/TerceraEntrega/index.html" target="_blank">
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
 </a>
