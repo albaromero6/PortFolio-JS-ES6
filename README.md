@@ -287,7 +287,13 @@ function convertir() {
     document.getElementById("resultadoHexadecimal").innerText = "Hexadecimal: " + hexadecimal;
 }
 ```
-
+<br>
 <a href="https://albaromero6.github.io/PortFolio-JS-ES6/CuartaEntrega/index.html" target="_blank">
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
 </a>
+<br>
+<h2>Quinta entrega</h2>
+<h3>LocalStorage</h3>
+<hr>
+<p>Como en la anterior entrega implemente tanto el uso de <strong>Cookies</strong> como el uso de <strong>LocalStorage</strong>, esta última he optado por implementar solo este último.</p>
+<br>
