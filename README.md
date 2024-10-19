@@ -20,7 +20,7 @@ Este es un párrafo de texto que se justificará cuando se renderice. Esto signi
 </div>
 
 <hr>
-<p>Obtiene el botón y el área donde va a mostrarse el resultado. Al llamar al botón, se llama a la función mostrar mediante un **EventListener**.</p>
+<p>Obtiene el botón y el área donde va a mostrarse el resultado. Al llamar al botón, se llama a la función mostrar mediante un **EventListener** .</p>
 <p align="center">
   <img src="PrimeraEntrega/assets/script.js.png" alt="Descripción de la imagen" width="50%">
 </p>
