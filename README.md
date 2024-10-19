@@ -388,8 +388,8 @@ Además, para la sección de cadenas, he añadido una opción desplegable en la 
 <h4>Modificador de texto</h4>
 <p align="center">
   <img src="QuintaEntrega/assets/modificadortexto.png" alt="Descripción de la imagen" width="30%">
+<br> 
 <p>La función <strong>toUpperCase</strong> recibe un texto como entrada y lo convierte a mayúsculas. Luego, devuelve el texto transformado.</p>
-<br>
 
 ```javascript
 // Función para convertir todo el texto a mayúsculas
@@ -398,9 +398,8 @@ function toUpperCase(text) {
 }
 
 ```
-<p>
-La función <strong>toLowerCase</strong> toma un texto como entrada y lo convierte a minúsculas. Luego, devuelve el texto en este nuevo formato.</p>
 <br>
+<p>La función <strong>toLowerCase</strong> toma un texto como entrada y lo convierte a minúsculas. Luego, devuelve el texto en este nuevo formato.</p>
 
 ```javascript
 // Función para convertir todo el texto a minúsculas
@@ -409,9 +408,8 @@ function toLowerCase(text) {
 }
 
 ```
-
-<p>La función <strong>uppercaseFirstLetter</strong> toma un texto como entrada y convierte la primera letra de cada palabra en mayúscula. Primero, divide el texto en palabras usando el espacio como separador mediante la función <strong>split</strong>. Luego, recorre cada palabra, cambia la primera letra a mayúscula y mantiene el resto de la palabra sin cambios. Finalmente, une todas las palabras de nuevo en un solo texto y lo devuelve.</p>
 <br>
+<p>La función <strong>uppercaseFirstLetter</strong> toma un texto como entrada y convierte la primera letra de cada palabra en mayúscula. Primero, divide el texto en palabras usando el espacio como separador mediante la función <strong>split</strong>. Luego, recorre cada palabra, cambia la primera letra a mayúscula y mantiene el resto de la palabra sin cambios. Finalmente, une todas las palabras de nuevo en un solo texto y lo devuelve.</p>
 
 ```javascript
 // Función para poner en mayúsculas la primera letra de cada palabra
