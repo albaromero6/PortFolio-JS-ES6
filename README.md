@@ -30,8 +30,6 @@
   <li>Confirm para preguntar al usuario si desea intentar de nuevo la introducción de datos</li>
   <li>Alert para dar la bienvenida en caso de introducir los datos correctamentes</li>
 </ul>
-### 4. login.js
-
 ```javascript
 "use strict";
 
