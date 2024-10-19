@@ -295,5 +295,91 @@ function convertir() {
 <h2>Quinta entrega</h2>
 <h3>LocalStorage</h3>
 <hr>
-<p>Como en la anterior entrega implemente tanto el uso de <strong>Cookies</strong> como el uso de <strong>LocalStorage</strong>, esta última he optado por implementar solo este último.</p>
+<p>Como en la anterior entrega implementé tanto el uso de <strong>Cookies</strong> como el uso de <strong>LocalStorage</strong>, en esta he optado por implementar solo este último. Este código es un script en JavaScript que maneja un sistema de inicio y cierre de sesión usando localStorage. Al cargar la página, verifica si hay un usuario almacenado. Si hay uno, oculta el formulario de inicio de sesión y muestra el contenido de la página junto con un botón para cerrar la sesión. Si no hay un usuario, se muestra el formulario. Cuando un usuario intenta iniciar sesión, compara los datos ingresados con un nombre de usuario y contraseña predefinidos. Si coinciden, guarda el nombre de usuario en localStorage y muestra el contenido de la página; si no, muestra un mensaje de error. Al hacer clic en el botón de cerrar sesión, se elimina el nombre de usuario de localStorage y se redirige al usuario a la página de inicio.</p>
+
+```javascript
+"use strict";
+
+// Funciones para manejar localStorage
+
+function setSession(name, value) {
+    localStorage.setItem(name, value);
+}
+
+function getSession(name) {
+    return localStorage.getItem(name);
+}
+
+function deleteSession(name) {
+    localStorage.removeItem(name);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    let nombre_usuario_cargado = "Alba"; 
+    let contrasena_cargada = "Romero"; 
+
+    const formulario = document.getElementById("formulario_login");
+    const boton_cerrar = document.getElementById("boton_cerrar");
+    const contenido = document.getElementById("contenido");
+    const dropdown = document.querySelectorAll(".dropdown"); 
+
+    // Verificar si el usuario ya ha iniciado sesión en localStorage
+
+    const usuario = getSession("username");
+
+    if (usuario) {
+        formulario.style.display = "none";            // Ocultar el formulario si hay sesión
+        contenido.style.display = "flex";             // Mostrar el contenido si hay sesión
+        boton_cerrar.style.display = "flex";          // Mostrar el botón de cerrar sesión
+        dropdown.forEach(dropdown => {
+            dropdown.style.display = "inline-block";  // Mostrar todos los menús desplegables      
+        });
+
+    } else {
+        formulario.style.display = "block";           // Mostrar el formulario si no hay sesión
+        contenido.style.display = "none";             // Ocultar el contenido si no hay sesión
+        boton_cerrar.style.display = "none";          // Ocultar el botón de cerrar sesión
+        dropdown.forEach(dropdown => {
+            dropdown.style.display = "none";          // Ocultar todos los menús desplegables
+        });
+    }
+
+    formulario.onsubmit = function (event) {
+        event.preventDefault();                       // Evitar que el formulario se envíe automáticamente
+
+        let nombre_usuario = document.getElementById("nombreUsuario").value;
+        let contrasena_usuario = document.getElementById("passWordUsuario").value;
+
+        if (nombre_usuario === nombre_usuario_cargado && contrasena_usuario === contrasena_cargada) {
+
+            formulario.style.display = "none";            // Ocultar el formulario si los datos son correctos
+            contenido.style.display = "flex";             // Mostrar el contenido si los datos son correctos
+            boton_cerrar.style.display = "flex";          // Mostrar el botón de cerrar sesión
+            dropdown.forEach(dropdown => {
+                dropdown.style.display = "inline-block";  // Mostrar todos los menús desplegables      
+            });
+            
+            setSession("username", nombre_usuario);       // Guardar la sesión en localStorage
+
+        } else {
+            document.getElementById("mensaje_error").style.display = "block"; // Mostrar error si los datos no son correctos
+        }
+    };
+
+    // Manejo del cierre de sesión
+    boton_cerrar.onclick = function () {
+        cerrarSesion();
+    };
+
+    function cerrarSesion() {
+        deleteSession("username");                      // Eliminar la sesión de localStorage
+        alert("Sesión cerrada");                        // Avisar al usuario que se cerró la sesión
+        window.location.href = "index.html";            // Redirigir al inicio después de cerrar sesión
+    }
+});
+
+```
+<br>
+
 <br>
