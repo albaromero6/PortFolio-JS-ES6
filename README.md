@@ -388,6 +388,14 @@ Además, para la sección de cadenas, he añadido una opción desplegable en la 
 <h4>Modificador de texto</h4>
 <p align="center">
   <img src="QuintaEntrega/assets/modificadortexto.png" alt="Descripción de la imagen" width="30%">
-</p>
+<p>La función <storng>toUpperCase</storng> recibe un texto como entrada y lo convierte a mayúsculas. Luego, devuelve el texto transformado.</p>
+
+```javascript
+// Función para convertir todo el texto a mayúsculas
+function toUpperCase(text) {
+    return text.toUpperCase();
+}
+
+```
 
 <br>
