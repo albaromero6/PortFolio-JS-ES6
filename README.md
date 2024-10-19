@@ -36,7 +36,7 @@
   <li>Si acepta, la página se recarga para comenzar de nuevo.</li>
 </ul>
 
-```
+```javascript
 "use strict";
 
 window.onload = function() {
