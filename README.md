@@ -401,9 +401,25 @@ function toUpperCase(text) {
 La función <strong>toLowerCase</strong> toma un texto como entrada y lo convierte a minúsculas. Luego, devuelve el texto en este nuevo formato.</p>
 
 ```javascript
+// Función para convertir todo el texto a minúsculas
 function toLowerCase(text) {
     return text.toLowerCase();
 }
 
 ```
+
+<p>La función <strong>uppercaseFirstLetter</strong> toma un texto como entrada y convierte la primera letra de cada palabra en mayúscula. Primero, divide el texto en palabras usando el espacio como separador mediante la función <strong>split</strong>. Luego, recorre cada palabra, cambia la primera letra a mayúscula y mantiene el resto de la palabra sin cambios. Finalmente, une todas las palabras de nuevo en un solo texto y lo devuelve.</p>
+
+```javascript
+// Función para poner en mayúsculas la primera letra de cada palabra
+function uppercaseFirstLetter(text) {
+    let words = text.split(' ');
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+    }
+    return words.join(' ');
+}
+
+```
+
 <br>
