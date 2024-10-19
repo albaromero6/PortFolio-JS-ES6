@@ -8,12 +8,14 @@
 <h2>Primera entrega</h2>
 <p>Este proyecto es un portafolio de ejercicios de JavaScript. Muestra diferentes ejercicios, donde puedes ver más detalles de cada uno al hacer clic en un botón.</p>
 <h4>Función.js</h4>
+<hr>
 <p>Contiene la función "mostrar", que como su nombre indica, se encarga de mostrar un mensaje en la página y otro en la consola del navegador. Este último lo hace por medio de un "console.log".</p>
 <p align="center">
   <img src="PrimeraEntrega/assets/funcion.js.png" alt="Descripción de la imagen" width="50%">
 </p>
 <br>
 <h4>Script.js</h4>
+<hr>
 <p>Obtiene el botón y el área donde va a mostrarse el resultado. Al llamar al botón, se llama a la función mostrar mediante un EventListener.</p>
 <p align="center">
   <img src="PrimeraEntrega/assets/script.js.png" alt="Descripción de la imagen" width="50%">
