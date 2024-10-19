@@ -34,31 +34,31 @@
 <h3>Cookies</h3>
 <hr>
 <p>En esta entrega, en comparación con la anterior, he implementado varias funciones en JavaScript para que el sistema de inicio de sesión (Log In) que ya tenía creado pueda gestionar una sesión utilizando cookies y guardar datos con localStorage. De esta manera, la experiencia del usuario será mucho más cómoda al navegar por nuestra página. Algunas de las funciones que he utilizado son las siguientes:</p>
-<h4>getCookie</h4>
-<p align="center">
-  <img src="CuartaEntrega/assets/GetCookie.png" alt="Descripción de la imagen" width="50%">
-</p>
-<p>Esta función se utiliza para recuperar el valor de una cookie en una aplicación web. Cuando llamas a esta, le pasas el nombre de la cookie que quieres encontrar. La función busca entre todas las cookies guardadas en el navegador. Primero, revisa cada cookie para ver si coincide con el nombre que proporcionaste. Si la encuentra, devuelve su valor. Si no la encuentra, devuelve null, que significa que la cookie no existe.</p>
 <h4>setCookie</h4>
 <p align="center">
   <img src="CuartaEntrega/assets/SetCookie.png" alt="Descripción de la imagen" width="50%">
 </p>
 <p>La función setCookie(name, value, hours) se utiliza para crear o actualizar una cookie en una aplicación web. Le pasas el nombre de la cookie, el valor que quieres guardar y el tiempo en horas que debe permanecer activa. La función calcula una fecha de expiración y establece la cookie con el nombre y valor proporcionados. Esto permite recordar información importante, como preferencias del usuario o el estado de su sesión</p>
+<h4>getCookie</h4>
+<p align="center">
+  <img src="CuartaEntrega/assets/GetCookie.png" alt="Descripción de la imagen" width="50%">
+</p>
+<p>Esta función se utiliza para recuperar el valor de una cookie en una aplicación web. Cuando llamas a esta, le pasas el nombre de la cookie que quieres encontrar. La función busca entre todas las cookies guardadas en el navegador. Primero, revisa cada cookie para ver si coincide con el nombre que proporcionaste. Si la encuentra, devuelve su valor. Si no la encuentra, devuelve null, que significa que la cookie no existe.</p>
 <h4>deleteCookie</h4>
 <p align="center">
   <img src="CuartaEntrega/assets/DeleteCookie.png" alt="Descripción de la imagen" width="50%">
 </p>
 <p>La función deleteCookie(name) se utiliza para eliminar una cookie en una aplicación web. Para hacerlo, establece la cookie con el nombre proporcionado y le asigna una fecha de expiración en el pasado. Esto indica al navegador que la cookie ya no es válida. Al usar esta función, puedes borrar información que ya no necesitas.</p>
-<h4>getSession</h4>
-<p align="center">
-  <img src="CuartaEntrega/assets/GetSession.png" alt="Descripción de la imagen" width="50%">
-</p>
-<p>La función getSession(name) se utiliza para recuperar datos del almacenamiento local del navegador. Al llamar a esta función, le pasas el nombre del dato que quieres obtener. Si el dato existe, la función devuelve su valor; si no, devuelve null. Esto te permite acceder a información previamente almacenada.</p>
 <h4>setSession</h4>
 <p align="center">
   <img src="CuartaEntrega/assets/SetSession.png" alt="Descripción de la imagen" width="50%">
 </p>
 <p>La función setSession(name, value) se utiliza para guardar datos en el almacenamiento local del navegador. Le pasas un nombre para identificar el dato y un valor que deseas almacenar. Al usar esta función, puedes recordar información importante entre visitas del usuario, ya que los datos se mantendrán disponibles incluso si el navegador se cierra.</p>
+<h4>getSession</h4>
+<p align="center">
+  <img src="CuartaEntrega/assets/GetSession.png" alt="Descripción de la imagen" width="50%">
+</p>
+<p>La función getSession(name) se utiliza para recuperar datos del almacenamiento local del navegador. Al llamar a esta función, le pasas el nombre del dato que quieres obtener. Si el dato existe, la función devuelve su valor; si no, devuelve null. Esto te permite acceder a información previamente almacenada.</p>
 <h4>deleteSession</h4>
 <p align="center">
   <img src="CuartaEntrega/assets/DeleteSession.png" alt="Descripción de la imagen" width="50%">
