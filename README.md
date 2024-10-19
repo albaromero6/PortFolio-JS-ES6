@@ -189,6 +189,74 @@ Además, para la sección de números, he añadido una opción desplegable en la
   <img src="CuartaEntrega/assets/Minicalculadora.png" alt="Descripción de la imagen" width="30%">
 </p>
 <p>Se define una variable global llamada resultado, que se inicializa en 0 y se utiliza para almacenar el resultado de las operaciones matemáticas. La función suma() obtiene dos números de los campos de entrada, los suma y actualiza resultado. Luego, llama a la función mostrarResultado() para mostrar el resultado. La función resta() también obtiene los números de los campos de entrada, realiza la resta y actualiza resultado, mostrando el resultado. La función multiplicacion() multiplica los dos números ingresados y actualiza resultado, mostrando el resultado. La función division() comprueba que el segundo número no sea cero antes de dividir, para evitar errores. Si es cero, muestra un mensaje de alerta. Si no, realiza la división y actualiza el resultado. La función valorEntero() redondea el resultado hacia abajo usando Math.floor() y lo muestra. La función parteDecimal() calcula y guarda solo la parte decimal del resultado, mostrando el resultado actualizado. La función factorial() calcula el factorial de un número ingresado. Si el número es negativo, muestra un mensaje de alerta, ya que el factorial no está definido para números negativos. La función mostrarResultado() actualiza el contenido de un elemento HTML con el ID "result" para mostrar el resultado de la operación actual.</p>
+
+```javascript
+"use strict"
+
+let resultado = 0; // Variable para guardar el resultado 
+
+function suma() {
+    const op1 = parseFloat(document.getElementById("op1").value); 
+    const op2 = parseFloat(document.getElementById("op2").value); 
+    resultado = op1 + op2; 
+    mostrarResultado(); 
+}
+
+function resta() {
+    const op1 = parseFloat(document.getElementById("op1").value); 
+    const op2 = parseFloat(document.getElementById("op2").value); 
+    resultado = op1 - op2; 
+    mostrarResultado(); 
+}
+
+function multiplicacion() {
+    const op1 = parseFloat(document.getElementById("op1").value); 
+    const op2 = parseFloat(document.getElementById("op2").value); 
+    resultado = op1 * op2; 
+    mostrarResultado(); 
+}
+
+function division() {
+    const op1 = parseFloat(document.getElementById("op1").value); 
+    const op2 = parseFloat(document.getElementById("op2").value); 
+
+    if (op2 !== 0) { // Comprobar que el segundo operando no sea cero
+        resultado = op1 / op2; 
+        mostrarResultado(); 
+    } else {
+        alert("No se puede dividir entre cero"); 
+    }
+}
+
+function valorEntero() {
+    resultado = Math.floor(resultado); // Redondear hacia abajo el resultado
+    mostrarResultado(); 
+}
+
+function parteDecimal() {
+    const parteDecimal = resultado - Math.floor(resultado); // Calcular la parte decimal
+    resultado = parteDecimal; 
+    mostrarResultado(); 
+}
+
+function factorial() {
+    const op1 = parseInt(document.getElementById("op1").value); // Obtener el primer operando y convertirlo a entero
+    if (op1 < 0) { // Comprobar si el número es negativo
+        alert("El factorial no existe para números negativos"); 
+        return; 
+    }
+    resultado = 1; 
+    for (let i = 1; i <= op1; i++) { 
+        resultado *= i; 
+    }
+    mostrarResultado(); 
+}
+
+function mostrarResultado() {
+    document.getElementById("result").innerText = resultado; 
+}
+```
+
 <br>
 <h4>Conversor de bases</h4>
 <p align="center">
