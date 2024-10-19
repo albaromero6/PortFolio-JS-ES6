@@ -35,7 +35,8 @@
   <li>Si se equivoca, se muestra un mensaje de error y se pregunta si quiere intentarlo de nuevo.</li>
   <li>Si acepta, la página se recarga para comenzar de nuevo.</li>
 </ul>
-```javascript
+```
+
 "use strict";
 
 window.onload = function() {
@@ -87,6 +88,7 @@ window.onload = function() {
         }
     }
 }
+
 ```
 <a href="https://albaromero6.github.io/PortFolio-JS-ES6/SegundaEntrega/index.html" target="_blank">
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
