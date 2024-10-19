@@ -23,13 +23,7 @@
 </a>
 <br>
 <h2>Segunda entrega</h2>
-<p>Creación de un script para que al cargar nuestra página nos aparezca:</p>
-<ul>
-  <li>Prompt para introducir nuestro nombre de usuario y nuestra contraseña</li>
-  <li>Alert con posibles mensajes de error en caso de no introducir los datos correctamente</li>
-  <li>Confirm para preguntar al usuario si desea intentar de nuevo la introducción de datos</li>
-  <li>Alert para dar la bienvenida en caso de introducir los datos correctamentes</li>
-</ul>
+<p>Este código en JavaScript se activa al cargar la página y se encarga de autenticar a un usuario pidiéndole su nombre de usuario y contraseña. Al inicio, se definen algunas variables que guardan el nombre de usuario y la contraseña correctos, así como otra para almacenar lo que el usuario ingresa, y una bandera que controla si quiere intentarlo de nuevo. Dentro de un bucle, se le pide al usuario que escriba su nombre. Hay varias validaciones: si el usuario no escribe nada o cancela, se muestra un mensaje de alerta; si el nombre es demasiado corto, también se avisa; y si no coincide con el que se tiene guardado, se dice que es incorrecto. Si algo no cuadra, se pregunta si quiere volver a intentarlo; si elige "Cancelar", el script se detiene ahí. Si el nombre de usuario es correcto, se le solicita que ingrese la contraseña. Si acierta con la contraseña, se le da la bienvenida y se muestra el contenido de la página. Pero si se equivoca, se muestra un mensaje de error y se pregunta si quiere intentarlo de nuevo; si acepta, la página se recarga para empezar otra vez.</p>
 <a href="https://albaromero6.github.io/PortFolio-JS-ES6/SegundaEntrega/index.html" target="_blank">
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
 </a>
