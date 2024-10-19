@@ -32,7 +32,7 @@
   <li>Si el nombre no coincide con el que se tiene guardado, se dice que es incorrecto mediante otro <strong>Alert</strong>.</li>
   <li>Si algo no cuadra, se pregunta si quiere volver a intentarlo mediante un <strong>Confirm</strong>.</li>
   <li>Si el usuario indica que quiere cancelar, el script termina ahí y vuelve al inicio.</li>
-  <li>Si el nombre de usuario es correcto, se le solicita que ingrese la contraseña mediante un <strong>Alert</strong>Prompt.</li>
+  <li>Si el nombre de usuario es correcto, se le solicita que ingrese la contraseña mediante un <strong>Prompt</strong>.</li>
   <li>Si acierta con la contraseña, se le da la bienvenida con otro <strong>Alert</strong> y se muestra el contenido de la página.</li>
   <li>Si se equivoca, se muestra un mensaje de error y se pregunta si quiere intentarlo de nuevo.</li>
   <li>Si acepta, la página se recarga para comenzar de nuevo.</li>
