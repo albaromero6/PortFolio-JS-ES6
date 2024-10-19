@@ -16,6 +16,15 @@
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
 </a>
 <br>
+<h4>Script.js</h4>
+<p>Obtiene el botón y el área donde va a mostrarse el resultado. Al llamar al botón se llama a la función mostrar mediante un EventListener.</p>
+<p align="center">
+  <img src="PrimeraEntrega/assets/script.js.png" alt="Descripción de la imagen" width="50%">
+</p>
+<a href="https://albaromero6.github.io/PortFolio-JS-ES6/PrimeraEntrega/index.html" target="_blank">
+  <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
+</a>
+<br>
 <h2>Segunda entrega</h2>
 <p>Creación de un script para que al cargar nuestra página nos aparezca:</p>
 <ul>
