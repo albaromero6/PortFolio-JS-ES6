@@ -16,9 +16,8 @@
 <br>
 <h4>Script.js</h4>
 <div style="text-align: justify;">
-Este es un párrafo de texto que se justificará cuando se renderice. Esto significa que el texto se alineará tanto a la izquierda como a la derecha.
+  Obtiene el botón y el área donde va a mostrarse el resultado. Al llamar al botón, se llama a la función mostrar mediante un <strong>EventListener.</strong>
 </div>
-
 <hr>
 <p>Obtiene el botón y el área donde va a mostrarse el resultado. Al llamar al botón, se llama a la función mostrar mediante un <strong>EventListener.</strong></p>
 <p align="center">
