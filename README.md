@@ -10,7 +10,7 @@
 <h4>Función.js</h4>
 <p>Contiene la función "mostrar", que como su nombre indica, se encarga de mostrar un mensaje en la página y otro en la consola del navegador. Este último lo hace por medio de "console.log"</p>
 <p align="center">
-  <img src="PrimeraEntrega/assets/Funcion.js.png" alt="Descripción de la imagen" width="50%">
+  <img src="PrimeraEntrega/assets/funcion.js.png" alt="Descripción de la imagen" width="50%">
 </p>
 <a href="https://albaromero6.github.io/PortFolio-JS-ES6/PrimeraEntrega/index.html" target="_blank">
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
