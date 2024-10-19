@@ -423,4 +423,234 @@ function uppercaseFirstLetter(text) {
 
 ```
 
+<br>
+<p>La función <strong>uppercaseLastLetter</strong> recibe un texto y convierte la última letra de cada palabra en mayúscula. Primero, separa el texto en palabras usando espacios. Luego, recorre cada palabra y toma todos los caracteres excepto el último, y añade la última letra convertida a mayúscula. Finalmente, une todas las palabras de nuevo en un solo texto y lo devuelve.</p>
 
+```javascript
+// Función para poner en mayúsculas la última letra de cada palabra
+function uppercaseLastLetter(text) {
+    let words = text.split(' ');
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].slice(0, -1) + words[i].charAt(words[i].length - 1).toUpperCase();
+    }
+    return words.join(' ');
+}
+
+```
+
+<br>
+<p>La función <strong>lowercaseFirstLetter</strong> toma un texto como entrada y convierte la primera letra de cada palabra en minúscula. Primero, divide el texto en palabras usando el espacio como separador. Luego, recorre cada palabra, cambia la primera letra a minúscula y mantiene el resto de la palabra sin cambios. Finalmente, une todas las palabras de nuevo en un solo texto y lo devuelve.</p>
+
+```javascript
+// Función para poner en minúscula la primera letra de cada palabra
+function lowercaseFirstLetter(text) {
+    let words = text.split(' ');
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].charAt(0).toLowerCase() + words[i].slice(1);
+    }
+    return words.join(' ');
+}
+
+```
+
+<br>
+<p>La función <strong>lowercaseLastLetter</strong> recibe un texto y convierte la última letra de cada palabra en minúscula. Primero, separa el texto en palabras utilizando los espacios como separadores. Luego, recorre cada palabra, toma todos los caracteres excepto el último y añade la última letra convertida a minúscula. Finalmente, une todas las palabras nuevamente en un solo texto y lo devuelve.</p>
+
+```javascript
+// Función para poner en minúscula la última letra de cada palabra
+function lowercaseLastLetter(text) {
+    let words = text.split(' ');
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].slice(0, -1) + words[i].charAt(words[i].length - 1).toLowerCase();
+    }
+    return words.join(' ');
+}
+
+```
+
+<br>
+<p>La función <strong>uppercaseVowels</strong> toma un texto como entrada y convierte todas las vocales (a, e, i, o, u) en mayúsculas. Utiliza el método replace con una expresión regular que busca todas las vocales en el texto. Cada vez que encuentra una vocal, la función la reemplaza por su versión en mayúscula. Al final, devuelve el texto modificado.</p>
+
+```javascript
+// Función para poner todas las vocales en mayúsculas
+function uppercaseVowels(text) {
+    return text.replace(/[aeiou]/g, function(match) {
+        return match.toUpperCase();
+    });
+}
+
+```
+
+<br>
+<p>La función <strong>lowercaseVowels</strong> toma un texto como entrada y convierte todas las vocales mayúsculas, en minúsculas. Utiliza el método replace junto con una expresión regular que busca estas vocales en el texto. Cada vez que encuentra una vocal mayúscula, la reemplaza por su versión en minúscula. Al final, devuelve el texto modificado.</p>
+
+```javascript
+// Función para poner todas las vocales en minúsculas
+function lowercaseVowels(text) {
+    return text.replace(/[AEIOU]/g, function(match) {
+        return match.toLowerCase();
+    });
+}
+
+```
+
+<br>
+<p>La función <strong>uppercaseConsonants</strong> toma un texto como entrada y convierte todas las consonantes en mayúsculas. Utiliza el método replace con una expresión regular que busca estas consonantes en el texto. Cada vez que encuentra una consonante, la reemplaza por su versión en mayúscula. Finalmente, devuelve el texto modificado.</p>
+
+```javascript
+// Función para poner todas las consonantes en mayúsculas
+function uppercaseConsonants(text) {
+    return text.replace(/[bcdfghjklmnpqrstvwxyz]/g, function(match) {
+        return match.toUpperCase();
+    });
+}
+
+```
+
+<br>
+<p>La función <strong>lowercaseConsonants</strong> recibe un texto y convierte todas las consonantes mayúsculas en minúsculas. Utiliza el método replace con una expresión regular que busca estas consonantes en el texto. Cada vez que encuentra una consonante mayúscula, la reemplaza por su versión en minúscula. Al final, devuelve el texto modificado.</p>
+
+```javascript
+// Función para poner todas las consonantes en minúsculas 
+function lowercaseConsonants(text) {
+    return text.replace(/[BCDFGHJKLMNPQRSTVWXYZ]/g, function(match) {
+        return match.toLowerCase();
+    });
+}
+
+```
+
+<br>
+<p>La función <strong>transformText</strong> es la encargada de aplicar diferentes transformaciones de texto según la acción que se le pase y el texto que se desee modificar. Recibe dos parámetros: action, que indica qué transformación aplicar (como convertir todo a mayúsculas o minúsculas, cambiar la primera o última letra de cada palabra, etc.), y text, que es el texto a transformar. Dentro de la función, se utiliza una estructura switch para determinar qué acción realizar. Dependiendo del valor de action, llama a la función correspondiente para realizar la transformación. Si la acción no es válida, devuelve el mensaje "Acción no válida". Al final, devuelve el resultado de la transformación. Esta función es útil para centralizar todas las transformaciones de texto en un solo lugar, facilitando su uso en otras partes del código.</p>
+
+```javascript
+// Función principal para manejar la transformación según el botón presionado
+function transformText(action, text) {
+    let result;
+
+    switch (action) {
+        case 'uppercase':
+            result = toUpperCase(text);
+            break;
+        case 'lowercase':
+            result = toLowerCase(text);
+            break;
+        case 'uppercaseFirst':
+            result = uppercaseFirstLetter(text);
+            break;
+        case 'uppercaseLast':
+            result = uppercaseLastLetter(text);
+            break;
+        case 'lowercaseFirst':
+            result = lowercaseFirstLetter(text);
+            break;
+        case 'lowercaseLast':
+            result = lowercaseLastLetter(text);
+            break;
+        case 'uppercaseVowels':
+            result = uppercaseVowels(text);
+            break;
+        case 'lowercaseVowels':
+            result = lowercaseVowels(text);
+            break;
+        case 'uppercaseConsonants':
+            result = uppercaseConsonants(text);
+            break;
+        case 'lowercaseConsonants':
+            result = lowercaseConsonants(text);
+            break;
+        default:
+            result = "Acción no válida";
+            break;
+    }
+    return result;
+}
+
+```
+
+<br>
+<p>La función <strong>transformAndDispla</strong>y aplica una transformación de texto a todos los elementos <textarea> con la clase .texto. Primero, selecciona todos los textarea y luego, utilizando forEach, recorre cada uno para obtener el texto ingresado. A continuación, llama a la función transformText, pasando la acción de transformación y el texto obtenido, y guarda el resultado. Finalmente, actualiza el contenido del textarea con el texto transformado, permitiendo que los cambios sean visibles de inmediato en la interfaz de usuario.La función transformAndDisplay aplica una transformación de texto a todos los elementos <textarea> con la clase .texto. Primero, selecciona todos los textarea y luego, utilizando forEach, recorre cada uno para obtener el texto ingresado. A continuación, llama a la función transformText, pasando la acción de transformación y el texto obtenido, y guarda el resultado. Finalmente, actualiza el contenido del textarea con el texto transformado.</p>
+
+```javascript
+// Nueva función para manejar el botón y mostrar el resultado en el textarea
+function transformAndDisplay(action) {
+    const textareas = document.querySelectorAll(".texto"); // Obtener todos los textareas
+
+    // Procesar cada textarea
+    textareas.forEach((textarea) => {
+        const inputText = textarea.value;                // Obtener el texto del textarea
+        const result = transformText(action, inputText); // Transformar el texto
+        textarea.value = result;                         // Actualizar el textarea con el texto transformado
+    });
+}
+
+```
+
+<br>
+<p>La función <strong>increaseSpeed</strong> se encarga de aumentar la velocidad de un proceso que se ejecuta de forma aleatoria, estableciendo un intervalo de 1 segundo. Primero, verifica si existe una variable llamada invertalo, que representa un intervalo activo. Si está presente, utiliza clearInterval(invertalo) para detener el intervalo actual. Luego, cambia la variable intervalTime a 1000 milisegundos (1 segundo) y finalmente llama a la función startRandomTransform para reiniciar el intervalo con la nueva configuración de tiempo. Esto permite que el proceso aleatorio se ejecute más rápidamente.</p>
+
+```javascript
+// Función para aumentar la velocidad del modo aleatorio (1 segundo)
+function increaseSpeed() {
+    if (invertalo) {
+        clearInterval(invertalo);     // Detiene el intervalo actual
+        intervalTime = 1000;          // Cambia el tiempo a 1 segundo
+        startRandomTransform();       // Reinicia el intervalo con el nuevo tiempo
+    }
+}
+
+```
+
+<br>
+<p>La función <strong>decreaseSpeed</strong> se utiliza para disminuir la velocidad de un proceso que se ejecuta de forma aleatoria, estableciendo un intervalo de 5 segundos. Primero, verifica si hay un intervalo activo mediante la variable invertalo. Si existe, llama a clearInterval(invertalo) para detener el intervalo actual. Luego, actualiza la variable intervalTime a 5000 milisegundos (5 segundos) y finalmente invoca la función startRandomTransform para reiniciar el intervalo con el nuevo tiempo. Esto hace que el proceso aleatorio se ejecute más lentamente.</p>
+
+```javascript
+// Función para disminuir la velocidad del modo aleatorio (5 segundos)
+function decreaseSpeed() {
+    if (invertalo) { 
+        clearInterval(invertalo);      // Detiene el intervalo actual
+        intervalTime = 5000;           // Cambia el tiempo a 5 segundos
+        startRandomTransform();        // Reinicia el intervalo con el nuevo tiempo
+    }
+}
+
+```
+
+<br>
+<p>La función <strong>startRandomTransform</strong> inicia un proceso de transformación aleatoria de texto, configurado para ejecutarse cada 3 segundos por defecto. Primero, define un arreglo actions que contiene diferentes acciones de transformación de texto. Antes de crear un nuevo intervalo, verifica si ya hay uno activo mediante la variable invertalo y, si es así, lo detiene usando clearInterval(invertalo). Luego, establece un nuevo intervalo con setInterval, que selecciona aleatoriamente una acción del arreglo cada X segundos (definido por intervalTime). Para cada acción elegida, llama a la función transformAndDisplay, que aplica la transformación al texto y lo muestra en el <textarea>. Esto permite que el texto se transforme de manera dinámica y variada.</p>
+
+```javascript
+// Función para iniciar la transformación aleatoria (inicia con 3 segundos por defecto)
+function startRandomTransform() {
+    const actions = ['uppercase', 'lowercase', 'uppercaseFirst', 'uppercaseLast', 'lowercaseFirst', 
+        'lowercaseLast', 'uppercaseVowels', 'lowercaseVowels', 'uppercaseConsonants', 'lowercaseConsonants'];
+
+    // Detenemos cualquier intervalo existente antes de crear uno nuevo
+    if (invertalo) {
+        clearInterval(invertalo);
+    }
+
+    // Intervalo que ejecutará la transformación cada X segundos 
+    invertalo = setInterval(() => {
+        // Selecciona una acción aleatoria del array
+        const randomAction = actions[Math.floor(Math.random() * actions.length)];
+        // Llama a la función que transforma y muestra el texto en el textarea
+        transformAndDisplay(randomAction);
+    }, intervalTime);
+}
+
+```
+
+<br>
+<p>La función <strong>stopRandomTransform</strong> se encarga de detener el proceso de transformación aleatoria de texto. Primero, verifica si hay un intervalo activo mediante la variable invertalo. Si existe, llama a clearInterval(invertalo) para detener el intervalo en ejecución. Luego, resetea la variable invertalo a null, lo que indica que no hay ningún intervalo activo. Esta función es útil para pausar o finalizar las transformaciones aleatorias cuando ya no se deseen.</p>
+
+```javascript
+// Función para detener la transformación aleatoria
+function stopRandomTransform() {
+    if (invertalo) { 
+        clearInterval(invertalo);       // Detiene el intervalo
+        invertalo = null;               // Resetea el ID del intervalo
+    }
+}
+
+```
