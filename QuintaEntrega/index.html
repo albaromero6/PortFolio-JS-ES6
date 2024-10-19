@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Alba Romero</title>
+    <link href="./img/favicon.ico" rel="icon" type="image/x-icon">
+    <link href="./css/styles.css" rel="stylesheet" type="text/css" />
+    <script defer src="./js/login.js"></script>
+    <script defer src="./js/minicalculadora.js"></script>
+    <script defer src="./js/conversorbases.js"></script>
+    <script defer src="./js/modificadortexto.js"></script>
+    <script defer src="./js/main.js"></script>
+</head>
+
+<body>
+    <!-- --------HEADER---------- -->
+    <div class="header">
+        <div class="header-content">
+            <div class="header-text">
+                <h3>PortFolio JS ES6</h3>
+                <h4>Desarrollo Web en Entorno Cliente</h4>
+            </div>
+            <img src="./img/Perfil.JPG" class="headerImg">
+        </div>
+    </div>
+
+    <!-- ---------MENÚ----------- -->
+    <div class="topnav">
+        <a href="#" onclick="mostrarEjercicios()">Inicio</a>
+        <a href="https://www.w3schools.com/js/default.asp">W3schools</a>
+        <a href="https://es.javascript.info/js">JS Info</a>
+        <a href="https://developer.mozilla.org/es/docs/Web/JavaScript">MDN</a>
+        <a href="https://github.com/albaromero6/PortFolio-JS-ES6">GitHub</a>
+
+        <div class="dropdown">
+            <a href="#">Number ▼</a>
+            <div class="dropdown-content">
+                <a href="#" onclick="mostrarCalculadora()">Calculadora</a>
+                <a href="#" onclick="mostrarConversor()">Conversor de bases</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="#">String ▼</a>
+            <div class="dropdown-content">
+                <a href="#" onclick="mostrarModificadorTexto()">Modificador de texto</a>
+                <a href="#" onclick="mostrarModificadorTextoConAPI()">Modificador de texto con API</a>
+            </div>
+        </div>
+
+        <div class="topnav-right">
+            <div id="boton_cerrar" onclick="deleteCookie('username')" style="display: none;">
+                <a href="#" class="logout-btn">Cerrar sesión</a>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <!-- -----FORMULARIO DE LOGIN ------ -->
+    <form id="formulario_login" style="display: none;">
+        <label id="user">Nombre de usuario:</label>
+        <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Alba" required>
+        <label id="pass">Contraseña:</label>
+        <input type="password" id="passWordUsuario" name="passWordUsuario" placeholder="Romero" required>
+        <div id="mensaje_error" style="display: none;">
+            <p>Usuario y/o contraseña incorrectos</p>
+        </div>
+        <input type="submit" value="Iniciar sesión">
+    </form>
+
+    <!-- ------MAIN-CONTENT------ -->
+    <div class="container" id="contenido">
+        <div id="ejercicio1" class="card" style="display: none;">
+            <img src="./img/Ejercicio1.jpg" alt="Ejercicio 1" class="cardImage" />
+            <div class="cardBody">
+                <div class="cardTitle">Ejercicio 1</div>
+                <p>Mostrar un resultado</p>
+            </div>
+            <div class="cardFooter"><a href="./ejercicios/ejer01/index.html">Ver más</a></div>
+        </div>
+
+        <div id="ejercicio2" class="card" style="display: none;">
+            <img src="./img/Ejercicio2.jpg" alt="Ejercicio 2" class="cardImage" />
+            <div class="cardBody">
+                <div class="cardTitle">Ejercicio 2</div>
+                <p>Mostrar un resultado</p>
+            </div>
+            <div class="cardFooter"><a href="./ejercicios/ejer02/index.html">Ver más</a></div>
+        </div>
+
+        <!-- -----MINICALCULADORA------ -->
+        <div id="calculadora" class="card" style="display: none;">
+            <h2>MINI-CALCULADORA</h2>
+            <form id="calcForm">
+                <input type="number" id="op1" placeholder="Número 1" required>
+                <input type="number" id="op2" placeholder="Número 2" required>
+                <div>
+                    <button id="calculadora-button" type="button" onclick="suma()">Suma</button>
+                    <button id="calculadora-button" type="button" onclick="resta()">Resta</button>
+                    <button id="calculadora-button" type="button" onclick="multiplicacion()">Multiplicación</button>
+                    <button id="calculadora-button" type="button" onclick="division()">División</button>
+                    <button id="calculadora-button" type="button" onclick="valorEntero()">Valor Entero</button>
+                    <button id="calculadora-button" type="button" onclick="parteDecimal()">Parte Decimal</button>
+                    <button id="calculadora-button" type="button" onclick="factorial()">Factorial</button>
+                </div>
+            </form>
+            <div class="result" id="result"></div>
+        </div>
+
+        <!-- -----CONVERSOR DE BASES------ -->
+        <div id="ejercicio-conversor" class="card" style="display: none;">
+            <div class="conversor-content">
+                <h2>CONVERSOR DE BASES</h2>
+                <form id="convForm">
+                    <input type="number" id="num1" placeholder="Número" required>
+                    <div>
+                        <button type="button" onclick="convertir()">Convertir</button>
+                    </div>
+                </form>
+                <div class="result" id="resultadoBinario">Binario: </div>
+                <div class="result" id="resultadoOctal">Octal: </div>
+                <div class="result" id="resultadoHexadecimal">Hexadecimal: </div>
+            </div>
+        </div>
+
+        <!-- ----MODIFICADOR DE TEXTO----- -->
+        <div id="modificadortexto" class="modificadortexto card" style="display: none;">
+            <h2>MODIFICADOR DE TEXTO</h2>
+            <form class="textoForm">
+                <textarea class="texto" placeholder="Introduce tu texto"></textarea>
+                <div>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercase')">A-Z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercase')">a-z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseFirst')">A_</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseLast')">_Z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseFirst')">a_</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseLast')">_z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseVowels')">AEIOU</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseVowels')">aeiou</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseConsonants')">BCD</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseConsonants')">bcd</button>
+                    <button class="modificadortexto-button" type="button" onclick="startRandomTransform()">Aleatorio</button>
+                    <button class="modificadortexto-button" type="button" onclick="stopRandomTransform()">Parar</button>
+                    <button class="modificadortexto-button" type="button" onclick="increaseSpeed()">Rápido</button>
+                    <button class="modificadortexto-button" type="button" onclick="decreaseSpeed()">Lento</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ----MODIFICADOR DE TEXTO CON API----- -->
+        <div id="modificadortextoapi" class="modificadortextoapi card" style="display: none;">
+            <h2>MODIFICADOR DE TEXTO</h2>
+            <form class="textoForm">
+                <textarea class="texto" placeholder="Introduce tu texto"></textarea>
+                <div>
+                    <button class="modificadortexto-buttonAPI" type="button" onclick="getTextFromAPI()">Obtener texto</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercase')">A-Z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercase')">a-z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseFirst')">A_</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseLast')">_Z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseFirst')">a_</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseLast')">_z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseVowels')">AEIOU</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseVowels')">aeiou</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseConsonants')">BCD</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseConsonants')">bcd</button>
+                    <button class="modificadortexto-button" type="button" onclick="startRandomTransform()">Aleatorio</button>
+                    <button class="modificadortexto-button" type="button" onclick="stopRandomTransform()">Parar</button>
+                    <button class="modificadortexto-button" type="button" onclick="increaseSpeed()">Rápido</button>
+                    <button class="modificadortexto-button" type="button" onclick="decreaseSpeed()">Lento</button>
+                </div>
+                <div>
+                    <img id="characterImage" alt="Personaje"/>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+    <br />
+
+    <!-- ---------FOOT----------- -->
+    <div class="footer">
+        CopyRight © Todos los derechos reservados ♡ Alba Romero ♡
+    </div>
+</body>
+
+</html>

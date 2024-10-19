@@ -1,0 +1,493 @@
+/******************************************************************/
+/*                    STYLE.CSS PARA INDEX.HTML                   */
+/*                           ALBA ROMERO                          */
+/*                              2 DAW                             */
+/******************************************************************/
+
+/*****************FONTS*******************/
+
+@font-face {
+  font-family: texto;
+  src: url(../fonts/RobotoCondensed-VariableFont_wght.ttf);
+}
+
+/****************GENERAL*****************/
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  background: white;
+  text-align: justify;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 14px;
+  display: flex;
+}
+
+/****************HEADER******************/
+
+.header {
+  background: #5bba6fa1;
+  display: flex;
+  padding: 5px;
+  color: white;
+  font-family: texto;
+  font-size: 1.3em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.75);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.headerImg {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+/********************NAV*******************/
+
+.topnav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background-color: #3fa34d;
+  opacity: 0.85;
+}
+
+.topnav a {
+  display: block;
+  color: rgba(255, 250, 250, 0.90);
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.75);
+  text-align: center;
+  padding: 14px 16px;
+  font-family: texto;
+  font-size: 1.2em;
+  text-decoration: none;
+  margin: 5px;
+}
+
+.topnav a:hover {
+  background-color: #2a9134;
+  color: white;
+}
+
+.topnav-right {
+  margin-left: auto;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #3fa34d;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: rgba(255, 250, 250, 0.90);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.dropdown-content a:hover {
+  background-color: #2a9134;
+  color: white;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+
+/******************FORM*******************/
+
+#formulario_login {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 355.03px;
+}
+
+form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: auto;
+  margin: auto;
+  text-align: center;
+}
+
+form label {
+  display: block;
+  font-size: 14px;
+  font-family: texto;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: left;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="number"] {
+  width: calc(100% - 22px);
+  padding: 10px;
+  font-family: texto;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+form input[type="submit"] {
+  background-color: #3fa34d;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-family: texto;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+form input[type="submit"]:hover {
+  background-color: #2a9134;
+}
+
+form #mensaje_error {
+  margin-top: 3%;
+  margin-bottom: 7%;
+  display: none;
+  color: #d92424;
+  font-family: texto;
+  font-size: 1.2em;
+}
+
+/*****************CONTENT******************/
+
+.container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  flex: 1;
+  padding: 20px;
+  margin-bottom: 60px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid rgba(211, 211, 211, 0.5);
+  box-shadow: 2px 2px 8px 4px #d3d3d3d1;
+  border-radius: 15px;
+  font-family: sans-serif;
+  background-color: white;
+}
+
+.cardImage {
+  width: 100%;
+  height: auto;
+  border-radius: 15px 15px 0 0;
+  margin: 0;
+}
+
+.cardTitle {
+  font-size: 24px;
+  padding: 10px 10px 0 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  text-align: center;
+  flex: 1;
+}
+
+#boton-mostrar {
+  background-color: #3fa34d;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-family: texto;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 30%;
+}
+
+#boton-mostrar:hover {
+  background-color: #2a913e; 
+}
+
+.cardFooter {
+  background: white;
+  border-radius: 0 0 15px 15px;
+  padding: 10px;
+  text-align: center;
+}
+
+.cardFooter a {
+  text-decoration: none;
+  color: #3fa34d;
+  font-weight: bolder;
+  font-size: large;
+}
+
+/****************MINI-CALCULADORA****************/
+
+#calculadora h2 {
+  text-align: center; 
+  color: #2a9134; 
+  font-size: 1.8em;
+  font-family: texto;
+  margin-bottom: 15px; 
+}
+
+.calculadora input[type="number"] {
+  width: 100%; 
+  margin: 5px 0;
+  padding: 10px; 
+  border-radius: 5px;
+  border: 1px solid #ddd; 
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#calculadora-button {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2a9134;
+  color: white;
+  cursor: pointer;
+  width: 30%;
+}
+
+#calculadora-button:hover {
+  background-color: #265f2e;
+}
+
+#result {
+  margin-top: 15px;
+  font-weight: bold;
+  font-family: texto;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+/*********************CONVERSOR DE BASES**********************/
+
+.conversor-content h2 {
+  text-align: center; 
+  color: #2a9134; 
+  font-size: 1.8em;
+  font-family: texto;
+  margin-bottom: 15px; 
+}
+
+.conversor-content {
+  padding: 20px;
+  text-align: center; 
+  background-color: white; 
+  border-radius: 8px; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center;
+  min-height: 200px; 
+}
+
+#conversor-content input[type="number"] {
+  width: 10%; 
+  margin: 5px 0; 
+  padding: 10px; 
+  border: 1px solid #ddd; 
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.conversor-content button {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2a9134; 
+  color: white; 
+  cursor: pointer;
+  width: 80%; 
+}
+
+.conversor-content button:hover {
+  background-color: #265f2e; 
+}
+
+.result {
+  margin-top: 30px; 
+  font-weight: bold; 
+  font-size: 1.5em;
+  text-align: center; 
+}
+
+/***************MODIFICADOR DE TEXTO*****************/
+
+.modificadortexto-button {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2a9134;
+  color: white;
+  cursor: pointer;
+  width: 30%;
+}
+
+.modificadortexto-button:hover {
+  background-color: #265f2e;
+}
+
+.texto {
+  width: 80%;
+  max-width: 300px;
+  min-width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 2px solid #ccc; 
+  border-radius: 10px; 
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1); 
+  background-color: #f9f9f9; 
+  font-family: texto; 
+  font-size: 1.2em;
+  color: #333; 
+  transition: all 0.3s ease-in-out;
+}
+
+.texto:hover {
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02); 
+}
+
+.modificadortexto h2, .modificadortextoapi h2 {
+  text-align: center; 
+  color: #2a9134; 
+  font-size: 1.8em;
+  font-family: texto;
+  margin-bottom: 15px; 
+}
+
+.modificadortexto-buttonAPI {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2a9134;
+  color: white;
+  cursor: pointer;
+  width: 65%;
+}
+
+.modificadortexto-buttonAPI:hover {
+  background-color: #265f2e;
+}
+
+#characterImage {
+  display: none; 
+  width: 200px;  
+  height: auto;
+  margin: 50px auto;
+  border-radius: 80px;
+}
+
+/**********************FOOTER************************/
+
+.footer {
+  background: #3fa34d;
+  opacity: 0.5;
+  text-align: center;
+  padding: 20px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.75);
+  position: relative;
+  bottom: 0;
+  width: auto;
+}
+
+/******************RESPONSIVIDAD******************/
+
+@media screen and (max-width: 600px) {
+  /*.topnav a {
+    font-size: 12px;
+  }*/
+
+  form {
+    width: 90%;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .card {
+    max-width: 100%;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .headerImg {
+    width: 60px;
+    height: 60px;
+  }
+
+  #calculadora-button, .conversor-content button {
+    width: 100%;
+  }
+
+  /**/
+
+  .topnav {
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: stretch; /* Alinea los enlaces para ocupar el ancho completo */
+  }
+
+  .topnav a {
+    width: 100%; /* Asegura que los enlaces ocupen el ancho completo */
+    box-sizing: border-box; /* Mantiene el padding dentro del ancho */
+    text-align: center; /* Centra el texto en los enlaces */
+  }
+
+  .dropdown-content {
+    position: static; /* Cambia a estática para evitar problemas de visualización */
+    width: 100%; /* Asegura que el menú desplegable ocupe todo el ancho */
+  }
+}
