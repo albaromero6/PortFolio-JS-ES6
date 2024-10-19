@@ -23,7 +23,16 @@
 </a>
 <br>
 <h2>Segunda entrega</h2>
-<p>Este código en JavaScript se activa al cargar la página y se encarga de autenticar a un usuario pidiéndole su nombre de usuario y contraseña. Al inicio, se definen algunas variables que guardan el nombre de usuario y la contraseña correctos, así como otra para almacenar lo que el usuario ingresa, y una bandera que controla si quiere intentarlo de nuevo. Dentro de un bucle, se le pide al usuario que escriba su nombre. Hay varias validaciones: si el usuario no escribe nada o cancela, se muestra un mensaje de alerta; si el nombre es demasiado corto, también se avisa; y si no coincide con el que se tiene guardado, se dice que es incorrecto. Si algo no cuadra, se pregunta si quiere volver a intentarlo; si elige "Cancelar", el script se detiene ahí. Si el nombre de usuario es correcto, se le solicita que ingrese la contraseña. Si acierta con la contraseña, se le da la bienvenida y se muestra el contenido de la página. Pero si se equivoca, se muestra un mensaje de error y se pregunta si quiere intentarlo de nuevo; si acepta, la página se recarga para empezar otra vez.</p>
+<p>Este código en JavaScript se activa al cargar la página y se encarga de autenticar a un usuario pidiéndole su nombre de usuario y contraseña. Al inicio, se definen algunas variables que guardan el nombre de usuario y la contraseña correctos, otra para almacenar lo que el usuario ingresa, y una flag que controla si este quiere intentarlo de nuevo. Dentro de un bucle, se le pide al usuario que escriba su nombre. Hay varias validaciones:</p>
+<ul>
+  <li>Si el usuario no escribe nada o cancela, se muestra un "Alert".</li>
+  <li>Si el nombre es demasiado corto, también se avisa con un "Alert".</li>
+  <li>Si el nombre no coincide con el que se tiene guardado, se dice que es incorrecto mediante otro "Alert".</li>
+  <li>Si algo no cuadra, se pregunta si quiere volver a intentarlo mediante un "Confirm". Si el usuario indica que quiere cancelar, el script termina ahí y vuelve al inicio.</li>
+  <li>Si el nombre de usuario es correcto, se le solicita que ingrese la contraseña mediante un "Prompt", al igual que hizo con el nombre.</li>
+  <li>Si acierta con la contraseña, se le da la bienvenida con otro "Alert" y se muestra el contenido de la página.</li>
+  <li>Si se equivoca, se muestra un mensaje de error y se pregunta si quiere intentarlo de nuevo; si acepta, la página se recarga para empezar otra vez.</li>
+</ul>
 <a href="https://albaromero6.github.io/PortFolio-JS-ES6/SegundaEntrega/index.html" target="_blank">
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
 </a>
