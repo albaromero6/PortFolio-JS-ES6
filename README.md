@@ -263,12 +263,31 @@ function mostrarResultado() {
   <img src="CuartaEntrega/assets/ConversorBases.png" alt="Descripción de la imagen" width="30%">
 </p>
 <p>La función convertir() se encarga de convertir un número ingresado por el usuario en diferentes bases numéricas: binaria, octal y hexadecimal. Primero, obtiene el valor de un campo de entrada HTML con el ID "num1" y lo convierte a un número entero usando parseInt(). Luego, verifica si el valor ingresado es un número válido; si no lo es, muestra una alerta solicitando un número correcto y termina la ejecución de la función. Si el número es válido, procede a realizar las conversiones: utiliza toString(2) para obtener la representación binaria, toString(8) para la representación octal y toString(16).toUpperCase() para la representación hexadecimal, asegurándose de que el resultado esté en mayúsculas. Finalmente, muestra los resultados de las conversiones en elementos HTML con los IDs "resultadoBinario", "resultadoOctal" y "resultadoHexadecimal", actualizando el texto de estos elementos para reflejar los valores convertidos.</p>
+<br>
+
+```javascript
+"use strict";
+
+function convertir() {
+
+    const num = parseInt(document.getElementById("num1").value); // Obtener el número
+    if (isNaN(num)) {
+        alert("Por favor, ingresa un número válido.");
+        return;
+    }
+
+    // Convertir a las distintas bases
+    const binario = num.toString(2);
+    const octal = num.toString(8); 
+    const hexadecimal = num.toString(16).toUpperCase();
+
+    // Mostrar resultados
+    document.getElementById("resultadoBinario").innerText = "Binario: " + binario;
+    document.getElementById("resultadoOctal").innerText = "Octal: " + octal;
+    document.getElementById("resultadoHexadecimal").innerText = "Hexadecimal: " + hexadecimal;
+}
+```
+
 <a href="https://albaromero6.github.io/PortFolio-JS-ES6/CuartaEntrega/index.html" target="_blank">
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
 </a>
-
-
-
-
-
-
