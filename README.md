@@ -140,6 +140,7 @@ window.onload = function() {
 <h3>Cookies</h3>
 <hr>
 <p>En esta entrega, en comparación con la anterior, he implementado varias funciones en JavaScript para que el sistema de inicio de sesión (Log In) que ya tenía creado pueda gestionar una sesión utilizando cookies y guardar datos con localStorage. De esta manera, la experiencia del usuario será mucho más cómoda al navegar por nuestra página. Algunas de las funciones que he utilizado son las siguientes:</p>
+<br>
 <h4>setCookie</h4>
 <p align="center">
   <img src="CuartaEntrega/assets/SetCookie.png" alt="Descripción de la imagen" width="50%">
