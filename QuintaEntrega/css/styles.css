@@ -117,8 +117,6 @@ body {
   display: block;
 }
 
-
-
 /******************FORM*******************/
 
 #formulario_login {
@@ -444,9 +442,6 @@ form #mensaje_error {
 /******************RESPONSIVIDAD******************/
 
 @media screen and (max-width: 600px) {
-  /*.topnav a {
-    font-size: 12px;
-  }*/
 
   form {
     width: 90%;
@@ -473,21 +468,19 @@ form #mensaje_error {
     width: 100%;
   }
 
-  /**/
-
   .topnav {
-    flex-direction: column; /* Apila los elementos verticalmente */
-    align-items: stretch; /* Alinea los enlaces para ocupar el ancho completo */
+    flex-direction: column; 
+    align-items: stretch; 
   }
 
   .topnav a {
-    width: 100%; /* Asegura que los enlaces ocupen el ancho completo */
-    box-sizing: border-box; /* Mantiene el padding dentro del ancho */
-    text-align: center; /* Centra el texto en los enlaces */
+    width: 100%; 
+    box-sizing: border-box; 
+    text-align: center; 
   }
 
   .dropdown-content {
-    position: static; /* Cambia a estática para evitar problemas de visualización */
-    width: 100%; /* Asegura que el menú desplegable ocupe todo el ancho */
+    position: static; 
+    width: 100%; 
   }
 }
