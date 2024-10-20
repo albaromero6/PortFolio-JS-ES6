@@ -521,7 +521,7 @@ function lowercaseConsonants(text) {
 ```
 
 <br>
-<p>La función <strong>transformText</strong> es la encargada de aplicar diferentes transformaciones de texto según la acción que se le pase y el texto que se desee modificar. Recibe dos parámetros: action, que indica qué transformación aplicar (como convertir todo a mayúsculas o minúsculas, cambiar la primera o última letra de cada palabra, etc.), y text, que es el texto a transformar. Dentro de la función, se utiliza una estructura switch para determinar qué acción realizar. Dependiendo del valor de action, llama a la función correspondiente para realizar la transformación. Si la acción no es válida, devuelve el mensaje "Acción no válida". Al final, devuelve el resultado de la transformación. Esta función es útil para centralizar todas las transformaciones de texto en un solo lugar, facilitando su uso en otras partes del código.</p>
+<p>La función <strong>transformText</strong> es la encargada de aplicar diferentes transformaciones de texto según la acción que se le pase y el texto que se desee modificar. Recibe dos parámetros: action, que indica qué transformación aplicar, y text, que es el texto a transformar. Dentro de la función, se utiliza una estructura <strong>switch</strong> para determinar qué acción realizar. Dependiendo del valor de action, llama a la función correspondiente para realizar la transformación. Si la acción no es válida, devuelve el mensaje "Acción no válida". Al final, devuelve el resultado de la transformación.</p>
 
 ```javascript
 // Función principal para manejar la transformación según el botón presionado
