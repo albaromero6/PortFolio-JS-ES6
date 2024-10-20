@@ -569,7 +569,7 @@ function transformText(action, text) {
 ```
 
 <br>
-<p>La función <strong>transformAndDispla</strong>y aplica una transformación de texto a todos los elementos <textarea> con la clase .texto. Primero, selecciona todos los textarea y luego, utilizando forEach, recorre cada uno para obtener el texto ingresado. A continuación, llama a la función transformText, pasando la acción de transformación y el texto obtenido, y guarda el resultado. Finalmente, actualiza el contenido del textarea con el texto transformado, permitiendo que los cambios sean visibles de inmediato en la interfaz de usuario.La función transformAndDisplay aplica una transformación de texto a todos los elementos <textarea> con la clase .texto. Primero, selecciona todos los textarea y luego, utilizando forEach, recorre cada uno para obtener el texto ingresado. A continuación, llama a la función transformText, pasando la acción de transformación y el texto obtenido, y guarda el resultado. Finalmente, actualiza el contenido del textarea con el texto transformado.</p>
+<p>La función <strong>transformAndDisplay</strong> aplica una transformación de texto a todos los elementos <textarea> con la clase texto. Primero, selecciona todos los textarea y luego, utilizando <strong>forEach</strong> , recorre cada uno para obtener el texto ingresado. A continuación, llama a la función transformText, pasando la acción de transformación y el texto obtenido, y guarda el resultado. Finalmente, actualiza el contenido del textarea con el texto transformado.</p>
 
 ```javascript
 // Nueva función para manejar el botón y mostrar el resultado en el textarea
