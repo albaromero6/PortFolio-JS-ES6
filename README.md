@@ -660,3 +660,39 @@ function stopRandomTransform() {
 <p align="center">
   <img src="QuintaEntrega/assets/modificadortextoapi.png" alt="Descripción de la imagen" width="30%">
 <br> 
+
+<p>La función <strong>getTextFromAPI</strong> obtiene un nombre y una imagen de un personaje de la API de Rick and Morty. Primero, selecciona todos los <textarea> y el elemento de imagen. Luego, realiza una solicitud a la API para obtener la lista de personajes. Si la respuesta es exitosa, elige un personaje aleatorio, actualiza los <textarea> con su nombre y muestra la imagen del personaje. Si ocurre algún error, lo muestra en la consola.</p>
+
+```javascript
+// Función para obtener texto de la API
+async function getTextFromAPI() {
+    const textareas = document.querySelectorAll(".texto");
+    const imageElement = document.getElementById("characterImage"); 
+
+    try {
+        const response = await fetch('https://rickandmortyapi.com/api/character'); // Obtener todos los personajes
+        if (!response.ok) {
+            throw new Error('Error en la respuesta de la API');
+        }
+        const data = await response.json(); // Obtener los datos en formato JSON
+        
+        // Elegir un personaje aleatoriamente
+        const randomIndex = Math.floor(Math.random() * data.results.length);
+        const apiText = data.results[randomIndex].name;   // Obtener el nombre del personaje
+        const apiImage = data.results[randomIndex].image; // Obtener la imagen del personaje
+        
+        // Procesar cada textarea y mostrar el texto recibido
+        textareas.forEach((textarea) => {
+            textarea.value = apiText; // Actualizar el textarea con el texto de la API
+        });
+
+        // Mostrar la imagen del personaje
+        imageElement.src = apiImage; 
+        imageElement.alt = apiText; 
+        imageElement.style.display = 'block';  // Mostrar la imagen
+    } catch (error) {
+        console.error('Error al obtener el texto de la API:', error);
+    }
+}
+
+```
