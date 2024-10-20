@@ -642,7 +642,7 @@ function startRandomTransform() {
 ```
 
 <br>
-<p>La función <strong>stopRandomTransform</strong> se encarga de detener el proceso de transformación aleatoria de texto. Primero, verifica si hay un intervalo activo mediante la variable invertalo. Si existe, llama a clearInterval(invertalo) para detener el intervalo en ejecución. Luego, resetea la variable invertalo a null, lo que indica que no hay ningún intervalo activo. Esta función es útil para pausar o finalizar las transformaciones aleatorias cuando ya no se deseen.</p>
+<p>La función <strong>stopRandomTransform</strong> se encarga de detener el proceso de transformación aleatoria de texto. Primero, verifica si hay un intervalo activo mediante la variable invertalo. Si existe, llama a clearInterval(invertalo) para detener el intervalo en ejecución. Luego, resetea la variable invertalo a null, lo que indica que no hay ningún intervalo activo.</p>
 
 ```javascript
 // Función para detener la transformación aleatoria
@@ -654,3 +654,9 @@ function stopRandomTransform() {
 }
 
 ```
+
+<br>
+<h4>Modificador de texto con API</h4>
+<p align="center">
+  <img src="QuintaEntrega/assets/modificadortextoapi.png" alt="Descripción de la imagen" width="30%">
+<br> 
