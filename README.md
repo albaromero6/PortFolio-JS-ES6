@@ -469,7 +469,7 @@ function lowercaseLastLetter(text) {
 ```
 
 <br>
-<p>La función <strong>uppercaseVowels</strong> toma un texto como entrada y convierte todas las vocales (a, e, i, o, u) en mayúsculas. Utiliza el método replace con una expresión regular que busca todas las vocales en el texto. Cada vez que encuentra una vocal, la función la reemplaza por su versión en mayúscula. Al final, devuelve el texto modificado.</p>
+<p>La función <strong>uppercaseVowels</strong> toma un texto como entrada y convierte todas las vocales en mayúsculas. Utiliza el método <strong>replace</strong> con una expresión regular que busca todas las vocales en el texto. Cada vez que encuentra una vocal, la función la reemplaza por su versión en mayúscula. Al final, devuelve el texto modificado.</p>
 
 ```javascript
 // Función para poner todas las vocales en mayúsculas
