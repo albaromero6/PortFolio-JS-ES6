@@ -835,3 +835,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 ```
+
+<br>
+<h3>Array</h3>
+<hr>
+Además, para la sección de Array, he añadido una opción desplegable en la barra de navegación que, al pasar el ratón sobre ella, muestra una opcion: "Operador de matrices".
+<br>
+<h4>Operador de matrices</h4>
+<p align="center">
+  <img src="QuintaEntrega/assets/operadormatrices.png" alt="Descripción de la imagen" width="30%">
+<br>
