@@ -295,5 +295,411 @@ function convertir() {
 <h2>Quinta entrega</h2>
 <h3>LocalStorage</h3>
 <hr>
-<p>Como en la anterior entrega implemente tanto el uso de <strong>Cookies</strong> como el uso de <strong>LocalStorage</strong>, esta última he optado por implementar solo este último.</p>
+<p>Como en la anterior entrega implementé tanto el uso de <strong>Cookies</strong> como el uso de <strong>LocalStorage</strong>, en esta he optado por implementar solo este último. Este código es un script en JavaScript que maneja un sistema de inicio y cierre de sesión usando localStorage. Al cargar la página, verifica si hay un usuario almacenado. Si hay uno, oculta el formulario de inicio de sesión y muestra el contenido de la página junto con un botón para cerrar la sesión. Si no hay un usuario, se muestra el formulario. Cuando un usuario intenta iniciar sesión, compara los datos ingresados con un nombre de usuario y contraseña predefinidos. Si coinciden, guarda el nombre de usuario en localStorage y muestra el contenido de la página; si no, muestra un mensaje de error. Al hacer clic en el botón de cerrar sesión, se elimina el nombre de usuario de localStorage y se redirige al usuario a la página de inicio.</p>
+
+```javascript
+"use strict";
+
+// Funciones para manejar localStorage
+
+function setSession(name, value) {
+    localStorage.setItem(name, value);
+}
+
+function getSession(name) {
+    return localStorage.getItem(name);
+}
+
+function deleteSession(name) {
+    localStorage.removeItem(name);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    let nombre_usuario_cargado = "Alba"; 
+    let contrasena_cargada = "Romero"; 
+
+    const formulario = document.getElementById("formulario_login");
+    const boton_cerrar = document.getElementById("boton_cerrar");
+    const contenido = document.getElementById("contenido");
+    const dropdown = document.querySelectorAll(".dropdown"); 
+
+    // Verificar si el usuario ya ha iniciado sesión en localStorage
+
+    const usuario = getSession("username");
+
+    if (usuario) {
+        formulario.style.display = "none";            // Ocultar el formulario si hay sesión
+        contenido.style.display = "flex";             // Mostrar el contenido si hay sesión
+        boton_cerrar.style.display = "flex";          // Mostrar el botón de cerrar sesión
+        dropdown.forEach(dropdown => {
+            dropdown.style.display = "inline-block";  // Mostrar todos los menús desplegables      
+        });
+
+    } else {
+        formulario.style.display = "block";           // Mostrar el formulario si no hay sesión
+        contenido.style.display = "none";             // Ocultar el contenido si no hay sesión
+        boton_cerrar.style.display = "none";          // Ocultar el botón de cerrar sesión
+        dropdown.forEach(dropdown => {
+            dropdown.style.display = "none";          // Ocultar todos los menús desplegables
+        });
+    }
+
+    formulario.onsubmit = function (event) {
+        event.preventDefault();                       // Evitar que el formulario se envíe automáticamente
+
+        let nombre_usuario = document.getElementById("nombreUsuario").value;
+        let contrasena_usuario = document.getElementById("passWordUsuario").value;
+
+        if (nombre_usuario === nombre_usuario_cargado && contrasena_usuario === contrasena_cargada) {
+
+            formulario.style.display = "none";            // Ocultar el formulario si los datos son correctos
+            contenido.style.display = "flex";             // Mostrar el contenido si los datos son correctos
+            boton_cerrar.style.display = "flex";          // Mostrar el botón de cerrar sesión
+            dropdown.forEach(dropdown => {
+                dropdown.style.display = "inline-block";  // Mostrar todos los menús desplegables      
+            });
+            
+            setSession("username", nombre_usuario);       // Guardar la sesión en localStorage
+
+        } else {
+            document.getElementById("mensaje_error").style.display = "block"; // Mostrar error si los datos no son correctos
+        }
+    };
+
+    // Manejo del cierre de sesión
+    boton_cerrar.onclick = function () {
+        cerrarSesion();
+    };
+
+    function cerrarSesion() {
+        deleteSession("username");                      // Eliminar la sesión de localStorage
+        alert("Sesión cerrada");                        // Avisar al usuario que se cerró la sesión
+        window.location.href = "index.html";            // Redirigir al inicio después de cerrar sesión
+    }
+});
+
+```
 <br>
+<h3>String</h3>
+<hr>
+Además, para la sección de cadenas, he añadido una opción desplegable en la barra de navegación que, al pasar el ratón sobre ella, muestra dos opciones: "Modificador de texto" y "Modificador de texto con API".
+<br>
+<h4>Modificador de texto</h4>
+<p align="center">
+  <img src="QuintaEntrega/assets/modificadortexto.png" alt="Descripción de la imagen" width="30%">
+<br> 
+<p>La función <strong>toUpperCase</strong> recibe un texto como entrada y lo convierte a mayúsculas. Luego, devuelve el texto transformado.</p>
+
+```javascript
+// Función para convertir todo el texto a mayúsculas
+function toUpperCase(text) {
+    return text.toUpperCase();
+}
+
+```
+<br>
+<p>La función <strong>toLowerCase</strong> toma un texto como entrada y lo convierte a minúsculas. Luego, devuelve el texto en este nuevo formato.</p>
+
+```javascript
+// Función para convertir todo el texto a minúsculas
+function toLowerCase(text) {
+    return text.toLowerCase();
+}
+
+```
+<br>
+<p>La función <strong>uppercaseFirstLetter</strong> toma un texto como entrada y convierte la primera letra de cada palabra en mayúscula. Primero, divide el texto en palabras usando el espacio como separador mediante la función <strong>split</strong>. Luego, recorre cada palabra, cambia la primera letra a mayúscula y mantiene el resto de la palabra sin cambios. Finalmente, une todas las palabras de nuevo en un solo texto y lo devuelve.</p>
+
+```javascript
+// Función para poner en mayúsculas la primera letra de cada palabra
+function uppercaseFirstLetter(text) {
+    let words = text.split(' ');
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+    }
+    return words.join(' ');
+}
+
+```
+
+<br>
+<p>La función <strong>uppercaseLastLetter</strong> recibe un texto y convierte la última letra de cada palabra en mayúscula. Primero, separa el texto en palabras usando espacios. Luego, recorre cada palabra y toma todos los caracteres excepto el último, y añade la última letra convertida a mayúscula. Finalmente, une todas las palabras de nuevo en un solo texto y lo devuelve.</p>
+
+```javascript
+// Función para poner en mayúsculas la última letra de cada palabra
+function uppercaseLastLetter(text) {
+    let words = text.split(' ');
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].slice(0, -1) + words[i].charAt(words[i].length - 1).toUpperCase();
+    }
+    return words.join(' ');
+}
+
+```
+
+<br>
+<p>La función <strong>lowercaseFirstLetter</strong> toma un texto como entrada y convierte la primera letra de cada palabra en minúscula. Primero, divide el texto en palabras usando el espacio como separador. Luego, recorre cada palabra, cambia la primera letra a minúscula y mantiene el resto de la palabra sin cambios. Finalmente, une todas las palabras de nuevo en un solo texto y lo devuelve.</p>
+
+```javascript
+// Función para poner en minúscula la primera letra de cada palabra
+function lowercaseFirstLetter(text) {
+    let words = text.split(' ');
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].charAt(0).toLowerCase() + words[i].slice(1);
+    }
+    return words.join(' ');
+}
+
+```
+
+<br>
+<p>La función <strong>lowercaseLastLetter</strong> recibe un texto y convierte la última letra de cada palabra en minúscula. Primero, separa el texto en palabras utilizando los espacios como separadores. Luego, recorre cada palabra, toma todos los caracteres excepto el último y añade la última letra convertida a minúscula. Finalmente, une todas las palabras nuevamente en un solo texto y lo devuelve.</p>
+
+```javascript
+// Función para poner en minúscula la última letra de cada palabra
+function lowercaseLastLetter(text) {
+    let words = text.split(' ');
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].slice(0, -1) + words[i].charAt(words[i].length - 1).toLowerCase();
+    }
+    return words.join(' ');
+}
+
+```
+
+<br>
+<p>La función <strong>uppercaseVowels</strong> toma un texto como entrada y convierte todas las vocales en mayúsculas. Utiliza el método <strong>replace</strong> con una expresión regular que busca todas las vocales en el texto. Cada vez que encuentra una vocal, la función la reemplaza por su versión en mayúscula. Al final, devuelve el texto modificado.</p>
+
+```javascript
+// Función para poner todas las vocales en mayúsculas
+function uppercaseVowels(text) {
+    return text.replace(/[aeiou]/g, function(match) {
+        return match.toUpperCase();
+    });
+}
+
+```
+
+<br>
+<p>La función <strong>lowercaseVowels</strong> toma un texto como entrada y convierte todas las vocales mayúsculas, en minúsculas. Utiliza el método <strong>replace</strong> junto con una expresión regular que busca estas vocales en el texto. Cada vez que encuentra una vocal mayúscula, la reemplaza por su versión en minúscula. Al final, devuelve el texto modificado.</p>
+
+```javascript
+// Función para poner todas las vocales en minúsculas
+function lowercaseVowels(text) {
+    return text.replace(/[AEIOU]/g, function(match) {
+        return match.toLowerCase();
+    });
+}
+
+```
+
+<br>
+<p>La función <strong>uppercaseConsonants</strong> toma un texto como entrada y convierte todas las consonantes en mayúsculas. Utiliza el método <strong>replace</strong> con una expresión regular que busca estas consonantes en el texto. Cada vez que encuentra una consonante, la reemplaza por su versión en mayúscula. Finalmente, devuelve el texto modificado.</p>
+
+```javascript
+// Función para poner todas las consonantes en mayúsculas
+function uppercaseConsonants(text) {
+    return text.replace(/[bcdfghjklmnpqrstvwxyz]/g, function(match) {
+        return match.toUpperCase();
+    });
+}
+
+```
+
+<br>
+<p>La función <strong>lowercaseConsonants</strong> recibe un texto y convierte todas las consonantes mayúsculas en minúsculas. Utiliza el método <strong>replace</strong> con una expresión regular que busca estas consonantes en el texto. Cada vez que encuentra una consonante mayúscula, la reemplaza por su versión en minúscula. Al final, devuelve el texto modificado.</p>
+
+```javascript
+// Función para poner todas las consonantes en minúsculas 
+function lowercaseConsonants(text) {
+    return text.replace(/[BCDFGHJKLMNPQRSTVWXYZ]/g, function(match) {
+        return match.toLowerCase();
+    });
+}
+
+```
+
+<br>
+<p>La función <strong>transformText</strong> es la encargada de aplicar diferentes transformaciones de texto según la acción que se le pase y el texto que se desee modificar. Recibe dos parámetros: action, que indica qué transformación aplicar, y text, que es el texto a transformar. Dentro de la función, se utiliza una estructura <strong>switch</strong> para determinar qué acción realizar. Dependiendo del valor de action, llama a la función correspondiente para realizar la transformación. Si la acción no es válida, devuelve el mensaje "Acción no válida". Al final, devuelve el resultado de la transformación.</p>
+
+```javascript
+// Función principal para manejar la transformación según el botón presionado
+function transformText(action, text) {
+    let result;
+
+    switch (action) {
+        case 'uppercase':
+            result = toUpperCase(text);
+            break;
+        case 'lowercase':
+            result = toLowerCase(text);
+            break;
+        case 'uppercaseFirst':
+            result = uppercaseFirstLetter(text);
+            break;
+        case 'uppercaseLast':
+            result = uppercaseLastLetter(text);
+            break;
+        case 'lowercaseFirst':
+            result = lowercaseFirstLetter(text);
+            break;
+        case 'lowercaseLast':
+            result = lowercaseLastLetter(text);
+            break;
+        case 'uppercaseVowels':
+            result = uppercaseVowels(text);
+            break;
+        case 'lowercaseVowels':
+            result = lowercaseVowels(text);
+            break;
+        case 'uppercaseConsonants':
+            result = uppercaseConsonants(text);
+            break;
+        case 'lowercaseConsonants':
+            result = lowercaseConsonants(text);
+            break;
+        default:
+            result = "Acción no válida";
+            break;
+    }
+    return result;
+}
+
+```
+
+<br>
+<p>La función <strong>transformAndDisplay</strong> aplica una transformación de texto a todos los elementos <textarea> con la clase texto. Primero, selecciona todos los textarea y luego, utilizando <strong>forEach</strong> , recorre cada uno para obtener el texto ingresado. A continuación, llama a la función transformText, pasando la acción de transformación y el texto obtenido, y guarda el resultado. Finalmente, actualiza el contenido del textarea con el texto transformado.</p>
+
+```javascript
+// Nueva función para manejar el botón y mostrar el resultado en el textarea
+function transformAndDisplay(action) {
+    const textareas = document.querySelectorAll(".texto"); // Obtener todos los textareas
+
+    // Procesar cada textarea
+    textareas.forEach((textarea) => {
+        const inputText = textarea.value;                // Obtener el texto del textarea
+        const result = transformText(action, inputText); // Transformar el texto
+        textarea.value = result;                         // Actualizar el textarea con el texto transformado
+    });
+}
+
+```
+
+<br>
+<p>La función <strong>increaseSpeed</strong> se encarga de aumentar la velocidad de un proceso que se ejecuta de forma aleatoria, estableciendo un intervalo de 1 segundo. Primero, verifica si existe una variable llamada invertalo, que representa un intervalo activo. Si está presente, utiliza clearInterval(invertalo) para detener el intervalo actual. Luego, cambia la variable intervalTime a 1000 milisegundos (1 segundo) y finalmente llama a la función startRandomTransform para reiniciar el intervalo con la nueva configuración de tiempo. Esto permite que el proceso aleatorio se ejecute más rápidamente.</p>
+
+```javascript
+// Función para aumentar la velocidad del modo aleatorio (1 segundo)
+function increaseSpeed() {
+    if (invertalo) {
+        clearInterval(invertalo);     // Detiene el intervalo actual
+        intervalTime = 1000;          // Cambia el tiempo a 1 segundo
+        startRandomTransform();       // Reinicia el intervalo con el nuevo tiempo
+    }
+}
+
+```
+
+<br>
+<p>La función <strong>decreaseSpeed</strong> se utiliza para disminuir la velocidad de un proceso que se ejecuta de forma aleatoria, estableciendo un intervalo de 5 segundos. Primero, verifica si hay un intervalo activo mediante la variable invertalo. Si existe, llama a clearInterval(invertalo) para detener el intervalo actual. Luego, actualiza la variable intervalTime a 5000 milisegundos (5 segundos) y finalmente invoca la función startRandomTransform para reiniciar el intervalo con el nuevo tiempo. Esto hace que el proceso aleatorio se ejecute más lentamente.</p>
+
+```javascript
+// Función para disminuir la velocidad del modo aleatorio (5 segundos)
+function decreaseSpeed() {
+    if (invertalo) { 
+        clearInterval(invertalo);      // Detiene el intervalo actual
+        intervalTime = 5000;           // Cambia el tiempo a 5 segundos
+        startRandomTransform();        // Reinicia el intervalo con el nuevo tiempo
+    }
+}
+
+```
+
+<br>
+<p>La función <strong>startRandomTransform</strong> inicia un proceso de transformación aleatoria de texto, configurado para ejecutarse cada 3 segundos por defecto. Primero, define un array actions que contiene diferentes acciones de transformación de texto. Antes de crear un nuevo intervalo, verifica si ya hay uno activo mediante la variable invertalo y, si es así, lo detiene usando clearInterval(invertalo). Luego, establece un nuevo intervalo con setInterval, que selecciona aleatoriamente una acción del array cada X segundos (definido por intervalTime). Para cada acción elegida, llama a la función transformAndDisplay, que aplica la transformación al texto y lo muestra en el <textarea>.</p>
+
+```javascript
+// Función para iniciar la transformación aleatoria (inicia con 3 segundos por defecto)
+function startRandomTransform() {
+    const actions = ['uppercase', 'lowercase', 'uppercaseFirst', 'uppercaseLast', 'lowercaseFirst', 
+        'lowercaseLast', 'uppercaseVowels', 'lowercaseVowels', 'uppercaseConsonants', 'lowercaseConsonants'];
+
+    // Detenemos cualquier intervalo existente antes de crear uno nuevo
+    if (invertalo) {
+        clearInterval(invertalo);
+    }
+
+    // Intervalo que ejecutará la transformación cada X segundos 
+    invertalo = setInterval(() => {
+        // Selecciona una acción aleatoria del array
+        const randomAction = actions[Math.floor(Math.random() * actions.length)];
+        // Llama a la función que transforma y muestra el texto en el textarea
+        transformAndDisplay(randomAction);
+    }, intervalTime);
+}
+
+```
+
+<br>
+<p>La función <strong>stopRandomTransform</strong> se encarga de detener el proceso de transformación aleatoria de texto. Primero, verifica si hay un intervalo activo mediante la variable invertalo. Si existe, llama a clearInterval(invertalo) para detener el intervalo en ejecución. Luego, resetea la variable invertalo a null, lo que indica que no hay ningún intervalo activo.</p>
+
+```javascript
+// Función para detener la transformación aleatoria
+function stopRandomTransform() {
+    if (invertalo) { 
+        clearInterval(invertalo);       // Detiene el intervalo
+        invertalo = null;               // Resetea el ID del intervalo
+    }
+}
+
+```
+
+<br>
+<h4>Modificador de texto con API</h4>
+<p align="center">
+  <img src="QuintaEntrega/assets/modificadortextoapi.png" alt="Descripción de la imagen" width="30%">
+<br> 
+
+<p>La función <strong>getTextFromAPI</strong> obtiene un nombre y una imagen de un personaje de la API de Rick and Morty. Primero, selecciona todos los <textarea> y el elemento de imagen. Luego, realiza una solicitud a la API para obtener la lista de personajes. Si la respuesta es exitosa, elige un personaje aleatorio, actualiza los <textarea> con su nombre y muestra la imagen del personaje. Si ocurre algún error, lo muestra en la consola.</p>
+<br>
+<p> La palabra clave <strong>async</strong> se utiliza para declarar que una función contiene operaciones asíncronas, lo que permite que el código se ejecute sin bloquear el hilo principal del programa. Esto es especialmente útil en operaciones que pueden tardar, como las solicitudes a una API, ya que permite que otras tareas continúen ejecutándose mientras se espera la respuesta. El método <strong>fetch</strong> se emplea para realizar solicitudes HTTP asíncronas de manera sencilla y eficiente.</p>
+
+```javascript
+// Función para obtener texto de la API
+async function getTextFromAPI() {
+    const textareas = document.querySelectorAll(".texto");
+    const imageElement = document.getElementById("characterImage"); 
+
+    try {
+        const response = await fetch('https://rickandmortyapi.com/api/character'); // Obtener todos los personajes
+        if (!response.ok) {
+            throw new Error('Error en la respuesta de la API');
+        }
+        const data = await response.json(); // Obtener los datos en formato JSON
+        
+        // Elegir un personaje aleatoriamente
+        const randomIndex = Math.floor(Math.random() * data.results.length);
+        const apiText = data.results[randomIndex].name;   // Obtener el nombre del personaje
+        const apiImage = data.results[randomIndex].image; // Obtener la imagen del personaje
+        
+        // Procesar cada textarea y mostrar el texto recibido
+        textareas.forEach((textarea) => {
+            textarea.value = apiText; // Actualizar el textarea con el texto de la API
+        });
+
+        // Mostrar la imagen del personaje
+        imageElement.src = apiImage; 
+        imageElement.alt = apiText; 
+        imageElement.style.display = 'block';  // Mostrar la imagen
+    } catch (error) {
+        console.error('Error al obtener el texto de la API:', error);
+    }
+}
+
+```
+
+<br>
+<a href="https://albaromero6.github.io/PortFolio-JS-ES6/QuintaEntrega/index.html#" target="_blank">
+  <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
+</a>
