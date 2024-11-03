@@ -891,3 +891,82 @@ function generarMatrices() {
 
 ```
 <br>
+<p>La función <strong>createMatrix</strong> genera una matriz cuadrada de tamaño dimension x dimension con valores aleatorios en el rango definido por rangoInferior y rangoSuperior. Primero, convierte los valores de dimensión y rango en enteros. Luego, utiliza Array.from() para crear un array de x filas, y en cada fila, crea otro artay de x columnas. Cada elemento en estas columnas se llena con un número aleatorio generado mediante Math.random().</p>
+
+```javascript
+function createMatrix(dimension, rangoInferior, rangoSuperior) {
+    const dim = parseInt(dimension);
+    const lower = parseInt(rangoInferior);
+    const upper = parseInt(rangoSuperior);
+    return Array.from({ length: dim }, () =>
+        Array.from({ length: dim }, () => 
+            Math.floor(Math.random() * (upper - lower + 1)) + lower
+        )
+    );
+}
+
+```
+<br>
+<p>La función <strong>displayMatrix</strong> muestra una matriz en formato de tabla HTML dentro de un contenedor específico de la página. Primero, localiza el elemento HTML correspondiente a containerId y crea un encabezado que asigna el texto del título, el cual se agrega al contenedor. Luego, crea una tabla y la va llenando fila por fila, mostrando la matriz formateada como una tabla en el HTML.</p>
+
+```javascript
+function displayMatrix(matrix, title, containerId) {
+    const container = document.getElementById(containerId);
+    const titleElement = document.createElement("h3");
+    titleElement.textContent = title;
+    container.appendChild(titleElement);
+
+    const table = document.createElement("table");
+    matrix.forEach(row => {
+        const tr = document.createElement("tr");
+        row.forEach(value => {
+            const td = document.createElement("td");
+            td.textContent = value;
+            tr.appendChild(td);
+        });
+        table.appendChild(tr);
+    });
+    container.appendChild(table);
+}
+
+```
+<br>
+<p>La función <strong>sumaMatrices</strong> suma dos matrices previamente generadas, matrixA y matrixB, y muestra el resultado en una tabla HTML. Primero, verifica si ambas matrices existen y contienen datos; si no, muestra una alerta indicando que se deben generar las matrices antes de realizar la suma. Luego, utiliza map para recorrer cada fila y columna de ambas matrices, sumando los elementos correspondientes y almacenando los resultados. Después, limpia el contenedor donde se mostrará el resultado y finalmente llama a displayMatrix para mostrar el resultado bajo el título "Suma" en el contenedor.</p>
+
+```javascript
+function sumaMatrices() {
+    if (!matrixA.length || !matrixB.length) {
+        alert("Genera las matrices primero");
+        return;
+    }
+    
+    const resultMatrix = matrixA.map((row, i) => 
+        row.map((val, j) => val + matrixB[i][j])
+    );
+
+    // Limpiar el contenedor de resultados antes de mostrar el nuevo resultado
+    clearResults();
+    displayMatrix(resultMatrix, "Suma", "operationResult");
+}
+
+```
+<br>
+<p>La función <strong>restaMatrices</strong> realiza la resta de dos matrices generadas previamente, matrixA y matrixB, y muestra el resultado en la página. Primero, verifica si ambas matrices existen y contienen datos; si alguna no está generada, muestra una alerta indicando que deben generarse antes de continuar. Luego, utiliza map para recorrer cada fila y columna, restando los elementos correspondientes y almacenando el resultado. Después, limpia el contenedor de resultados usando clearResults y llama a displayMatrix para mostrar el resultado bajo el título "Resta" en el contenedor.</p>
+
+```javascript
+function restaMatrices() {
+    if (!matrixA.length || !matrixB.length) {
+        alert("Genera las matrices primero");
+        return;
+    }
+    
+    const resultMatrix = matrixA.map((row, i) => 
+        row.map((val, j) => val - matrixB[i][j])
+    );
+
+    // Limpiar el contenedor de resultados antes de mostrar el nuevo resultado
+    clearResults();
+    displayMatrix(resultMatrix, "Resta", "operationResult");
+}
+
+```
