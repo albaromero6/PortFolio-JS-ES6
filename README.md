@@ -970,3 +970,120 @@ function restaMatrices() {
 }
 
 ```
+<br>
+<p>La función <strong>multiplicacionMatrices</strong> calcula el producto de dos matrices cuadradas, matrixA y matrixB, y muestra el resultado en la página. Primero, verifica que ambas matrices estén generadas; de lo contrario, muestra una alerta solicitando que se creen antes de realizar la operación. Luego, inicializa el resultado como una matriz cuadrada de la misma dimensión, llenándola inicialmente con ceros. Para calcular cada elemento, la función utiliza tres bucles anidados: el primero recorre las filas, el segundo las columnas, y el tercero realiza la multiplicación de cada elemento de la fila de matrixA por el correspondiente elemento de la columna de matrixB, acumulando el resultado. Finalmente, limpia el contenedor de resultados con clearResults y llama a displayMatrix para mostrar el resultado bajo el título "Multiplicación" en el contenedor.</p>
+
+```javascript
+function multiplicacionMatrices() {
+    if (!matrixA.length || !matrixB.length) {
+        alert("Genera las matrices primero");
+        return;
+    }
+    
+    const dimension = matrixA.length;
+    const resultMatrix = Array.from({ length: dimension }, () => 
+        Array(dimension).fill(0)
+    );
+
+    for (let i = 0; i < dimension; i++) {
+        for (let j = 0; j < dimension; j++) {
+            for (let k = 0; k < dimension; k++) {
+                resultMatrix[i][j] += matrixA[i][k] * matrixB[k][j];
+            }
+        }
+    }
+
+    // Limpiar el contenedor de resultados antes de mostrar el nuevo resultado
+    clearResults();
+    displayMatrix(resultMatrix, "Multiplicación", "operationResult");
+}
+
+
+```
+<br>
+<p>La función <strong>clearResults</strong> se encarga de limpiar el contenido de los contenedores donde se muestran las matrices y el resultado de las operaciones en la página. Para ello, selecciona los elementos del DOM con los identificadores que corresponden a los contenedores de matrixA, matrixB y el resultado de cualquier operación (como suma, resta o multiplicación). Luego, establece el contenido HTML de cada uno de estos contenedores a una cadena vacía (''), eliminando así cualquier tabla o resultado previo que se haya mostrado. Esto garantiza que, al realizar una nueva operación, los resultados anteriores no interfieran con los nuevos.</p>
+
+```javascript
+function clearResults() {
+    const matrixAContainer = document.getElementById("matrixAContainer");
+    const matrixBContainer = document.getElementById("matrixBContainer");
+    const operationResult = document.getElementById("operationResult");
+    
+    matrixAContainer.innerHTML = '';
+    matrixBContainer.innerHTML = '';
+    operationResult.innerHTML = ''; // Limpiar resultados de operaciones
+}
+
+```
+<br>
+<p>La función <strong>generarValoresAleatorios</strong> asigna valores aleatorios para los parámetros de dimensión y rango de dos matrices, y luego llama a la función generarMatrices para crear y mostrar estas matrices en la página. Primero, genera un valor aleatorio entre 2 y 6 para la dimension de la matriz. Luego, utiliza un bucle do...while para asignar valores aleatorios entre 1 y 6 para el rango inferior y entre 7 y 89 para el rango superior. Asegurándose de que rango superior sea mayor que rango inferior. Una vez generados estos valores, la función los asigna a los campos de entrada correspondientes en el DOM, y finalmente invoca a generarMatrices para crear y mostrar las matrices en base a estos valores aleatorios. Esto permite generar matrices con diferentes dimensiones y rangos sin intervención manual.</p>
+
+```javascript
+function generarValoresAleatorios() {
+
+    const dimension = Math.floor(Math.random() * (6 - 2 + 1)) + 2; // Aleatorio entre 2 y 6
+    let rangoInferior, rangoSuperior;
+
+    // Asegurarse de que el rango superior sea mayor que el rango inferior
+    do {
+        rangoInferior = Math.floor(Math.random() * (6 - 1 + 1)) + 1; // Aleatorio entre 1 y 6
+        rangoSuperior = Math.floor(Math.random() * (89 - 7 + 1)) + 7; // Aleatorio entre 7 y 89
+    } while (rangoSuperior <= rangoInferior); // Asegurarse de que el rango superior sea mayor
+
+    // Establecer los valores en los inputs
+    document.getElementById("dimension").value = dimension;
+    document.getElementById("rangoInferior").value = rangoInferior;
+    document.getElementById("rangoSuperior").value = rangoSuperior;
+
+    // Generar las matrices
+    generarMatrices();
+}
+
+```
+<br>
+<p>La función <strong>operacionAleatoria</strong> inicia un proceso que ejecuta operaciones de matrices de manera aleatoria en intervalos regulares. Primero, verifica si ya existe un intervalo de operación en curso, y si es así, lo limpia utilizando clearInterval para evitar la ejecución simultánea de múltiples intervalos. Luego, establece un nuevo intervalo utilizando setInterval(), que se ejecuta cada x milisegundos. Dentro de este intervalo, se define un array operaciones que contiene las funciones de suma, resta y multiplicación de matrices. La función selecciona aleatoriamente una de estas operaciones usando Math.random() y la ejecuta. De esta forma, operacionAleatoria permite realizar automáticamente cálculos entre las matrices generadas a intervalos regulares.</p>
+
+```javascript
+function operacionAleatoria() {
+    // Limpiar si hay un intervalo existente antes de iniciar uno nuevo
+    if (operationInterval) {
+        clearInterval(operationInterval);
+    }
+
+    // Iniciar un nuevo intervalo
+    operationInterval = setInterval(() => {
+        const operaciones = [sumaMatrices, restaMatrices, multiplicacionMatrices];
+        const randomOperation = operaciones[Math.floor(Math.random() * operaciones.length)];
+        
+        randomOperation(); // Ejecutar una operación aleatoria
+    }, intervalDuration); 
+}
+```
+<br>
+<p>La función <strong>detenerOperaciones</strong> se encarga de detener la ejecución de operaciones aleatorias sobre las matrices al limpiar el intervalo activo. Utiliza clearInterval para detener cualquier operación que se esté ejecutando en ese momento, lo que evita que se sigan llamando a las funciones de suma, resta o multiplicación de matrices. Luego, establece operationInterval en null, lo que asegura que la variable no apunte a un intervalo inexistente, permitiendo así que futuras invocaciones a operacionAleatoria puedan reiniciar un nuevo intervalo correctamente. Esta función proporciona un control sobre el proceso de operaciones aleatorias, permitiendo al usuario pausar la actividad en cualquier momento.</p>
+
+```javascript
+function detenerOperaciones() {
+    clearInterval(operationInterval);
+    operationInterval = null; //Vaciar el intervalo
+}
+```
+<br>
+<p>La función <strong>cambiarVelocidad</strong> permite ajustar la velocidad de ejecución de las operaciones aleatorias sobre las matrices, dependiendo de la acción especificada por el usuario. Si la acción es 'aumentar', la duración del intervalo se establece en 2000 milisegundos (2 segundos); si la acción es 'disminuir', se cambia a 6000 milisegundos (6 segundos). Después de modificar la duración, la función verifica si hay un intervalo de operaciones activo. Si existe, limpia el intervalo actual usando clearInterval, y luego reinicia el proceso de operaciones aleatorias llamando a operacionAleatoria, de modo que las nuevas operaciones se ejecuten con la nueva duración especificada.</p>
+
+```javascript
+function cambiarVelocidad(accion) {
+
+    if (accion === 'aumentar') {
+        intervalDuration = 2000; // Cambiar a 2 segundos
+    } else if (accion === 'disminuir') {
+        intervalDuration = 6000; // Cambiar a 6 segundos
+    }
+
+    // Reinicio si ya hay un intervalo activo
+    if (operationInterval) {
+        clearInterval(operationInterval);
+        operacionAleatoria(); // Reinicio el intervalo con la nueva duración
+    }
+}
+```
