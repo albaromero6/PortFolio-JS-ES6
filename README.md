@@ -845,3 +845,49 @@ Además, para la sección de Array, he añadido una opción desplegable en la ba
 <p align="center">
   <img src="SextaEntrega/assets/operadormatrices.png" alt="Descripción de la imagen" width="30%">
 <br>
+<p>La función <strong>generarMatrices</strong> obtiene valores ingresados por el usuario para crear dos matrices cuadradas, matrixA y matrixB, con elementos aleatorios dentro de un rango definido. Primero, toma los valores de "dimensión", "rango inferior" y "rango superior" desde elementos del DOM y valida que estén completos, que la dimensión sea un número positivo, y que los límites del rango sean números válidos con el superior mayor al inferior. Si los datos ingresados cumplen con las validaciones, la función limpia cualquier matriz previamente mostrada y luego genera matrixA y matrixB utilizando la función createMatrix. Finalmente, generarMatrices llama a displayMatrix para mostrar ambas matrices en contenedores específicos.</p>
+
+```javascript
+function generarMatrices() {
+    const dimension = document.getElementById("dimension").value;
+    const rangoInferior = document.getElementById("rangoInferior").value;
+    const rangoSuperior = document.getElementById("rangoSuperior").value;
+    
+    // Validar campos
+    if (dimension === "" || rangoInferior === "" || rangoSuperior === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    if (isNaN(dimension) || dimension <= 0) {
+        alert("Por favor, introduce una dimensión válida.");
+        return;
+    }
+
+    // Convertir los rangos a números para la comparación
+    const lower = parseInt(rangoInferior);
+    const upper = parseInt(rangoSuperior);
+    
+    if (isNaN(lower) || isNaN(upper)) {
+        alert("Por favor, introduce valores válidos para el rango.");
+        return;
+    }
+
+    if (upper <= lower) {
+        alert("El rango superior debe ser mayor que el rango inferior.");
+        return;
+    }
+
+    // Limpiar el contenedor antes de generar nuevas matrices
+    clearResults();
+
+    matrixA = createMatrix(dimension, lower, upper);
+    matrixB = createMatrix(dimension, lower, upper);
+
+    // Mostrar las matrices A y B en contenedores separados
+    displayMatrix(matrixA, "Matriz A", "matrixAContainer");
+    displayMatrix(matrixB, "Matriz B", "matrixBContainer");
+}
+
+```
+<br>
