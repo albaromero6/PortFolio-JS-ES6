@@ -1550,7 +1550,9 @@ function eliminarItemSession(index) {
     // Actualizar la tabla de datos
     mostrarDatosSession();
 }
+
 ```
+
 <br>
 <h3>IndexedDB con API</h3>
 <hr>
