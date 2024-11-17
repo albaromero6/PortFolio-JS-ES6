@@ -1093,7 +1093,9 @@ function cambiarVelocidad(accion) {
 </a>
 
 <h2>Septa entrega</h2>
-<h3>Alacenamiento con Cookies, LocalStorage, SessiónStorage e IndexedDB</h3>
+<h3>Almacenamiento con Cookies, LocalStorage, SessiónStorage e IndexedDB</h3>
 <hr>
-<p>Este código implementa un sistema de autenticación utilizando IndexedDB, que guarda localmente el estado de la sesión en el navegador. La base de datos, llamada "LoginDB", contiene un almacén "SessionStore" donde se guarda el estado de inicio de sesión mediante un valor booleano. Al cargar la página, el sistema verifica si el usuario ya había iniciado sesión previamente, y si es así, muestra el contenido restringido y oculta el formulario de inicio. Cuando el usuario completa el formulario de inicio de sesión, se validan las credenciales con los valores almacenados. Si coinciden, se registra el inicio de sesión en IndexedDB y se muestra el contenido restringido. Al cerrar la sesión, se elimina este registro de la base de datos, se muestra un mensaje de alerta y se redirige al usuario a la página de inicio.</p>
-
+<p>En esta entrega, hemos desarrollado un sistema CRUD básico que interactúa con diferentes mecanismos de almacenamiento web: cookies, Storage e IndexedDB. El objetivo principal es implementar un formulario que permita almacenar datos, visualizarlos dinámicamente en una tabla y gestionar su persistencia. Los datos iniciales se cargarán desde una API al acceder a la página en el caso de IndexedDB, y el usuario podrá agregar más datos desde la API mediante botones para cargar uno o varios datos a la vez. Además, cada entrada en la tabla tendrá un botón para eliminar los datos almacenados, lo que actualizará la visualización en tiempo real.</p>
+<br>
+<h3>Array</h3>
+<hr>
