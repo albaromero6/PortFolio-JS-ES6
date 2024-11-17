@@ -703,3 +703,392 @@ async function getTextFromAPI() {
 <a href="https://albaromero6.github.io/PortFolio-JS-ES6/QuintaEntrega/index.html#" target="_blank">
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
 </a>
+<br>
+<h2>Sexta entrega</h2>
+<h3>IndexedDB</h3>
+<hr>
+<p>Este código implementa un sistema de autenticación utilizando IndexedDB, que guarda localmente el estado de la sesión en el navegador. La base de datos, llamada "LoginDB", contiene un almacén "SessionStore" donde se guarda el estado de inicio de sesión mediante un valor booleano. Al cargar la página, el sistema verifica si el usuario ya había iniciado sesión previamente, y si es así, muestra el contenido restringido y oculta el formulario de inicio. Cuando el usuario completa el formulario de inicio de sesión, se validan las credenciales con los valores almacenados. Si coinciden, se registra el inicio de sesión en IndexedDB y se muestra el contenido restringido. Al cerrar la sesión, se elimina este registro de la base de datos, se muestra un mensaje de alerta y se redirige al usuario a la página de inicio.</p>
+
+```javascript
+"use strict";
+
+// Configuración de IndexedDB
+const dbName = "LoginDB";
+const storeName = "SessionStore";
+
+// Función para abrir la base de datos
+function openDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, 1);
+
+        request.onupgradeneeded = function (event) {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(storeName)) {
+                db.createObjectStore(storeName, { keyPath: "id" });
+            }
+        };
+
+        request.onsuccess = function (event) {
+            resolve(event.target.result);
+        };
+
+        request.onerror = function (event) {
+            reject("Error al abrir la base de datos: " + event.target.errorCode);
+        };
+    });
+}
+
+// Funciones para manejar la sesión
+function setSessionInDB(value) {
+    openDB().then(db => {
+        const transaction = db.transaction(storeName, "readwrite");
+        const store = transaction.objectStore(storeName);
+        store.put({ id: "sessionStatus", loggedIn: value });
+    });
+}
+
+function getSessionFromDB() {
+    return new Promise((resolve) => {
+        openDB().then(db => {
+            const transaction = db.transaction(storeName, "readonly");
+            const store = transaction.objectStore(storeName);
+            const request = store.get("sessionStatus");
+
+            request.onsuccess = function () {
+                resolve(request.result ? request.result.loggedIn : false);
+            };
+
+            request.onerror = function () {
+                resolve(false);
+            };
+        });
+    });
+}
+
+function deleteSessionFromDB() {
+    openDB().then(db => {
+        const transaction = db.transaction(storeName, "readwrite");
+        const store = transaction.objectStore(storeName);
+        store.delete("sessionStatus");
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    let nombre_usuario_cargado = "Alba";
+    let contrasena_cargada = "Romero";
+
+    const formulario = document.getElementById("formulario_login");
+    const boton_cerrar = document.getElementById("boton_cerrar");
+    const contenido = document.getElementById("contenido");
+    const dropdown = document.querySelectorAll(".dropdown");
+
+    // Verificar si el usuario ya ha iniciado sesión
+    getSessionFromDB().then(isLoggedIn => {
+        if (isLoggedIn) {
+            formulario.style.display = "none";
+            contenido.style.display = "flex";
+            boton_cerrar.style.display = "flex";
+            dropdown.forEach(dropdown => {
+                dropdown.style.display = "inline-block";
+            });
+        } else {
+            formulario.style.display = "block";
+            contenido.style.display = "none";
+            boton_cerrar.style.display = "none";
+            dropdown.forEach(dropdown => {
+                dropdown.style.display = "none";
+            });
+        }
+    });
+
+    formulario.onsubmit = function (event) {
+        event.preventDefault();
+
+        let nombre_usuario = document.getElementById("nombreUsuario").value;
+        let contrasena_usuario = document.getElementById("passWordUsuario").value;
+
+        if (nombre_usuario === nombre_usuario_cargado && contrasena_usuario === contrasena_cargada) {
+            formulario.style.display = "none";
+            contenido.style.display = "flex";
+            boton_cerrar.style.display = "flex";
+            dropdown.forEach(dropdown => {
+                dropdown.style.display = "inline-block";
+            });
+
+            setSessionInDB(true); // Guardar la sesión en IndexedDB
+        } else {
+            document.getElementById("mensaje_error").style.display = "block";
+        }
+    };
+
+    // Manejo del cierre de sesión
+    boton_cerrar.onclick = function () {
+        cerrarSesion();
+    };
+
+    // Eliminar la sesión de IndexedDB y mostrar un Alert
+    function cerrarSesion() {
+        deleteSessionFromDB(); 
+        alert("Sesión cerrada");
+        window.location.href = "index.html";
+    }
+});
+
+```
+
+<br>
+<h3>Array</h3>
+<hr>
+Además, para la sección de Array, he añadido una opción desplegable en la barra de navegación que, al pasar el ratón sobre ella, muestra una opcion: "Operador de matrices".
+<br>
+<h4>Operador de matrices</h4>
+<p align="center">
+  <img src="SextaEntrega/assets/operadormatrices.png" alt="Descripción de la imagen" width="30%">
+<br>
+<p>La función <strong>generarMatrices</strong> obtiene valores ingresados por el usuario para crear dos matrices cuadradas, matrixA y matrixB, con elementos aleatorios dentro de un rango definido. Primero, toma los valores de "dimensión", "rango inferior" y "rango superior" desde elementos del DOM y valida que estén completos, que la dimensión sea un número positivo, y que los límites del rango sean números válidos con el superior mayor al inferior. Si los datos ingresados cumplen con las validaciones, la función limpia cualquier matriz previamente mostrada y luego genera matrixA y matrixB utilizando la función createMatrix. Finalmente, generarMatrices llama a displayMatrix para mostrar ambas matrices en contenedores específicos.</p>
+
+```javascript
+function generarMatrices() {
+    const dimension = document.getElementById("dimension").value;
+    const rangoInferior = document.getElementById("rangoInferior").value;
+    const rangoSuperior = document.getElementById("rangoSuperior").value;
+    
+    // Validar campos
+    if (dimension === "" || rangoInferior === "" || rangoSuperior === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    if (isNaN(dimension) || dimension <= 0) {
+        alert("Por favor, introduce una dimensión válida.");
+        return;
+    }
+
+    // Convertir los rangos a números para la comparación
+    const lower = parseInt(rangoInferior);
+    const upper = parseInt(rangoSuperior);
+    
+    if (isNaN(lower) || isNaN(upper)) {
+        alert("Por favor, introduce valores válidos para el rango.");
+        return;
+    }
+
+    if (upper <= lower) {
+        alert("El rango superior debe ser mayor que el rango inferior.");
+        return;
+    }
+
+    // Limpiar el contenedor antes de generar nuevas matrices
+    clearResults();
+
+    matrixA = createMatrix(dimension, lower, upper);
+    matrixB = createMatrix(dimension, lower, upper);
+
+    // Mostrar las matrices A y B en contenedores separados
+    displayMatrix(matrixA, "Matriz A", "matrixAContainer");
+    displayMatrix(matrixB, "Matriz B", "matrixBContainer");
+}
+
+```
+<br>
+<p>La función <strong>createMatrix</strong> genera una matriz cuadrada de tamaño dimension x dimension con valores aleatorios en el rango definido por rangoInferior y rangoSuperior. Primero, convierte los valores de dimensión y rango en enteros. Luego, utiliza Array.from() para crear un array de x filas, y en cada fila, crea otro artay de x columnas. Cada elemento en estas columnas se llena con un número aleatorio generado mediante Math.random().</p>
+
+```javascript
+function createMatrix(dimension, rangoInferior, rangoSuperior) {
+    const dim = parseInt(dimension);
+    const lower = parseInt(rangoInferior);
+    const upper = parseInt(rangoSuperior);
+    return Array.from({ length: dim }, () =>
+        Array.from({ length: dim }, () => 
+            Math.floor(Math.random() * (upper - lower + 1)) + lower
+        )
+    );
+}
+
+```
+<br>
+<p>La función <strong>displayMatrix</strong> muestra una matriz en formato de tabla HTML dentro de un contenedor específico de la página. Primero, localiza el elemento HTML correspondiente a containerId y crea un encabezado que asigna el texto del título, el cual se agrega al contenedor. Luego, crea una tabla y la va llenando fila por fila, mostrando la matriz formateada como una tabla en el HTML.</p>
+
+```javascript
+function displayMatrix(matrix, title, containerId) {
+    const container = document.getElementById(containerId);
+    const titleElement = document.createElement("h3");
+    titleElement.textContent = title;
+    container.appendChild(titleElement);
+
+    const table = document.createElement("table");
+    matrix.forEach(row => {
+        const tr = document.createElement("tr");
+        row.forEach(value => {
+            const td = document.createElement("td");
+            td.textContent = value;
+            tr.appendChild(td);
+        });
+        table.appendChild(tr);
+    });
+    container.appendChild(table);
+}
+
+```
+<br>
+<p>La función <strong>sumaMatrices</strong> suma dos matrices previamente generadas, matrixA y matrixB, y muestra el resultado en una tabla HTML. Primero, verifica si ambas matrices existen y contienen datos; si no, muestra una alerta indicando que se deben generar las matrices antes de realizar la suma. Luego, utiliza map para recorrer cada fila y columna de ambas matrices, sumando los elementos correspondientes y almacenando los resultados. Después, limpia el contenedor donde se mostrará el resultado y finalmente llama a displayMatrix para mostrar el resultado bajo el título "Suma" en el contenedor.</p>
+
+```javascript
+function sumaMatrices() {
+    if (!matrixA.length || !matrixB.length) {
+        alert("Genera las matrices primero");
+        return;
+    }
+    
+    const resultMatrix = matrixA.map((row, i) => 
+        row.map((val, j) => val + matrixB[i][j])
+    );
+
+    // Limpiar el contenedor de resultados antes de mostrar el nuevo resultado
+    clearResults();
+    displayMatrix(resultMatrix, "Suma", "operationResult");
+}
+
+```
+<br>
+<p>La función <strong>restaMatrices</strong> realiza la resta de dos matrices generadas previamente, matrixA y matrixB, y muestra el resultado en la página. Primero, verifica si ambas matrices existen y contienen datos; si alguna no está generada, muestra una alerta indicando que deben generarse antes de continuar. Luego, utiliza map para recorrer cada fila y columna, restando los elementos correspondientes y almacenando el resultado. Después, limpia el contenedor de resultados usando clearResults y llama a displayMatrix para mostrar el resultado bajo el título "Resta" en el contenedor.</p>
+
+```javascript
+function restaMatrices() {
+    if (!matrixA.length || !matrixB.length) {
+        alert("Genera las matrices primero");
+        return;
+    }
+    
+    const resultMatrix = matrixA.map((row, i) => 
+        row.map((val, j) => val - matrixB[i][j])
+    );
+
+    // Limpiar el contenedor de resultados antes de mostrar el nuevo resultado
+    clearResults();
+    displayMatrix(resultMatrix, "Resta", "operationResult");
+}
+
+```
+<br>
+<p>La función <strong>multiplicacionMatrices</strong> calcula el producto de dos matrices cuadradas, matrixA y matrixB, y muestra el resultado en la página. Primero, verifica que ambas matrices estén generadas; de lo contrario, muestra una alerta solicitando que se creen antes de realizar la operación. Luego, inicializa el resultado como una matriz cuadrada de la misma dimensión, llenándola inicialmente con ceros. Para calcular cada elemento, la función utiliza tres bucles anidados: el primero recorre las filas, el segundo las columnas, y el tercero realiza la multiplicación de cada elemento de la fila de matrixA por el correspondiente elemento de la columna de matrixB, acumulando el resultado. Finalmente, limpia el contenedor de resultados con clearResults y llama a displayMatrix para mostrar el resultado bajo el título "Multiplicación" en el contenedor.</p>
+
+```javascript
+function multiplicacionMatrices() {
+    if (!matrixA.length || !matrixB.length) {
+        alert("Genera las matrices primero");
+        return;
+    }
+    
+    const dimension = matrixA.length;
+    const resultMatrix = Array.from({ length: dimension }, () => 
+        Array(dimension).fill(0)
+    );
+
+    for (let i = 0; i < dimension; i++) {
+        for (let j = 0; j < dimension; j++) {
+            for (let k = 0; k < dimension; k++) {
+                resultMatrix[i][j] += matrixA[i][k] * matrixB[k][j];
+            }
+        }
+    }
+
+    // Limpiar el contenedor de resultados antes de mostrar el nuevo resultado
+    clearResults();
+    displayMatrix(resultMatrix, "Multiplicación", "operationResult");
+}
+
+
+```
+<br>
+<p>La función <strong>clearResults</strong> se encarga de limpiar el contenido de los contenedores donde se muestran las matrices y el resultado de las operaciones en la página. Para ello, selecciona los elementos del DOM con los identificadores que corresponden a los contenedores de matrixA, matrixB y el resultado de cualquier operación (como suma, resta o multiplicación). Luego, establece el contenido HTML de cada uno de estos contenedores a una cadena vacía (''), eliminando así cualquier tabla o resultado previo que se haya mostrado. Esto garantiza que, al realizar una nueva operación, los resultados anteriores no interfieran con los nuevos.</p>
+
+```javascript
+function clearResults() {
+    const matrixAContainer = document.getElementById("matrixAContainer");
+    const matrixBContainer = document.getElementById("matrixBContainer");
+    const operationResult = document.getElementById("operationResult");
+    
+    matrixAContainer.innerHTML = '';
+    matrixBContainer.innerHTML = '';
+    operationResult.innerHTML = ''; // Limpiar resultados de operaciones
+}
+
+```
+<br>
+<p>La función <strong>generarValoresAleatorios</strong> asigna valores aleatorios para los parámetros de dimensión y rango de dos matrices, y luego llama a la función generarMatrices para crear y mostrar estas matrices en la página. Primero, genera un valor aleatorio entre 2 y 6 para la dimension de la matriz. Luego, utiliza un bucle do...while para asignar valores aleatorios entre 1 y 6 para el rango inferior y entre 7 y 89 para el rango superior. Asegurándose de que rango superior sea mayor que rango inferior. Una vez generados estos valores, la función los asigna a los campos de entrada correspondientes en el DOM, y finalmente invoca a generarMatrices para crear y mostrar las matrices en base a estos valores aleatorios. Esto permite generar matrices con diferentes dimensiones y rangos sin intervención manual.</p>
+
+```javascript
+function generarValoresAleatorios() {
+
+    const dimension = Math.floor(Math.random() * (6 - 2 + 1)) + 2; // Aleatorio entre 2 y 6
+    let rangoInferior, rangoSuperior;
+
+    // Asegurarse de que el rango superior sea mayor que el rango inferior
+    do {
+        rangoInferior = Math.floor(Math.random() * (6 - 1 + 1)) + 1; // Aleatorio entre 1 y 6
+        rangoSuperior = Math.floor(Math.random() * (89 - 7 + 1)) + 7; // Aleatorio entre 7 y 89
+    } while (rangoSuperior <= rangoInferior); // Asegurarse de que el rango superior sea mayor
+
+    // Establecer los valores en los inputs
+    document.getElementById("dimension").value = dimension;
+    document.getElementById("rangoInferior").value = rangoInferior;
+    document.getElementById("rangoSuperior").value = rangoSuperior;
+
+    // Generar las matrices
+    generarMatrices();
+}
+
+```
+<br>
+<p>La función <strong>operacionAleatoria</strong> inicia un proceso que ejecuta operaciones de matrices de manera aleatoria en intervalos regulares. Primero, verifica si ya existe un intervalo de operación en curso, y si es así, lo limpia utilizando clearInterval para evitar la ejecución simultánea de múltiples intervalos. Luego, establece un nuevo intervalo utilizando setInterval(), que se ejecuta cada x milisegundos. Dentro de este intervalo, se define un array operaciones que contiene las funciones de suma, resta y multiplicación de matrices. La función selecciona aleatoriamente una de estas operaciones usando Math.random() y la ejecuta. De esta forma, operacionAleatoria permite realizar automáticamente cálculos entre las matrices generadas a intervalos regulares.</p>
+
+```javascript
+function operacionAleatoria() {
+    // Limpiar si hay un intervalo existente antes de iniciar uno nuevo
+    if (operationInterval) {
+        clearInterval(operationInterval);
+    }
+
+    // Iniciar un nuevo intervalo
+    operationInterval = setInterval(() => {
+        const operaciones = [sumaMatrices, restaMatrices, multiplicacionMatrices];
+        const randomOperation = operaciones[Math.floor(Math.random() * operaciones.length)];
+        
+        randomOperation(); // Ejecutar una operación aleatoria
+    }, intervalDuration); 
+}
+```
+<br>
+<p>La función <strong>detenerOperaciones</strong> se encarga de detener la ejecución de operaciones aleatorias sobre las matrices al limpiar el intervalo activo. Utiliza clearInterval para detener cualquier operación que se esté ejecutando en ese momento, lo que evita que se sigan llamando a las funciones de suma, resta o multiplicación de matrices. Luego, establece operationInterval en null, lo que asegura que la variable no apunte a un intervalo inexistente, permitiendo así que futuras invocaciones a operacionAleatoria puedan reiniciar un nuevo intervalo correctamente. Esta función proporciona un control sobre el proceso de operaciones aleatorias, permitiendo al usuario pausar la actividad en cualquier momento.</p>
+
+```javascript
+function detenerOperaciones() {
+    clearInterval(operationInterval);
+    operationInterval = null; //Vaciar el intervalo
+}
+```
+<br>
+<p>La función <strong>cambiarVelocidad</strong> permite ajustar la velocidad de ejecución de las operaciones aleatorias sobre las matrices, dependiendo de la acción especificada por el usuario. Si la acción es 'aumentar', la duración del intervalo se establece en 2000 milisegundos (2 segundos); si la acción es 'disminuir', se cambia a 6000 milisegundos (6 segundos). Después de modificar la duración, la función verifica si hay un intervalo de operaciones activo. Si existe, limpia el intervalo actual usando clearInterval, y luego reinicia el proceso de operaciones aleatorias llamando a operacionAleatoria, de modo que las nuevas operaciones se ejecuten con la nueva duración especificada.</p>
+
+```javascript
+function cambiarVelocidad(accion) {
+
+    if (accion === 'aumentar') {
+        intervalDuration = 2000; // Cambiar a 2 segundos
+    } else if (accion === 'disminuir') {
+        intervalDuration = 6000; // Cambiar a 6 segundos
+    }
+
+    // Reinicio si ya hay un intervalo activo
+    if (operationInterval) {
+        clearInterval(operationInterval);
+        operacionAleatoria(); // Reinicio el intervalo con la nueva duración
+    }
+}
+```
+<br>
+<a href="https://albaromero6.github.io/PortFolio-JS-ES6/SextaEntrega/index.html#" target="_blank">
+  <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
+</a>
+
