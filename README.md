@@ -1516,7 +1516,7 @@ function mostrarDatosSession() {
 
 <p>Cuando el usuario hace clic en el botón "Editar", se ejecuta la función <strong>editarItemSession(index)</strong>, que carga los datos del item seleccionado en los campos del formulario, permitiendo su modificación. Además, se activa el modo de edición, configurando la variable isEditingSession en true y guardando el índice del item editado en editIndexSession.</p>
 
-````javascript
+```javascript
 // Función para editar un item del sessionStorage
 function editarItemSession(index) {
     // Obtener los datos existentes en sessionStorage
