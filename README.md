@@ -1551,4 +1551,245 @@ function eliminarItemSession(index) {
     mostrarDatosSession();
 }
 ```
+<br>
+<h3>IndexedDB con API</h3>
+<hr>
+<p>Este código maneja la interacción con una base de datos local usando IndexedDB para almacenar y gestionar datos de personajes. Al cargar la página, se inicializa IndexedDB y se configura el comportamiento de los botones para guardar datos, cargar datos desde una API, y gestionar registros con editar y eliminar.</p>
 
+```javascript
+"use strict";
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Inicializamos IndexedDB y mostramos los datos cuando la página se carga
+    iniciarIndexedDB();
+
+    // Manejar el guardado en IndexedDB
+    document.getElementById('guardarIndexedDB').addEventListener('click', guardarEnIndexedDB);
+
+    // Asociar los botones +1 y +3 con las funciones de cargar datos desde la API
+    document.getElementById('cargarUnoIndexedDB').addEventListener('click', function () {
+        cargarDatosDesdeAPI(1); // Cargar 1 dato
+    });
+
+    document.getElementById('cargarTresIndexedDB').addEventListener('click', function () {
+        cargarDatosDesdeAPI(3); // Cargar 3 datos
+    });
+});
+
+// Variables de estado para el modo de edición
+let isEditingIndexedDB = false;
+let editIdIndexedDB = null;
+
+// Inicializar la base de datos IndexedDB
+let db;
+```
+
+<p>En primer lugar, al cargar el documento, se ejecuta la función <strong>iniciarIndexedDB()</strong> que configura la base de datos IndexedDB. Si no existe, se crea un almacén de objetos denominado "items", con una clave primaria id que se autoincrementa. Una vez inicializada la base de datos, la función mostrarDatosIndexedDB() se encarga de mostrar los registros en una tabla HTML.</p>
+
+```javascript
+function iniciarIndexedDB() {
+    const request = indexedDB.open('miIndexedDB', 1);
+
+    request.onupgradeneeded = function (event) {
+        db = event.target.result;
+
+        if (!db.objectStoreNames.contains('items')) {
+            db.createObjectStore('items', { keyPath: 'id', autoIncrement: true });
+        }
+    };
+
+    request.onsuccess = function (event) {
+        db = event.target.result;
+        console.log("IndexedDB inicializado correctamente.");
+        mostrarDatosIndexedDB(); // Mostrar los datos después de que IndexedDB se haya inicializado
+    };
+
+    request.onerror = function (event) {
+        console.error("Error al inicializar IndexedDB:", event.target.error);
+    };
+}
+```
+
+<p>El código también configura eventos para los botones de la interfaz. Uno de estos botones, "guardarIndexedDB", se asocia a la función <strong>guardarEnIndexedDB()</strong>, la cual guarda o actualiza datos en la base de datos. Los campos de entrada requeridos son "nombre", "raza" y "estado". Si alguno de estos campos no se completa, se muestra una alerta pidiendo que se ingresen todos los datos. Si el modo de edición está activo, la función actualiza el registro existente; si no, agrega un nuevo item a la base de datos. Después de guardar o actualizar los datos, se limpia el formulario y se actualiza la tabla con los datos almacenados.</p>
+
+```javascript
+// Guardar o editar un registro en IndexedDB
+function guardarEnIndexedDB() {
+    const nombre = document.getElementById('nombreIndexedDB').value;
+    const raza = document.getElementById('razaIndexedDB').value; 
+    const estado = document.getElementById('estadoIndexedDB').value; 
+
+    if (!db) {
+        console.error("IndexedDB no está inicializado");
+        return;
+    }
+
+    // Validar que los tres campos están completos
+    if (!nombre || !raza || !estado) {
+        alert("Por favor, completa todos los campos."); // Si falta algún campo, se muestra el mensaje
+        return;
+    }
+
+    const transaction = db.transaction(['items'], 'readwrite');
+    const store = transaction.objectStore('items');
+    const item = { nombre, raza, estado };
+
+    if (isEditingIndexedDB && editIdIndexedDB !== null) {
+        item.id = editIdIndexedDB; // Usar el ID existente para actualizar
+        store.put(item); // Actualizar el item
+    } else {
+        store.add(item); // Agregar un nuevo item
+    }
+
+    transaction.oncomplete = function () {
+        console.log("Elemento guardado:", item);
+        limpiarFormularioIndexedDB();
+        mostrarDatosIndexedDB(); // Actualizar la tabla después de guardar
+        isEditingIndexedDB = false; // Salir del modo de edición
+        editIdIndexedDB = null;
+    };
+
+    transaction.onerror = function (event) {
+        console.error("Error al guardar en IndexedDB:", event.target.error);
+    };
+}
+```
+
+<p>La función <strong>mostrarDatosIndexedDB()</strong> muestra todos los registros almacenados en la base de datos. Si no hay datos, muestra un mensaje indicando que no hay elementos almacenados. De lo contrario, recorre los datos de IndexedDB y los agrega a una tabla HTML, donde cada registro incluye botones de "Editar" y "Borrar". Estos botones permiten al usuario modificar o eliminar los datos de forma interactiva.</p>
+
+```javascript
+// Mostrar los datos almacenados en IndexedDB
+function mostrarDatosIndexedDB() {
+    if (!db) {
+        console.error("IndexedDB no está inicializado");
+        return;
+    }
+
+    const tabla = document.getElementById('tablaindexedDB');
+    tabla.innerHTML = ''; // Limpiar la tabla antes de agregar los nuevos datos
+
+    const transaction = db.transaction(['items'], 'readonly');
+    const store = transaction.objectStore('items');
+    const request = store.getAll();
+
+    request.onsuccess = function () {
+        const datos = request.result;
+
+        if (datos.length === 0) {
+            // Mostrar mensaje si no hay datos
+            const row = document.createElement('tr');
+            row.innerHTML = `<td colspan="4" style="text-align: center;">No hay datos almacenados</td>`;
+            tabla.appendChild(row);
+        } else {
+            // Agregar filas a la tabla con los datos
+            datos.forEach(item => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${item.nombre}</td>
+                    <td>${item.raza}</td>
+                    <td>${item.estado}</td> <!-- Mostrar el nuevo campo "Estado" -->
+                    <td>
+                        <button class="update" onclick="editarItemIndexedDB(${item.id})">Editar</button>
+                        <button class="delete" onclick="eliminarItemIndexedDB(${item.id})">Borrar</button>
+                    </td>
+                `;
+
+                tabla.appendChild(row);
+            });
+        }
+    };
+
+    request.onerror = function (event) {
+        console.error("Error al obtener datos de IndexedDB:", event.target.error);
+    };
+}
+```
+
+<p>Cuando se hace clic en el botón "Editar", se ejecuta la función <strong>editarItemIndexedDB(id)</strong>, que carga los datos del personaje en los campos de entrada del formulario y cambia el estado de la aplicación a modo de edición. Si el usuario guarda el registro en este modo, el elemento se actualiza en la base de datos. El botón "Borrar", por su parte, llama a la función <strong>eliminarItemIndexedDB(id)</strong>, que elimina el registro correspondiente de la base de datos y actualiza la tabla.</p>
+
+```javascript
+// Editar un registro en IndexedDB
+function editarItemIndexedDB(id) {
+    const transaction = db.transaction(['items'], 'readonly');
+    const store = transaction.objectStore('items');
+    const request = store.get(id);
+
+    request.onsuccess = function () {
+        const item = request.result;
+
+        if (item) {
+            // Cargar los datos en el formulario
+            document.getElementById('nombreIndexedDB').value = item.nombre;
+            document.getElementById('razaIndexedDB').value = item.raza; 
+            document.getElementById('estadoIndexedDB').value = item.estado;
+
+            // Activar el modo de edición
+            isEditingIndexedDB = true;
+            editIdIndexedDB = id;
+        }
+    };
+
+    request.onerror = function (event) {
+        console.error("Error al cargar el elemento para edición:", event.target.error);
+    };
+}
+
+// Eliminar un registro en IndexedDB
+function eliminarItemIndexedDB(id) {
+    const transaction = db.transaction(['items'], 'readwrite');
+    const store = transaction.objectStore('items');
+    const request = store.delete(id);
+
+    request.onsuccess = function () {
+        console.log("Elemento eliminado correctamente.");
+        mostrarDatosIndexedDB(); // Actualizar la tabla después de la eliminación
+    };
+
+    request.onerror = function (event) {
+        console.error("Error al eliminar el elemento:", event.target.error);
+    };
+}
+```
+
+<p>Otro aspecto importante es la integración con una API externa, específicamente la API de Rick and Morty. Cuando el usuario hace clic en los botones "cargarUnoIndexedDB" o "cargarTresIndexedDB", se ejecutan las funciones <strong>cargarDatosDesdeAPI(1)</strong> y <strong>cargarDatosDesdeAPI(3)</strong>, respectivamente, que hacen una solicitud a la API para obtener uno o tres personajes aleatorios. Estos datos se guardan en IndexedDB con los campos "nombre", "raza" y "estado", y luego se actualiza la tabla con los nuevos datos.</p>
+
+```javascript
+// Función para cargar datos desde la API y guardarlos en IndexedDB
+async function cargarDatosDesdeAPI(cantidad) {
+    try {
+        const url = `https://rickandmortyapi.com/api/character/`;
+
+        // Realizar la solicitud para obtener personajes
+        let data = [];
+        for (let i = 0; i < cantidad; i++) {
+            let index = Math.floor(Math.random() * 826) + 1; // Índice aleatorio
+            const response = await fetch(`${url}${index}`);
+
+            if (!response.ok) {
+                throw new Error("Ha ocurrido un error en la solicitud");
+            }
+
+            const character = await response.json();
+            data.push(character);
+
+            // Guardar el personaje en IndexedDB
+            const nombre = character.name;
+            const raza = character.species;
+            const estado = character.status; 
+
+            const transaction = db.transaction(['items'], 'readwrite');
+            const store = transaction.objectStore('items');
+            store.add({ nombre, raza, estado });
+
+            console.log(`Personaje ${nombre} guardado en IndexedDB`);
+        }
+
+        // Mostrar los datos después de obtenerlos
+        mostrarDatosIndexedDB();
+
+    } catch (error) {
+        console.error("Error al obtener los datos desde la API:", error);
+    }
+}
+```
