@@ -1582,6 +1582,7 @@ let editIdIndexedDB = null;
 
 // Inicializar la base de datos IndexedDB
 let db;
+
 ```
 
 <p>En primer lugar, al cargar el documento, se ejecuta la función <strong>iniciarIndexedDB()</strong> que configura la base de datos IndexedDB. Si no existe, se crea un almacén de objetos denominado "items", con una clave primaria id que se autoincrementa. Una vez inicializada la base de datos, la función mostrarDatosIndexedDB() se encarga de mostrar los registros en una tabla HTML.</p>
@@ -1608,6 +1609,7 @@ function iniciarIndexedDB() {
         console.error("Error al inicializar IndexedDB:", event.target.error);
     };
 }
+
 ```
 
 <p>El código también configura eventos para los botones de la interfaz. Uno de estos botones, "guardarIndexedDB", se asocia a la función <strong>guardarEnIndexedDB()</strong>, la cual guarda o actualiza datos en la base de datos. Los campos de entrada requeridos son "nombre", "raza" y "estado". Si alguno de estos campos no se completa, se muestra una alerta pidiendo que se ingresen todos los datos. Si el modo de edición está activo, la función actualiza el registro existente; si no, agrega un nuevo item a la base de datos. Después de guardar o actualizar los datos, se limpia el formulario y se actualiza la tabla con los datos almacenados.</p>
@@ -1653,6 +1655,7 @@ function guardarEnIndexedDB() {
         console.error("Error al guardar en IndexedDB:", event.target.error);
     };
 }
+
 ```
 
 <p>La función <strong>mostrarDatosIndexedDB()</strong> muestra todos los registros almacenados en la base de datos. Si no hay datos, muestra un mensaje indicando que no hay elementos almacenados. De lo contrario, recorre los datos de IndexedDB y los agrega a una tabla HTML, donde cada registro incluye botones de "Editar" y "Borrar". Estos botones permiten al usuario modificar o eliminar los datos de forma interactiva.</p>
