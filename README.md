@@ -1531,6 +1531,7 @@ function editarItemSession(index) {
     isEditingSession = true;
     editIndexSession = index;
 }
+
 ```
 
 <p>Por último, la función <strong>eliminarItemSession(index)</strong> permite eliminar un item del sessionStorage mediante su índice en la lista. Utiliza el método splice() para eliminar el elemento y luego actualiza el sessionStorage con la lista de datos modificada. Después de eliminar un item, la tabla se actualiza para reflejar los cambios.</p>
