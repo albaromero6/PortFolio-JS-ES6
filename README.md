@@ -1104,8 +1104,6 @@ function cambiarVelocidad(accion) {
 ```javascript
 "use strict";
 
-"use strict";
-
 document.addEventListener('DOMContentLoaded', function() {
     // Mostrar los datos de las cookies cuando la página se carga
     mostrarDatosCookies();
@@ -1203,6 +1201,74 @@ function mostrarDatosCookies() {
 
 <p>Si se desea editar una cookie, la función <strong>editarCookie(index)</strong> se activa cuando se hace clic en el botón "Editar". Esta función carga los datos de la cookie seleccionada en los campos del formulario para que el usuario pueda modificarlos. Además, cambia el estado de la edición para que, al hacer clic en el botón "Guardar", se actualice la cookie en lugar de agregar una nueva.</p>
 
+```javascript
+// Función para editar una cookie
+function editarCookie(index) {
+    // Obtener las cookies almacenadas
+    let datosCookies = obtenerCookies() || [];
+
+    // Cargar los datos de la cookie seleccionada
+    const cookie = datosCookies[index];
+    document.getElementById('nombreCookie').value = cookie.nombre;
+    document.getElementById('valorCookie').value = cookie.valor;
+
+    // Cambiar el estado para editar la cookie
+    isEditingCookie = true;
+    editIndexCookie = index;
+}
+```
+
 <p>Por otro lado, la función <strong>eliminarCookie(nombreCookie)</strong> permite eliminar una cookie tanto del navegador como de la lista de cookies almacenadas en el código. Para ello, se establece una fecha de expiración en el pasado (1 de enero de 1970), lo que hace que el navegador elimine la cookie. Después de eliminarla, se actualiza la lista de cookies y se vuelve a mostrar la tabla sin la cookie eliminada.</p>
 
+```javascript
+// Función para eliminar una cookie
+function eliminarCookie(nombreCookie) {
+    // Eliminar la cookie del navegador
+    document.cookie = `${nombreCookie}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+
+    // Obtener las cookies almacenadas
+    let datosCookies = obtenerCookies() || [];
+
+    // Filtrar las cookies para eliminar la cookie con el nombre indicado
+    datosCookies = datosCookies.filter(cookie => cookie.nombre !== nombreCookie);
+
+    // Guardar las cookies actualizadas
+    guardarCookies(datosCookies);
+
+    // Actualizar la tabla de cookies
+    mostrarDatosCookies();
+}
+```
+
 <p>El código también incluye funciones auxiliares como <strong>obtenerCookies()</strong>, que recupera todas las cookies del navegador y las convierte en un array de objetos con el nombre y el valor de cada cookie, y <strong>guardarCookies(datosCookies)</strong>, que guarda las cookies en el navegador, primero limpiando las cookies existentes y luego estableciendo nuevas con un tiempo de expiración de 1 minuto.</p>
+
+```javascript
+// Función para obtener las cookies
+function obtenerCookies() {
+    const cookies = document.cookie.split(';');
+    let cookieArray = [];
+
+    cookies.forEach(cookie => {
+        const [nombre, valor] = cookie.trim().split('=');
+        if (nombre && valor) {
+            cookieArray.push({ nombre, valor });
+        }
+    });
+
+    return cookieArray;
+}
+```
+
+```javascript
+// Función para guardar las cookies
+function guardarCookies(datosCookies) {
+    // Limpiar las cookies actuales
+    document.cookie = "datosCookies=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+
+    // Guardar cada cookie
+    datosCookies.forEach(cookie => {
+        // Establecer la cookie con una duración de expiración en 1 minuto
+        document.cookie = `${cookie.nombre}=${cookie.valor}; path=/; max-age=60`;
+    });
+}
+```
