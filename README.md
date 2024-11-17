@@ -1394,7 +1394,7 @@ function editarCookie(index) {
 }
 ```
 
-<p>Por otro lado, la función <strong>eliminarCookie(nombreCookie)</strong> permite eliminar una cookie tanto del navegador como de la lista de cookies almacenadas en el código. Para ello, se establece una fecha de expiración en el pasado (1 de enero de 1970), lo que hace que el navegador elimine la cookie. Después de eliminarla, se actualiza la lista de cookies y se vuelve a mostrar la tabla sin la cookie eliminada.</p>
+<p>Por otro lado, la función <strong>eliminarCookie(nombreCookie)</strong> permite eliminar una cookie tanto del navegador como de la lista de cookies almacenadas en el código. Para ello, se establece una fecha de expiración en el pasado, lo que hace que el navegador elimine la cookie. Después de eliminarla, se actualiza la lista de cookies y se vuelve a mostrar la tabla sin la cookie eliminada.</p>
 
 ```javascript
 // Función para eliminar una cookie
@@ -1446,5 +1446,144 @@ function guardarCookies(datosCookies) {
         // Establecer la cookie con una duración de expiración en 1 minuto
         document.cookie = `${cookie.nombre}=${cookie.valor}; path=/; max-age=60`;
     });
+}
+```
+<h3>LocalStorage</h3>
+<hr>
+<p>Este código permite gestionar datos almacenados en el localStorage de un navegador, ofreciendo funcionalidades para agregar, editar y eliminar datos de forma persistente. Al cargar la página, se ejecuta la función mostrarDatos(), que se encarga de mostrar todos los datos previamente almacenados en localStorage en una tabla. Además, se configura un evento para el botón "guardarStorage", de modo que al hacer clic, se llame a la función guardarEnLocalStorage(), que gestiona tanto la adición de nuevos datos como la edición de datos ya existentes.</p>
+
+```javascript
+"use strict";
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Mostrar los datos guardados cuando la página se carga
+    mostrarDatos();
+
+    // Manejar el guardado en el localStorage
+    document.getElementById('guardarStorage').addEventListener('click', function() {
+        guardarEnLocalStorage();
+    });
+});
+
+// Variable para saber si estamos editando un elemento
+let isEditing = false;
+let editIndex = -1;
+
+```
+
+<p>La función <strong>guardarEnLocalStorage()</strong> recoge el nombre y el valor desde los campos del formulario. Si ambos campos están completos, crea un objeto con la información y lo añade a una lista de datos obtenida de localStorage. Si el sistema está en modo edición, actualiza el item correspondiente en la lista; si no está editando, agrega el nuevo objeto. Luego, la lista actualizada se guarda nuevamente en el localStorage y los campos del formulario se limpian. Finalmente, se vuelve a actualizar la tabla con los datos más recientes.</p>
+
+```javascript
+// Función para guardar o editar en localStorage
+function guardarEnLocalStorage() {
+    const nombreStorage = document.getElementById('nombreStorage').value;
+    const valorStorage = document.getElementById('valorStorage').value;
+
+    if (nombreStorage && valorStorage) {
+        // Crear un objeto con la información del nombre y valor
+        const item = {
+            nombre: nombreStorage,
+            valor: valorStorage
+        };
+
+        // Recuperar los datos existentes del localStorage
+        let datosStorage = JSON.parse(localStorage.getItem('datosLocalStorage')) || [];
+
+        if (isEditing) {
+            // Si estamos en modo edición, actualizamos el item
+            datosStorage[editIndex] = item;
+            isEditing = false;  // Desactivamos el modo edición
+        } else {
+            // Si no estamos editando, simplemente agregamos el nuevo item
+            datosStorage.push(item);
+        }
+
+        // Guardar el array actualizado de vuelta en localStorage
+        localStorage.setItem('datosLocalStorage', JSON.stringify(datosStorage));
+
+        // Limpiar los campos de entrada
+        document.getElementById('nombreStorage').value = '';
+        document.getElementById('valorStorage').value = '';
+
+        // Actualizar la tabla de datos
+        mostrarDatos();
+    } else {
+        alert("Por favor, completa ambos campos.");
+    }
+}
+```
+
+<p>La función <strong>mostrarDatos()</strong> es la encargada de mostrar los datos almacenados en una tabla en la interfaz del usuario. Si no hay datos en localStorage, se muestra un mensaje indicando que no hay elementos almacenados. Si existen, recorre la lista de datos y genera una fila por cada elemento, mostrando su nombre y valor junto a dos botones: uno para editar y otro para eliminar el item seleccionado. Los botones permiten interactuar con cada dato individualmente.</p>
+
+```javascript
+function mostrarDatos() {
+    const tabla = document.getElementById('tablalocalstorage');
+    tabla.innerHTML = '';  // Limpiar la tabla antes de agregar los nuevos datos
+
+    // Obtener los datos del localStorage
+    let datosStorage = JSON.parse(localStorage.getItem('datosLocalStorage')) || [];
+
+    if (datosStorage.length === 0) {
+        // Si no hay datos, mostrar un mensaje en la tabla
+        const row = document.createElement('tr');
+        row.innerHTML = `<td colspan="3" style="text-align: center;">No hay datos almacenados</td>`;
+        tabla.appendChild(row);
+    } else {
+        // Recorrer los datos y agregar filas a la tabla
+        datosStorage.forEach((item, index) => {
+            const row = document.createElement('tr');
+
+            // Crear las celdas para el nombre, valor y acción
+            row.innerHTML = `
+                <td>${item.nombre}</td>
+                <td>${item.valor}</td>
+                <td>
+                    <button id="editar-${index}" class="update" onclick="editarItem(${index})">Editar</button>
+                    <button id="eliminar-${index}" class="delete" onclick="eliminarItem(${index})">Borrar</button>
+                </td>
+            `;
+
+            // Añadir la fila a la tabla
+            tabla.appendChild(row);
+        });
+    }
+}
+```
+
+<p>Para editar un item, la función <strong>editarItem(index)</strong> se activa cuando el usuario hace clic en el botón "Editar". Carga los datos del item seleccionado en los campos del formulario, permitiendo que el usuario realice modificaciones. Además, activa el modo de edición estableciendo isEditing a true y guarda el índice del item que se está editando en la variable editIndex.</p>
+
+```javascript
+// Función para editar un item del localStorage
+function editarItem(index) {
+    // Obtener los datos existentes en localStorage
+    let datosStorage = JSON.parse(localStorage.getItem('datosLocalStorage')) || [];
+
+    // Cargar los datos del item seleccionado en el formulario
+    const item = datosStorage[index];
+    document.getElementById('nombreStorage').value = item.nombre;
+    document.getElementById('valorStorage').value = item.valor;
+
+    // Cambiar el estado para editar el item
+    isEditing = true;
+    editIndex = index;
+}
+```
+
+<p>La función <strong>eliminarItem(index)</strong> elimina un item del localStorage mediante su índice en la lista. Primero, recupera los datos almacenados, luego elimina el item utilizando el método splice() y finalmente actualiza el localStorage con la lista modificada. Después de eliminar un item, la tabla de datos se actualiza para reflejar los cambios.</p>
+
+```javascript
+// Función para eliminar un item del localStorage
+function eliminarItem(index) {
+    // Obtener los datos existentes en localStorage
+    let datosStorage = JSON.parse(localStorage.getItem('datosLocalStorage')) || [];
+
+    // Eliminar el item en la posición indicada
+    datosStorage.splice(index, 1);
+
+    // Guardar el array actualizado de vuelta en localStorage
+    localStorage.setItem('datosLocalStorage', JSON.stringify(datosStorage));
+
+    // Actualizar la tabla de datos
+    mostrarDatos();
 }
 ```
