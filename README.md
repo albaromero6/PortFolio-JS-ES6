@@ -1099,14 +1099,28 @@ function cambiarVelocidad(accion) {
 <br>
 <h3>Cookies</h3>
 <hr>
-<p>Este código permite gestionar cookies en una página web mediante un conjunto de funciones escritas en JavaScript. Al cargar la página, se ejecuta un evento que muestra las cookies almacenadas en una tabla. Para ello, se llama a la función mostrarDatosCookies(), que se encarga de recorrer las cookies guardadas y presentarlas de manera dinámica. Además, se configura un botón de "guardarCookie" que, al ser clicado, ejecuta la función guardarEnCookies(), encargada de agregar nuevas cookies o editar las existentes.
+<p>Este código permite gestionar cookies en una página web mediante un conjunto de funciones escritas en JavaScript. Al cargar la página, se ejecuta un evento que muestra las cookies almacenadas en una tabla. Para ello, se llama a la función mostrarDatosCookies(), que se encarga de recorrer las cookies guardadas y presentarlas de manera dinámica. Además, se configura un botón de "guardarCookie" que, al ser clicado, ejecuta la función guardarEnCookies(), encargada de agregar nuevas cookies o editar las existentes.</p>
 
-La función guardarEnCookies() recoge los valores del nombre y el valor de la cookie desde un formulario en la página. Si ambos campos están completos, se crea un objeto con la información. Si el usuario está editando una cookie (esto se indica mediante la variable isEditingCookie), se actualiza la cookie existente en lugar de agregar una nueva. Después, las cookies se almacenan nuevamente en el navegador, y se limpia el formulario para permitir el ingreso de nuevos datos. La tabla de cookies se actualiza con la nueva información.
+```javascript
+"use strict";
 
-La función mostrarDatosCookies() es responsable de generar la tabla que muestra las cookies en la interfaz. Si no hay cookies almacenadas, se muestra un mensaje indicando que no hay datos. Si existen cookies, la función recorre cada una de ellas y genera una fila en la tabla con el nombre, valor y dos botones: uno para editar y otro para eliminar la cookie seleccionada. Los botones permiten al usuario modificar o eliminar las cookies con facilidad.
+document.addEventListener('DOMContentLoaded', function() {
+    // Mostrar los datos de las cookies cuando la página se carga
+    mostrarDatosCookies();
 
-Si se desea editar una cookie, la función editarCookie(index) se activa cuando se hace clic en el botón "Editar". Esta función carga los datos de la cookie seleccionada en los campos del formulario para que el usuario pueda modificarlos. Además, cambia el estado de la edición para que, al hacer clic en el botón "Guardar", se actualice la cookie en lugar de agregar una nueva.
+    // Manejar el guardado de las cookies
+    document.getElementById('guardarCookie').addEventListener('click', function() {
+        guardarEnCookies();
+    });
+});
 
-Por otro lado, la función eliminarCookie(nombreCookie) permite eliminar una cookie tanto del navegador como de la lista de cookies almacenadas en el código. Para ello, se establece una fecha de expiración en el pasado (1 de enero de 1970), lo que hace que el navegador elimine la cookie. Después de eliminarla, se actualiza la lista de cookies y se vuelve a mostrar la tabla sin la cookie eliminada.
+```
+<p>La función guardarEnCookies() recoge los valores del nombre y el valor de la cookie desde un formulario en la página. Si ambos campos están completos, se crea un objeto con la información. Si el usuario está editando una cookie (esto se indica mediante la variable isEditingCookie), se actualiza la cookie existente en lugar de agregar una nueva. Después, las cookies se almacenan nuevamente en el navegador, y se limpia el formulario para permitir el ingreso de nuevos datos. La tabla de cookies se actualiza con la nueva información.</p>
 
-El código también incluye funciones auxiliares como obtenerCookies(), que recupera todas las cookies del navegador y las convierte en un array de objetos con el nombre y el valor de cada cookie, y guardarCookies(datosCookies), que guarda las cookies en el navegador, primero limpiando las cookies existentes y luego estableciendo nuevas con un tiempo de expiración de 1 minuto.</p>
+<p>La función mostrarDatosCookies() es responsable de generar la tabla que muestra las cookies en la interfaz. Si no hay cookies almacenadas, se muestra un mensaje indicando que no hay datos. Si existen cookies, la función recorre cada una de ellas y genera una fila en la tabla con el nombre, valor y dos botones: uno para editar y otro para eliminar la cookie seleccionada. Los botones permiten al usuario modificar o eliminar las cookies con facilidad.</p>
+
+<p>Si se desea editar una cookie, la función editarCookie(index) se activa cuando se hace clic en el botón "Editar". Esta función carga los datos de la cookie seleccionada en los campos del formulario para que el usuario pueda modificarlos. Además, cambia el estado de la edición para que, al hacer clic en el botón "Guardar", se actualice la cookie en lugar de agregar una nueva.</p>
+
+<p>Por otro lado, la función eliminarCookie(nombreCookie) permite eliminar una cookie tanto del navegador como de la lista de cookies almacenadas en el código. Para ello, se establece una fecha de expiración en el pasado (1 de enero de 1970), lo que hace que el navegador elimine la cookie. Después de eliminarla, se actualiza la lista de cookies y se vuelve a mostrar la tabla sin la cookie eliminada.</p>
+
+<p>El código también incluye funciones auxiliares como obtenerCookies(), que recupera todas las cookies del navegador y las convierte en un array de objetos con el nombre y el valor de cada cookie, y guardarCookies(datosCookies), que guarda las cookies en el navegador, primero limpiando las cookies existentes y luego estableciendo nuevas con un tiempo de expiración de 1 minuto.</p>
