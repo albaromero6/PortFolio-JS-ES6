@@ -1412,3 +1412,143 @@ function eliminarItem(index) {
     mostrarDatos();
 }
 ```
+<h3>SessionStorage</h3>
+<hr>
+<p>Este código permite gestionar datos almacenados en el sessionStorage de un navegador, proporcionando funcionalidades para agregar, editar y eliminar datos de manera interactiva. Al cargar la página, se ejecuta la función mostrarDatosSession(), que muestra los datos guardados previamente en el sessionStorage en una tabla. Además, se configura un evento en el botón "guardarSessionStorage", que al hacer clic ejecuta la función guardarEnSessionStorage(), encargada de agregar nuevos datos o actualizar los existentes.</p>
+
+```javascript
+"use strict";
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Mostrar los datos guardados cuando la página se carga
+    mostrarDatosSession();
+
+    // Manejar el guardado en el sessionStorage
+    document.getElementById('guardarSessionStorage').addEventListener('click', function () {
+        guardarEnSessionStorage();
+    });
+});
+
+// Variable para saber si estamos editando un elemento
+let isEditingSession = false;
+let editIndexSession = -1;
+```
+
+<p>La función <strong>guardarEnSessionStorage()</strong> obtiene el nombre y el valor de los campos del formulario. Si ambos campos están completos, crea un objeto con esa información y lo agrega a la lista de datos almacenados en el sessionStorage. Si el sistema está en modo de edición, la función actualizará el dato correspondiente; de lo contrario, agregará un nuevo elemento a la lista. Después de modificar o agregar el dato, se guarda la lista actualizada en el sessionStorage y se limpian los campos del formulario. Finalmente, la tabla se vuelve a actualizar para reflejar los nuevos datos.</p>
+
+```javascript
+// Función para guardar o editar en sessionStorage
+function guardarEnSessionStorage() {
+    const nombreSession = document.getElementById('nombreSessionStorage').value;
+    const valorSession = document.getElementById('valorSessionStorage').value;
+
+    if (nombreSession && valorSession) {
+        // Crear un objeto con la información del nombre y valor
+        const item = {
+            nombre: nombreSession,
+            valor: valorSession
+        };
+
+        // Recuperar los datos existentes del sessionStorage
+        let datosSession = JSON.parse(sessionStorage.getItem('datosSessionStorage')) || [];
+
+        if (isEditingSession) {
+            // Si estamos en modo edición, actualizamos el item
+            datosSession[editIndexSession] = item;
+            isEditingSession = false;  // Desactivamos el modo edición
+        } else {
+            // Si no estamos editando, simplemente agregamos el nuevo item
+            datosSession.push(item);
+        }
+
+        // Guardar el array actualizado de vuelta en sessionStorage
+        sessionStorage.setItem('datosSessionStorage', JSON.stringify(datosSession));
+
+        // Limpiar los campos de entrada
+        document.getElementById('nombreSessionStorage').value = '';
+        document.getElementById('valorSessionStorage').value = '';
+
+        // Actualizar la tabla de datos
+        mostrarDatosSession();
+    } else {
+        alert("Por favor, completa ambos campos.");
+    }
+}
+```
+
+<p>La función <strong>mostrarDatosSession()</strong> es responsable de mostrar los datos en una tabla. Si no hay datos en el sessionStorage, se muestra un mensaje indicando que no hay datos almacenados. Si existen, se recorre la lista de datos y se genera una fila en la tabla por cada uno de ellos, mostrando su nombre y valor, además de dos botones: uno para editar y otro para eliminar el dato seleccionado. Estos botones permiten interactuar con cada dato individualmente.</p>
+
+```javascript
+// Función para mostrar los datos almacenados en sessionStorage en la tabla
+function mostrarDatosSession() {
+    const tabla = document.getElementById('tablasessionstorage');
+    tabla.innerHTML = '';  // Limpiar la tabla antes de agregar los nuevos datos
+
+    // Obtener los datos del sessionStorage
+    let datosSession = JSON.parse(sessionStorage.getItem('datosSessionStorage')) || [];
+
+    if (datosSession.length === 0) {
+        // Si no hay datos, mostrar un mensaje en la tabla
+        const row = document.createElement('tr');
+        row.innerHTML = `<td colspan="3" style="text-align: center;">No hay datos almacenados</td>`;
+        tabla.appendChild(row);
+    } else {
+        // Recorrer los datos y agregar filas a la tabla
+        datosSession.forEach((item, index) => {
+            const row = document.createElement('tr');
+
+            // Crear las celdas para el nombre, valor y acción
+            row.innerHTML = `
+                <td>${item.nombre}</td>
+                <td>${item.valor}</td>
+                <td>
+                    <button id="editar-${index}" class="update" onclick="editarItemSession(${index})">Editar</button>
+                    <button id="eliminar-${index}" class="delete" onclick="eliminarItemSession(${index})">Borrar</button>
+                </td>
+            `;
+
+            // Añadir la fila a la tabla
+            tabla.appendChild(row);
+        });
+    }
+}
+```
+
+<p>Cuando el usuario hace clic en el botón "Editar", se ejecuta la función <strong>editarItemSession(index)</strong>, que carga los datos del item seleccionado en los campos del formulario, permitiendo su modificación. Además, se activa el modo de edición, configurando la variable isEditingSession en true y guardando el índice del item editado en editIndexSession.</p>
+
+````javascript
+// Función para editar un item del sessionStorage
+function editarItemSession(index) {
+    // Obtener los datos existentes en sessionStorage
+    let datosSession = JSON.parse(sessionStorage.getItem('datosSessionStorage')) || [];
+
+    // Cargar los datos del item seleccionado en el formulario
+    const item = datosSession[index];
+    document.getElementById('nombreSessionStorage').value = item.nombre;
+    document.getElementById('valorSessionStorage').value = item.valor;
+
+    // Cambiar el estado para editar el item
+    isEditingSession = true;
+    editIndexSession = index;
+}
+```
+
+<p>Por último, la función <strong>eliminarItemSession(index)</strong> permite eliminar un item del sessionStorage mediante su índice en la lista. Utiliza el método splice() para eliminar el elemento y luego actualiza el sessionStorage con la lista de datos modificada. Después de eliminar un item, la tabla se actualiza para reflejar los cambios.</p>
+
+```javascript
+// Función para eliminar un item del sessionStorage
+function eliminarItemSession(index) {
+    // Obtener los datos existentes en sessionStorage
+    let datosSession = JSON.parse(sessionStorage.getItem('datosSessionStorage')) || [];
+
+    // Eliminar el item en la posición indicada
+    datosSession.splice(index, 1);
+
+    // Guardar el array actualizado de vuelta en sessionStorage
+    sessionStorage.setItem('datosSessionStorage', JSON.stringify(datosSession));
+
+    // Actualizar la tabla de datos
+    mostrarDatosSession();
+}
+```
+
