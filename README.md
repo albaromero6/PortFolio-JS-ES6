@@ -1804,3 +1804,54 @@ async function cargarDatosDesdeAPI(cantidad) {
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
 </a>
 <br>
+
+<h2>Octava entrega</h2>
+<h3>Gestión de Estructura de Datos con POO y Modularización</h3>
+<hr>
+<p>Esta entrega, tiene como objetivo implementar y practicar el uso de estructuras de datos como pilas, colas y listas utilizando Programación Orientada a Objetos (POO) y modularización. El primer ejercicio simula una pila para gestionar la cesta de la colada o la lavadora, donde los elementos se agregan y se eliminan siguiendo el principio LIFO (último en entrar, primero en salir). El segundo ejercicio gestiona una cola para controlar los vehículos que llegan a un taller, donde los autos se reparan en el orden de llegada, aplicando el principio FIFO (primero en entrar, primero en salir). El último ejercicio consiste en dos listas de tareas: una lista de tareas normales, donde las tareas se acumulan y al dar al botón de eliminar se elimina una al azar, y otra lista de tareas con prioridad, donde a cada tarea se le asigna un número de prioridad del 0 al 9, y estas tareas se ordenan conforme se agregan a la lista. Al eliminar una tarea de esta lista, se elimina la de mayor prioridad. El código está modularizado en clases y funciones que facilitan la organización y mantenimiento del proyecto, permitiendo una implementación eficiente de cada estructura de datos.</p>
+<br>
+<h3>Pila o Colada</h3>
+<hr>
+<p>El archivo pila.js define la clase Pila, que simula el funcionamiento de una pila para gestionar las prendas en una lavadora, utilizando una estructura de datos tipo lista (array). La clase tiene un límite de capacidad definido por maxSize (10 prendas en este caso). En el constructor, se inicializa un array vacío llamado elementos para almacenar las prendas. El método introducir agrega una prenda a la pila, pero primero verifica si la pila ya está llena; si es así, devuelve un mensaje indicando que la lavadora está llena. El método obtener elimina y devuelve la última prenda añadida (siguiendo el principio LIFO), o un mensaje si la pila está vacía. El método siguiente devuelve la prenda que está en la parte superior de la pila sin retirarla. El método estaLlena verifica si la pila ha alcanzado su capacidad máxima, y obtenerContenido devuelve todas las prendas actuales en la pila. En conjunto, esta clase maneja las operaciones básicas de una pila con restricciones de capacidad.</p>
+
+```javascript
+"use strict";
+
+export class Pila {
+    constructor() {
+        this.elementos = [];
+        this.maxSize = 10; // Límite de la pila
+    }
+
+    introducir(prenda) {
+        if (this.elementos.length >= this.maxSize) {
+            return "La lavadora está llena";
+        }
+        this.elementos.push(prenda);
+        return null;
+    }
+
+    obtener() {
+        if (this.elementos.length === 0) {
+            return "No hay más prendas para lavar";
+        }
+        return this.elementos.pop();
+    }
+
+    siguiente() {
+        if (this.elementos.length > 0) {
+            return this.elementos[this.elementos.length - 1]; // Devuelve el último elemento de la pila
+        }
+        return null;
+    }
+
+    estaLlena() {
+        return this.elementos.length >= this.maxSize;
+    }
+
+    obtenerContenido() {
+        return this.elementos;
+    }
+}
+
+```
