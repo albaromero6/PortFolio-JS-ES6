@@ -2267,7 +2267,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ```
 
-<a href="https://albaromero6.github.io/PortFolio-JS-ES6/SeptaEntrega/index.html#" target="_blank">
+<a href="https://albaromero6.github.io/PortFolio-JS-ES6/OctavaEntrega/index.html" target="_blank">
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
 </a>
 <br>
