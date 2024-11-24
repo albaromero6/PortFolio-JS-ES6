@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Alba Romero</title>
+    <link href="./img/favicon.ico" rel="icon" type="image/x-icon">
+    <link href="./css/styles.css" rel="stylesheet" type="text/css" />
+    <script defer src="./js/login.js"></script>
+    <script defer src="./js/minicalculadora.js"></script>
+    <script defer src="./js/conversorbases.js"></script>
+    <script defer src="./js/modificadortexto.js"></script>
+    <script defer src="./js/operadormatrices.js"></script>
+    <script defer src="./js/main.js"></script>
+    <script defer src="./js/scriptcookies.js"></script>
+    <script defer src="./js/scriptstorage.js"></script>
+    <script defer src="./js/scriptsession.js"></script>
+    <script defer src="./js/scriptindexeddb.js"></script>
+    <script defer src="./clases/pila.js"></script>
+    <script defer src="./clases/cola.js"></script>
+    <script defer src="./clases/tareas.js"></script>
+    <script type="module" defer src="./js/init.js"></script>
+</head>
+
+<body>
+    <!-- --------HEADER---------- -->
+    <div class="header">
+        <div class="header-content">
+            <div class="header-text">
+                <h3>PortFolio JS ES6</h3>
+                <h4>Desarrollo Web en Entorno Cliente</h4>
+            </div>
+            <img src="./img/Perfil.JPG" class="headerImg">
+        </div>
+    </div>
+
+    <!-- ---------MENÚ----------- -->
+    <div class="topnav">
+        <a href="#" onclick="mostrarEjercicios()">Inicio</a>
+        <a href="https://www.w3schools.com/js/default.asp">W3schools</a>
+        <a href="https://es.javascript.info/js">JS Info</a>
+        <a href="https://developer.mozilla.org/es/docs/Web/JavaScript">MDN</a>
+        <a href="https://github.com/albaromero6/PortFolio-JS-ES6">GitHub</a>
+
+        <div class="dropdown">
+            <a href="#">Number ▼</a>
+            <div class="dropdown-content">
+                <a href="#" onclick="mostrarCalculadora()">Calculadora</a>
+                <a href="#" onclick="mostrarConversor()">Conversor de bases</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="#">String ▼</a>
+            <div class="dropdown-content">
+                <a href="#" onclick="mostrarModificadorTexto()">Modificador de texto</a>
+                <a href="#" onclick="mostrarModificadorTextoConAPI()">Modificador de texto con API</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="#">Array ▼</a>
+            <div class="dropdown-content">
+                <a href="#" onclick="mostrarOperadorDeMatrices()">Operador de matrices</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="#">CRUD ▼</a>
+            <div class="dropdown-content">
+                <a href="#" onclick="mostrarCrudCookies()">Cookies</a>
+                <a href="#" onclick="mostrarCrudLocalStorage()">LocalStorage</a>
+                <a href="#" onclick="mostrarCrudSessionStorage()">SessionStorage</a>
+                <a href="#" onclick="mostrarIndexedDB()">IndexedDB</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="#">Estructuras ▼</a>
+            <div class="dropdown-content">
+                <a href="#" onclick="mostrarPila()">Pila</a>
+                <a href="#" onclick="mostrarTaller()">Taller</a>
+                <a href="#" onclick="mostrarTareas()">Tareas</a>
+            </div>
+        </div>
+
+        <div class="topnav-right">
+            <div id="boton_cerrar" onclick="deleteCookie('username')" style="display: none;">
+                <a href="#" class="logout-btn">Cerrar sesión</a>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <!-- -----FORMULARIO DE LOGIN ------ -->
+    <form id="formulario_login" style="display: none;">
+        <label id="user">Nombre de usuario:</label>
+        <input type="text" id="nombreUsuario" name="nombreUsuario" placeholder="Alba" required>
+        <label id="pass">Contraseña:</label>
+        <input type="password" id="passWordUsuario" name="passWordUsuario" placeholder="Romero" required>
+        <div id="mensaje_error" style="display: none;">
+            <p>Usuario y/o contraseña incorrectos</p>
+        </div>
+        <input type="submit" value="Iniciar sesión">
+    </form>
+
+    <!-- ------MAIN-CONTENT------ -->
+    <div class="container" id="contenido">
+        <div id="ejercicio1" class="card" style="display: none;">
+            <img src="./img/Ejercicio1.jpg" alt="Ejercicio 1" class="cardImage" />
+            <div class="cardBody">
+                <div class="cardTitle">Ejercicio 1</div>
+                <p>Mostrar un resultado</p>
+            </div>
+            <div class="cardFooter"><a href="./ejercicios/ejer01/index.html">Ver más</a></div>
+        </div>
+
+        <div id="ejercicio2" class="card" style="display: none;">
+            <img src="./img/Ejercicio2.jpg" alt="Ejercicio 2" class="cardImage" />
+            <div class="cardBody">
+                <div class="cardTitle">Ejercicio 2</div>
+                <p>Mostrar un resultado</p>
+            </div>
+            <div class="cardFooter"><a href="./ejercicios/ejer02/index.html">Ver más</a></div>
+        </div>
+
+        <!-- -----MINICALCULADORA------ -->
+        <div id="calculadora" class="card" style="display: none;">
+            <h2>MINI-CALCULADORA</h2>
+            <form id="calcForm">
+                <input type="number" id="op1" placeholder="Número 1" required>
+                <input type="number" id="op2" placeholder="Número 2" required>
+                <div>
+                    <button id="calculadora-button" type="button" onclick="suma()">Suma</button>
+                    <button id="calculadora-button" type="button" onclick="resta()">Resta</button>
+                    <button id="calculadora-button" type="button" onclick="multiplicacion()">Multiplicación</button>
+                    <button id="calculadora-button" type="button" onclick="division()">División</button>
+                    <button id="calculadora-button" type="button" onclick="valorEntero()">Valor Entero</button>
+                    <button id="calculadora-button" type="button" onclick="parteDecimal()">Parte Decimal</button>
+                    <button id="calculadora-button" type="button" onclick="factorial()">Factorial</button>
+                </div>
+            </form>
+            <div class="result" id="result"></div>
+        </div>
+
+        <!-- -----CONVERSOR DE BASES------ -->
+        <div id="ejercicio-conversor" class="card" style="display: none;">
+            <div class="conversor-content">
+                <h2>CONVERSOR DE BASES</h2>
+                <form id="convForm">
+                    <input type="number" id="num1" placeholder="Número" required>
+                    <div>
+                        <button type="button" onclick="convertir()">Convertir</button>
+                    </div>
+                </form>
+                <div class="result" id="resultadoBinario">Binario: </div>
+                <div class="result" id="resultadoOctal">Octal: </div>
+                <div class="result" id="resultadoHexadecimal">Hexadecimal: </div>
+            </div>
+        </div>
+
+        <!-- ----MODIFICADOR DE TEXTO----- -->
+        <div id="modificadortexto" class="modificadortexto card" style="display: none;">
+            <h2>MODIFICADOR DE TEXTO</h2>
+            <form class="textoForm">
+                <textarea class="texto" placeholder="Introduce tu texto"></textarea>
+                <div>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercase')">A-Z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercase')">a-z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseFirst')">A_</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseLast')">_Z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseFirst')">a_</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseLast')">_z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseVowels')">AEIOU</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseVowels')">aeiou</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseConsonants')">BCD</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseConsonants')">bcd</button>
+                    <button class="modificadortexto-button" type="button" onclick="startRandomTransform()">Aleatorio</button>
+                    <button class="modificadortexto-button" type="button" onclick="stopRandomTransform()">Parar</button>
+                    <button class="modificadortexto-button" type="button" onclick="increaseSpeed()">Rápido</button>
+                    <button class="modificadortexto-button" type="button" onclick="decreaseSpeed()">Lento</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ----MODIFICADOR DE TEXTO CON API----- -->
+        <div id="modificadortextoapi" class="modificadortextoapi card" style="display: none;">
+            <h2>MODIFICADOR DE TEXTO</h2>
+            <form class="textoForm">
+                <textarea class="texto" placeholder="Introduce tu texto"></textarea>
+                <div>
+                    <button class="modificadortexto-buttonAPI" type="button" onclick="getTextFromAPI()">Obtener texto</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercase')">A-Z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercase')">a-z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseFirst')">A_</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseLast')">_Z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseFirst')">a_</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseLast')">_z</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseVowels')">AEIOU</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseVowels')">aeiou</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('uppercaseConsonants')">BCD</button>
+                    <button class="modificadortexto-button" type="button" onclick="transformAndDisplay('lowercaseConsonants')">bcd</button>
+                    <button class="modificadortexto-button" type="button" onclick="startRandomTransform()">Aleatorio</button>
+                    <button class="modificadortexto-button" type="button" onclick="stopRandomTransform()">Parar</button>
+                    <button class="modificadortexto-button" type="button" onclick="increaseSpeed()">Rápido</button>
+                    <button class="modificadortexto-button" type="button" onclick="decreaseSpeed()">Lento</button>
+                </div>
+                <div>
+                    <img id="characterImage" alt="Personaje"/>
+                </div>
+            </form>
+        </div>
+
+        <!-- ----OPERADOR DE MATRICES----- -->
+        <div id="operadormatrices" class="card" style="display: none;">
+            <h2>OPERADOR DE MATRICES</h2>
+            <form id="calcForm">
+                <input type="number" id="dimension" placeholder="Introduce la dimensión de la matriz" required>
+                <input type="number" id="rangoInferior" placeholder="Rango Inferior" required>
+                <input type="number" id="rangoSuperior" placeholder="Rango Superior" required>
+                
+                <div class="button-row">
+                    <button id="matrices-button" type="button" onclick="generarMatrices()">Generar</button>
+                    <button id="random-operation-button" type="button" onclick="generarValoresAleatorios()">Valores aleatorios</button>
+                </div>
+
+                <div class="button-row">
+                    <button id="matrices-button" type="button" onclick="sumaMatrices()">Suma</button>
+                    <button id="matrices-button" type="button" onclick="restaMatrices()">Resta</button>
+                    <button id="matrices-button" type="button" onclick="multiplicacionMatrices()">Multiplicación</button>
+                </div>
+
+                <div class="button-row">
+                    <button id="random-operation-button" type="button" onclick="operacionAleatoria()">Operación aleatoria</button> 
+                    <button id="stop-button" type="button" onclick="detenerOperaciones()">Detener</button>
+                    <button id="increase-speed-button" type="button" onclick="cambiarVelocidad('aumentar')">Aumentar velocidad</button>
+                    <button id="decrease-speed-button" type="button" onclick="cambiarVelocidad('disminuir')">Disminuir velocidad</button>
+                </div>
+            </form>
+
+            <div class="matrices-container" id="matricesContainer">
+                <div id="matrixAContainer" class="table-container"></div>
+                <div id="matrixBContainer" class="table-container"></div>
+            </div>
+
+            <div class="table-container" id="operationResult"></div>
+        </div>
+
+        <!-- ----CRUD COOKIES----- -->
+        <div id="crud-cookies" class="crud-card" style="display: none;">
+            <h2>CRUD CON COOKIES</h2>
+            <form id="cookieForm">
+                <label for="nombreCookie">Nombre:</label>
+                <input type="text" id="nombreCookie" placeholder="Introduce un nombre" required>
+                <label for="valorCookie">Valor:</label>
+                <input type="text" id="valorCookie" placeholder="Introduce un valor" required>
+                <button type="button" id="guardarCookie">Guardar</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Valor</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaCookies"></tbody>
+            </table>
+        </div>
+
+        <!-- ----CRUD LOCALSTORAGE----- -->
+        <div id="crud-localstorage" class="crud-card" style="display: none;">
+            <h2>CRUD CON LOCALSTORAGE</h2>
+            <form id="localstorageForm">
+                <label for="nombreStorage">Nombre:</label>
+                <input type="text" id="nombreStorage" placeholder="Introduce un nombre" required>
+                <label for="valorStorage">Valor:</label>
+                <input type="text" id="valorStorage" placeholder="Introduce un valor" required>
+                <button type="button" id="guardarStorage">Guardar</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Valor</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tablalocalstorage"></tbody>
+            </table>
+        </div>
+
+        <!-- ----CRUD SESSIONSTORAGE----- -->
+        <div id="crud-sessionstorage" class="crud-card" style="display: none;">
+            <h2>CRUD CON SESSIONSTORAGE</h2>
+            <form id="sessionstorageForm">
+                <label for="nombreSessionStorage">Nombre:</label>
+                <input type="text" id="nombreSessionStorage" placeholder="Introduce un nombre" required>
+                <label for="valorSessionStorage">Valor:</label>
+                <input type="text" id="valorSessionStorage" placeholder="Introduce un valor" required>
+                <button type="button" id="guardarSessionStorage">Guardar</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Valor</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tablasessionstorage"></tbody>
+            </table>
+        </div>
+
+        <!-- ----CRUD INDEXEDDB----- -->
+        <div id="crud-indexeddb" class="crud-card" style="display: none;">
+            <h2>CRUD CON INDEXEDDB</h2>
+            <form id="indexeddbForm">
+                <label for="nombreIndexedDB">Nombre:</label>
+                <input type="text" id="nombreIndexedDB" placeholder="Introduce un nombre" required>
+                <label for="razaIndexedDB">Raza:</label>
+                <input type="text" id="razaIndexedDB" placeholder="Introduce una raza" required>
+                <label for="estadoIndexedDB">Estado:</label>
+                <input type="text" id="estadoIndexedDB" placeholder="Introduce un estado" required>
+                <button type="button" id="guardarIndexedDB">Guardar</button>
+                <button type="button" id="cargarUnoIndexedDB">+1</button>
+                <button type="button" id="cargarTresIndexedDB">+3</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Raza</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaindexedDB"></tbody>
+            </table>
+        </div>  
+        
+        <!-- ---- Pila ---- -->
+        <div id="pila" class="crud-card">
+            <h2>CESTA COLADA</h2>
+            <form id="cestaColadaForm">
+                <label for="prendaColada">Elige una prenda:</label>
+                <select id="prendaColada" required>
+                    <option value="">Selecciona una prenda</option>
+                    <option value="Pantalón">👖 Pantalón</option>
+                    <option value="Camiseta">👕 Camiseta</option>
+                    <option value="Camisa">👔 Camisa</option>
+                    <option value="Gorro">🧢 Gorro</option>
+                    <option value="Zapatos">👟 Zapatos</option>
+                    <option value="Abrigo">🧥 Abrigo</option>
+                    <option value="Jersey">🧶 Jersey</option>
+                    <option value="Sudadera">👚 Sudadera</option>
+                </select>
+                <button type="button" id="guardarColada">Meter en la lavadora</button>
+            </form>
+            <div id="mensaje"></div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lavadora</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaCestaColada"></tbody>
+            </table>
+            <button type="button" id="retirarColada">Sacar de la lavadora</button>
+        </div>
+
+        <!-- ---- Taller ---- -->
+        <div id="taller" class="crud-card">
+            <h2>TALLER DE VEHÍCULOS</h2>
+            <form id="colaTallerForm">
+                <label for="vehiculoTaller">Elige un vehículo:</label>
+                <select id="vehiculoTaller" required>
+                    <option value="">Selecciona un vehículo</option>
+                    <option value="Vagón de tranvía">🚋 Vagón de tranvía</option>
+                    <option value="Coche antiguo">🚗 Coche antiguo</option>
+                    <option value="Taxi">🚖 Taxi</option>
+                    <option value="Autobús">🚌 Autobús</option>
+                    <option value="Moto">🏍️ Moto</option>
+                    <option value="Bicicleta">🚲 Bicicleta</option>
+                    <option value="Caravana">🚐 Caravana</option>
+                </select>
+                <button type="button" id="guardarVehiculo">Añadir vehículo</button>
+            </form>
+            <div id="mensajeTaller"></div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Vehículos en espera</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaColaTaller"></tbody>
+            </table>
+            <button type="button" id="atenderVehiculo">Arreglar vehículo</button>
+        </div>
+
+        <!-- ---- Tareas ---- -->
+        <div id="tareas" class="crud-container">
+
+            <!-- Tareas normales -->
+            <div id="tareasNormales" class="crud-card">
+                <h2>TAREAS</h2>
+                <form id="listaTareasForm">
+                    <label for="tareaInput">Añade una tarea:</label>
+                    <input type="text" id="tareaInput" placeholder="Escribe una nueva tarea" required>
+                    <button type="button" id="anadirTarea">Añadir tarea</button>
+                </form>
+                <div id="mensajeTareasNormales" class="mensaje"></div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tareas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaTareas"></tbody>
+                </table>
+                <button type="button" id="eliminarTarea">Eliminar tarea</button>
+            </div>
+
+            <!-- Tareas con prioridad -->
+            <div id="tareasPrioridad" class="crud-card">
+                <h2>TAREAS CON PRIORIDAD</h2>
+                <form id="prioridadTareasForm">
+                    <label for="prioridadInput">Añade una tarea con prioridad:</label>
+                    <input type="text" id="prioridadInput" placeholder="Escribe una nueva tarea" required>
+                    <input type="number" id="prioridadValor" min="0" max="9" placeholder="Prioridad (0-9)" required>
+                    <button type="button" id="anadirPrioridad">Añadir tarea</button>
+                </form>
+                <div id="mensajeTareasPrioridad" class="mensaje"></div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tareas</th>
+                            <th>Prioridad</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaTareasPrioridad"></tbody>
+                </table>
+                <button type="button" id="eliminarPrioridad">Eliminar tarea con mayor prioridad</button>
+            </div>
+        </div>
+
+    </div>
+    <br />
+
+    <!-- ---------FOOT----------- -->
+    <div class="footer">
+        CopyRight © Todos los derechos reservados ♡ Alba Romero ♡
+    </div>
+</body>
+
+</html>
