@@ -1812,7 +1812,7 @@ async function cargarDatosDesdeAPI(cantidad) {
 <br>
 <h3>Pila o Colada</h3>
 <hr>
-<p>El archivo pila.js define la clase Pila, que simula el funcionamiento de una pila para gestionar las prendas en una lavadora, utilizando una estructura de datos tipo lista (array). La clase tiene un límite de capacidad definido por maxSize (10 prendas en este caso). En el constructor, se inicializa un array vacío llamado elementos para almacenar las prendas. El método introducir agrega una prenda a la pila, pero primero verifica si la pila ya está llena; si es así, devuelve un mensaje indicando que la lavadora está llena. El método obtener elimina y devuelve la última prenda añadida (siguiendo el principio LIFO), o un mensaje si la pila está vacía. El método siguiente devuelve la prenda que está en la parte superior de la pila sin retirarla. El método estaLlena verifica si la pila ha alcanzado su capacidad máxima, y obtenerContenido devuelve todas las prendas actuales en la pila. En conjunto, esta clase maneja las operaciones básicas de una pila con restricciones de capacidad.</p>
+<p>El archivo <strong>pila.js</strong> define la clase Pila, que simula el funcionamiento de una pila para gestionar las prendas en una lavadora, utilizando una estructura de datos tipo lista (array). La clase tiene un límite de capacidad definido por maxSize (10 prendas en este caso). En el constructor, se inicializa un array vacío llamado elementos para almacenar las prendas. El método introducir agrega una prenda a la pila, pero primero verifica si la pila ya está llena; si es así, devuelve un mensaje indicando que la lavadora está llena. El método obtener elimina y devuelve la última prenda añadida (siguiendo el principio LIFO), o un mensaje si la pila está vacía. El método siguiente devuelve la prenda que está en la parte superior de la pila sin retirarla. El método estaLlena verifica si la pila ha alcanzado su capacidad máxima, y obtenerContenido devuelve todas las prendas actuales en la pila. En conjunto, esta clase maneja las operaciones básicas de una pila con restricciones de capacidad.</p>
 
 ```javascript
 "use strict";
@@ -1856,7 +1856,7 @@ export class Pila {
 
 ```
 
-<p>El archivo pilaModulo.js define la función initPila, que gestiona la interacción entre la interfaz de usuario y la clase Pila en el contexto de una lavadora que maneja prendas. En primer lugar, se importa la clase Pila desde pila.js y se crea una nueva instancia de Pila. Luego, se obtienen los elementos del DOM necesarios, como el formulario para agregar prendas, el área para mostrar mensajes de estado, la tabla donde se visualizan las prendas y los botones para guardar y retirar prendas. La función actualizarTabla se encarga de actualizar el contenido de la tabla cada vez que se agrega o se retira una prenda, creando filas dinámicamente con los nombres de las prendas y añadiéndolas a la tabla. El evento del botón guardarColada permite añadir una prenda seleccionada a la pila; si la pila está llena, muestra un mensaje de advertencia, y si no, muestra el mensaje de confirmación de que la prenda ha sido añadida. El evento del botón retirarColada permite retirar la última prenda agregada, mostrando un mensaje adecuado según si la pila está vacía o no. Este módulo conecta la lógica de la pila con la interfaz de usuario, permitiendo al usuario gestionar la cesta de la colada.</p>
+<p>El archivo <strong>pilaModulo.js</strong> define la función initPila, que gestiona la interacción entre la interfaz de usuario y la clase Pila en el contexto de una lavadora que maneja prendas. En primer lugar, se importa la clase Pila desde pila.js y se crea una nueva instancia de Pila. Luego, se obtienen los elementos del DOM necesarios, como el formulario para agregar prendas, el área para mostrar mensajes de estado, la tabla donde se visualizan las prendas y los botones para guardar y retirar prendas. La función actualizarTabla se encarga de actualizar el contenido de la tabla cada vez que se agrega o se retira una prenda, creando filas dinámicamente con los nombres de las prendas y añadiéndolas a la tabla. El evento del botón guardarColada permite añadir una prenda seleccionada a la pila; si la pila está llena, muestra un mensaje de advertencia, y si no, muestra el mensaje de confirmación de que la prenda ha sido añadida. El evento del botón retirarColada permite retirar la última prenda agregada, mostrando un mensaje adecuado según si la pila está vacía o no. Este módulo conecta la lógica de la pila con la interfaz de usuario, permitiendo al usuario gestionar la cesta de la colada.</p>
 
 ```javascript
 "use strict";
@@ -1911,6 +1911,49 @@ export function initPila() {
         }
         actualizarTabla();
     });
+}
+
+```
+<br>
+<h3>Cola o Taller</h3>
+<hr>
+<p>El archivo <strong>cola.js</strong> define la clase Cola, que simula el funcionamiento de una cola para gestionar los vehículos que llegan a un taller de reparaciones. La clase utiliza un array llamado vehiculos para almacenar los vehículos en la cola, y tiene un límite de capacidad maxima definida (10 vehículos en este caso). El método llega agrega un vehículo a la cola si no se ha alcanzado el límite máximo, o devuelve un mensaje indicando que el taller está completo si la cola está llena. El método atiendo retira el primer vehículo de la cola (siguiendo el principio FIFO) y lo devuelve para ser reparado, o devuelve un mensaje indicando que no hay vehículos para reparar si la cola está vacía. El método siguiente devuelve el primer vehículo en la cola sin retirarlo, y estaLlena verifica si la cola ha alcanzado su capacidad máxima. Finalmente, el método obtenerContenido devuelve todos los vehículos actualmente en la cola. En resumen, esta clase maneja las operaciones básicas de una cola para gestionar la entrada y salida de vehículos en un taller, asegurando que el taller no sobrepase su capacidad máxima y respetando el orden de llegada.</p>
+
+```javascript
+"use strict";
+
+export class Cola {
+    constructor() {
+        this.vehiculos = [];
+        this.maximo = 10;  // Límite de vehículos en la cola
+    }
+
+    llega(vehiculo) {
+        if (this.vehiculos.length < this.maximo) {
+            this.vehiculos.push(vehiculo);
+            return null;  // Se ha añadido correctamente
+        }
+        return "El taller está completo, empieza a reparar";  // Cola llena
+    }
+
+    atiendo() {
+        if (this.vehiculos.length === 0) {
+            return "No hay más vehículos que reparar";  // No hay vehículos en la cola
+        }
+        return this.vehiculos.shift();  // Retirar el primer vehículo
+    }
+
+    siguiente() {
+        return this.vehiculos.length > 0 ? this.vehiculos[0] : null;
+    }
+
+    estaLlena() {
+        return this.vehiculos.length >= this.maximo;
+    }
+
+    obtenerContenido() {
+        return this.vehiculos;
+    }
 }
 
 ```
