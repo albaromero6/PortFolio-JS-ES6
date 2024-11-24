@@ -1092,3 +1092,1182 @@ function cambiarVelocidad(accion) {
   <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
 </a>
 
+<h2>Septa entrega</h2>
+<h3>Almacenamiento con Cookies, LocalStorage, SessiónStorage e IndexedDB</h3>
+<hr>
+<p>En esta entrega, hemos desarrollado un sistema CRUD básico que interactúa con diferentes mecanismos de almacenamiento web: cookies, Storage e IndexedDB. El objetivo principal es implementar un formulario que permita almacenar datos, visualizarlos dinámicamente en una tabla y gestionar su persistencia. Los datos iniciales se cargarán desde una API al acceder a la página en el caso de IndexedDB, y el usuario podrá agregar más datos desde la API mediante botones para cargar uno o varios datos a la vez. Además, cada entrada en la tabla tendrá un botón para eliminar los datos almacenados, lo que actualizará la visualización en tiempo real.</p>
+<br>
+<h3>Cookies</h3>
+<hr>
+<p>Este código permite gestionar cookies en una página web mediante un conjunto de funciones escritas en JavaScript. Al cargar la página, se ejecuta un evento que muestra las cookies almacenadas en una tabla. Para ello, se llama a la función mostrarDatosCookies(), que se encarga de recorrer las cookies guardadas y presentarlas de manera dinámica. Además, se configura un botón de "guardarCookie" que, al ser clicado, ejecuta la función guardarEnCookies(), encargada de agregar nuevas cookies o editar las existentes.</p>
+
+```javascript
+"use strict";
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Mostrar los datos de las cookies cuando la página se carga
+    mostrarDatosCookies();
+
+    // Manejar el guardado de las cookies
+    document.getElementById('guardarCookie').addEventListener('click', function() {
+        guardarEnCookies();
+    });
+});
+
+// Variable para saber si estamos editando un elemento
+let isEditingCookie = false;
+let editIndexCookie = -1;
+
+```
+<p>La función <strong>guardarEnCookies()</strong> recoge los valores del nombre y el valor de la cookie desde un formulario en la página. Si ambos campos están completos, se crea un objeto con la información. Si el usuario está editando una cookie (esto se indica mediante la variable isEditingCookie), se actualiza la cookie existente en lugar de agregar una nueva. Después, las cookies se almacenan nuevamente en el navegador, y se limpia el formulario para permitir el ingreso de nuevos datos. La tabla de cookies se actualiza con la nueva información.</p>
+
+```javascript
+// Función para guardar o editar una cookie
+function guardarEnCookies() {
+    const nombreCookie = document.getElementById('nombreCookie').value;
+    const valorCookie = document.getElementById('valorCookie').value;
+
+    if (nombreCookie && valorCookie) {
+        // Crear un objeto con la información del nombre y valor de la cookie
+        const cookieItem = {
+            nombre: nombreCookie,
+            valor: valorCookie
+        };
+
+        // Recuperar los datos de las cookies existentes
+        let datosCookies = obtenerCookies() || [];
+
+        if (isEditingCookie) {
+            // Si estamos en modo edición, actualizamos la cookie
+            datosCookies[editIndexCookie] = cookieItem;
+            isEditingCookie = false;  // Desactivamos el modo edición
+        } else {
+            // Si no estamos editando, simplemente agregamos la nueva cookie
+            datosCookies.push(cookieItem);
+        }
+
+        // Guardar las cookies actualizadas
+        guardarCookies(datosCookies);
+
+        // Limpiar los campos de entrada
+        document.getElementById('nombreCookie').value = '';
+        document.getElementById('valorCookie').value = '';
+
+        // Actualizar la tabla de cookies
+        mostrarDatosCookies();
+    } else {
+        alert("Por favor, completa ambos campos.");
+    }
+}
+```
+
+<p>La función <strong>mostrarDatosCookies()</strong> es responsable de generar la tabla que muestra las cookies en la interfaz. Si no hay cookies almacenadas, se muestra un mensaje indicando que no hay datos. Si existen cookies, la función recorre cada una de ellas y genera una fila en la tabla con el nombre, valor y dos botones: uno para editar y otro para eliminar la cookie seleccionada. Los botones permiten al usuario modificar o eliminar las cookies con facilidad.</p>
+
+```javascript
+// Función para mostrar los datos de las cookies en la tabla
+function mostrarDatosCookies() {
+    const tabla = document.getElementById('tablaCookies');
+    tabla.innerHTML = '';  // Limpiar la tabla antes de agregar los nuevos datos
+
+    // Obtener los datos de las cookies
+    let datosCookies = obtenerCookies() || [];
+
+    if (datosCookies.length === 0) {
+        // Si no hay cookies, mostrar un mensaje en la tabla
+        const row = document.createElement('tr');
+        row.innerHTML = `<td colspan="3" style="text-align: center;">No hay datos almacenados</td>`;
+        tabla.appendChild(row);
+    } else {
+        // Recorrer los datos y agregar filas a la tabla
+        datosCookies.forEach((cookie, index) => {
+            const row = document.createElement('tr');
+
+            // Crear las celdas para el nombre, valor y acción
+            row.innerHTML = `
+                <td>${cookie.nombre}</td>
+                <td>${cookie.valor}</td>
+                <td>
+                    <button id="editar-${index}" class="update" onclick="editarCookie(${index})">Editar</button>
+                    <button id="eliminar-${index}" class="delete" onclick="eliminarCookie('${cookie.nombre}')">Borrar</button>
+                </td>
+            `;
+
+            // Añadir la fila a la tabla
+            tabla.appendChild(row);
+        });
+    }
+}
+```
+
+<p>Si se desea editar una cookie, la función <strong>editarCookie(index)</strong> se activa cuando se hace clic en el botón "Editar". Esta función carga los datos de la cookie seleccionada en los campos del formulario para que el usuario pueda modificarlos. Además, cambia el estado de la edición para que, al hacer clic en el botón "Guardar", se actualice la cookie en lugar de agregar una nueva.</p>
+
+```javascript
+// Función para editar una cookie
+function editarCookie(index) {
+    // Obtener las cookies almacenadas
+    let datosCookies = obtenerCookies() || [];
+
+    // Cargar los datos de la cookie seleccionada
+    const cookie = datosCookies[index];
+    document.getElementById('nombreCookie').value = cookie.nombre;
+    document.getElementById('valorCookie').value = cookie.valor;
+
+    // Cambiar el estado para editar la cookie
+    isEditingCookie = true;
+    editIndexCookie = index;
+}
+```
+
+<p>Por otro lado, la función <strong>eliminarCookie(nombreCookie)</strong> permite eliminar una cookie tanto del navegador como de la lista de cookies almacenadas en el código. Para ello, se establece una fecha de expiración en el pasado (1 de enero de 1970), lo que hace que el navegador elimine la cookie. Después de eliminarla, se actualiza la lista de cookies y se vuelve a mostrar la tabla sin la cookie eliminada.</p>
+
+```javascript
+// Función para eliminar una cookie
+function eliminarCookie(nombreCookie) {
+    // Eliminar la cookie del navegador
+    document.cookie = `${nombreCookie}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+
+    // Obtener las cookies almacenadas
+    let datosCookies = obtenerCookies() || [];
+
+    // Filtrar las cookies para eliminar la cookie con el nombre indicado
+    datosCookies = datosCookies.filter(cookie => cookie.nombre !== nombreCookie);
+
+    // Guardar las cookies actualizadas
+    guardarCookies(datosCookies);
+
+    // Actualizar la tabla de cookies
+    mostrarDatosCookies();
+}
+```
+
+<p>El código también incluye funciones auxiliares como <strong>obtenerCookies()</strong>, que recupera todas las cookies del navegador y las convierte en un array de objetos con el nombre y el valor de cada cookie, y <strong>guardarCookies(datosCookies)</strong>, que guarda las cookies en el navegador, primero limpiando las cookies existentes y luego estableciendo nuevas con un tiempo de expiración de 1 minuto.</p>
+
+```javascript
+// Función para obtener las cookies
+function obtenerCookies() {
+    const cookies = document.cookie.split(';');
+    let cookieArray = [];
+
+    cookies.forEach(cookie => {
+        const [nombre, valor] = cookie.trim().split('=');
+        if (nombre && valor) {
+            cookieArray.push({ nombre, valor });
+        }
+    });
+
+    return cookieArray;
+}
+```
+
+```javascript
+// Función para guardar las cookies
+function guardarCookies(datosCookies) {
+    // Limpiar las cookies actuales
+    document.cookie = "datosCookies=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+
+    // Guardar cada cookie
+    datosCookies.forEach(cookie => {
+        // Establecer la cookie con una duración de expiración en 1 minuto
+        document.cookie = `${cookie.nombre}=${cookie.valor}; path=/; max-age=60`;
+    });
+}
+```
+<br>
+<h3>LocalStorage</h3>
+<hr>
+<p>Este código permite gestionar datos almacenados en el localStorage de un navegador, ofreciendo funcionalidades para agregar, editar y eliminar datos de forma persistente. Al cargar la página, se ejecuta la función mostrarDatos(), que se encarga de mostrar todos los datos previamente almacenados en localStorage en una tabla. Además, se configura un evento para el botón "guardarStorage", de modo que al hacer clic, se llame a la función guardarEnLocalStorage(), que gestiona tanto la adición de nuevos datos como la edición de datos ya existentes.</p>
+
+```javascript
+"use strict";
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Mostrar los datos guardados cuando la página se carga
+    mostrarDatos();
+
+    // Manejar el guardado en el localStorage
+    document.getElementById('guardarStorage').addEventListener('click', function() {
+        guardarEnLocalStorage();
+    });
+});
+
+// Variable para saber si estamos editando un elemento
+let isEditing = false;
+let editIndex = -1;
+
+```
+
+<p>La función <strong>guardarEnLocalStorage()</strong> recoge el nombre y el valor desde los campos del formulario. Si ambos campos están completos, crea un objeto con la información y lo añade a una lista de datos obtenida de localStorage. Si el sistema está en modo edición, actualiza el item correspondiente en la lista; si no está editando, agrega el nuevo objeto. Luego, la lista actualizada se guarda nuevamente en el localStorage y los campos del formulario se limpian. Finalmente, se vuelve a actualizar la tabla con los datos más recientes.</p>
+
+```javascript
+// Función para guardar o editar en localStorage
+function guardarEnLocalStorage() {
+    const nombreStorage = document.getElementById('nombreStorage').value;
+    const valorStorage = document.getElementById('valorStorage').value;
+
+    if (nombreStorage && valorStorage) {
+        // Crear un objeto con la información del nombre y valor
+        const item = {
+            nombre: nombreStorage,
+            valor: valorStorage
+        };
+
+        // Recuperar los datos existentes del localStorage
+        let datosStorage = JSON.parse(localStorage.getItem('datosLocalStorage')) || [];
+
+        if (isEditing) {
+            // Si estamos en modo edición, actualizamos el item
+            datosStorage[editIndex] = item;
+            isEditing = false;  // Desactivamos el modo edición
+        } else {
+            // Si no estamos editando, simplemente agregamos el nuevo item
+            datosStorage.push(item);
+        }
+
+        // Guardar el array actualizado de vuelta en localStorage
+        localStorage.setItem('datosLocalStorage', JSON.stringify(datosStorage));
+
+        // Limpiar los campos de entrada
+        document.getElementById('nombreStorage').value = '';
+        document.getElementById('valorStorage').value = '';
+
+        // Actualizar la tabla de datos
+        mostrarDatos();
+    } else {
+        alert("Por favor, completa ambos campos.");
+    }
+}
+```
+
+<p>La función <strong>mostrarDatos()</strong> es la encargada de mostrar los datos almacenados en una tabla en la interfaz del usuario. Si no hay datos en localStorage, se muestra un mensaje indicando que no hay elementos almacenados. Si existen, recorre la lista de datos y genera una fila por cada elemento, mostrando su nombre y valor junto a dos botones: uno para editar y otro para eliminar el item seleccionado. Los botones permiten interactuar con cada dato individualmente.</p>
+
+```javascript
+function mostrarDatos() {
+    const tabla = document.getElementById('tablalocalstorage');
+    tabla.innerHTML = '';  // Limpiar la tabla antes de agregar los nuevos datos
+
+    // Obtener los datos del localStorage
+    let datosStorage = JSON.parse(localStorage.getItem('datosLocalStorage')) || [];
+
+    if (datosStorage.length === 0) {
+        // Si no hay datos, mostrar un mensaje en la tabla
+        const row = document.createElement('tr');
+        row.innerHTML = `<td colspan="3" style="text-align: center;">No hay datos almacenados</td>`;
+        tabla.appendChild(row);
+    } else {
+        // Recorrer los datos y agregar filas a la tabla
+        datosStorage.forEach((item, index) => {
+            const row = document.createElement('tr');
+
+            // Crear las celdas para el nombre, valor y acción
+            row.innerHTML = `
+                <td>${item.nombre}</td>
+                <td>${item.valor}</td>
+                <td>
+                    <button id="editar-${index}" class="update" onclick="editarItem(${index})">Editar</button>
+                    <button id="eliminar-${index}" class="delete" onclick="eliminarItem(${index})">Borrar</button>
+                </td>
+            `;
+
+            // Añadir la fila a la tabla
+            tabla.appendChild(row);
+        });
+    }
+}
+```
+
+<p>Para editar un item, la función <strong>editarItem(index)</strong> se activa cuando el usuario hace clic en el botón "Editar". Carga los datos del item seleccionado en los campos del formulario, permitiendo que el usuario realice modificaciones. Además, activa el modo de edición estableciendo isEditing a true y guarda el índice del item que se está editando en la variable editIndex.</p>
+
+```javascript
+// Función para editar un item del localStorage
+function editarItem(index) {
+    // Obtener los datos existentes en localStorage
+    let datosStorage = JSON.parse(localStorage.getItem('datosLocalStorage')) || [];
+
+    // Cargar los datos del item seleccionado en el formulario
+    const item = datosStorage[index];
+    document.getElementById('nombreStorage').value = item.nombre;
+    document.getElementById('valorStorage').value = item.valor;
+
+    // Cambiar el estado para editar el item
+    isEditing = true;
+    editIndex = index;
+}
+```
+
+<p>La función <strong>eliminarItem(index)</strong> elimina un item del localStorage mediante su índice en la lista. Primero, recupera los datos almacenados, luego elimina el item utilizando el método splice() y finalmente actualiza el localStorage con la lista modificada. Después de eliminar un item, la tabla de datos se actualiza para reflejar los cambios.</p>
+
+```javascript
+// Función para eliminar un item del localStorage
+function eliminarItem(index) {
+    // Obtener los datos existentes en localStorage
+    let datosStorage = JSON.parse(localStorage.getItem('datosLocalStorage')) || [];
+
+    // Eliminar el item en la posición indicada
+    datosStorage.splice(index, 1);
+
+    // Guardar el array actualizado de vuelta en localStorage
+    localStorage.setItem('datosLocalStorage', JSON.stringify(datosStorage));
+
+    // Actualizar la tabla de datos
+    mostrarDatos();
+}
+```
+<h3>SessionStorage</h3>
+<hr>
+<p>Este código permite gestionar datos almacenados en el sessionStorage de un navegador, proporcionando funcionalidades para agregar, editar y eliminar datos de manera interactiva. Al cargar la página, se ejecuta la función mostrarDatosSession(), que muestra los datos guardados previamente en el sessionStorage en una tabla. Además, se configura un evento en el botón "guardarSessionStorage", que al hacer clic ejecuta la función guardarEnSessionStorage(), encargada de agregar nuevos datos o actualizar los existentes.</p>
+
+```javascript
+"use strict";
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Mostrar los datos guardados cuando la página se carga
+    mostrarDatosSession();
+
+    // Manejar el guardado en el sessionStorage
+    document.getElementById('guardarSessionStorage').addEventListener('click', function () {
+        guardarEnSessionStorage();
+    });
+});
+
+// Variable para saber si estamos editando un elemento
+let isEditingSession = false;
+let editIndexSession = -1;
+```
+
+<p>La función <strong>guardarEnSessionStorage()</strong> obtiene el nombre y el valor de los campos del formulario. Si ambos campos están completos, crea un objeto con esa información y lo agrega a la lista de datos almacenados en el sessionStorage. Si el sistema está en modo de edición, la función actualizará el dato correspondiente; de lo contrario, agregará un nuevo elemento a la lista. Después de modificar o agregar el dato, se guarda la lista actualizada en el sessionStorage y se limpian los campos del formulario. Finalmente, la tabla se vuelve a actualizar para reflejar los nuevos datos.</p>
+
+```javascript
+// Función para guardar o editar en sessionStorage
+function guardarEnSessionStorage() {
+    const nombreSession = document.getElementById('nombreSessionStorage').value;
+    const valorSession = document.getElementById('valorSessionStorage').value;
+
+    if (nombreSession && valorSession) {
+        // Crear un objeto con la información del nombre y valor
+        const item = {
+            nombre: nombreSession,
+            valor: valorSession
+        };
+
+        // Recuperar los datos existentes del sessionStorage
+        let datosSession = JSON.parse(sessionStorage.getItem('datosSessionStorage')) || [];
+
+        if (isEditingSession) {
+            // Si estamos en modo edición, actualizamos el item
+            datosSession[editIndexSession] = item;
+            isEditingSession = false;  // Desactivamos el modo edición
+        } else {
+            // Si no estamos editando, simplemente agregamos el nuevo item
+            datosSession.push(item);
+        }
+
+        // Guardar el array actualizado de vuelta en sessionStorage
+        sessionStorage.setItem('datosSessionStorage', JSON.stringify(datosSession));
+
+        // Limpiar los campos de entrada
+        document.getElementById('nombreSessionStorage').value = '';
+        document.getElementById('valorSessionStorage').value = '';
+
+        // Actualizar la tabla de datos
+        mostrarDatosSession();
+    } else {
+        alert("Por favor, completa ambos campos.");
+    }
+}
+```
+
+<p>La función <strong>mostrarDatosSession()</strong> es responsable de mostrar los datos en una tabla. Si no hay datos en el sessionStorage, se muestra un mensaje indicando que no hay datos almacenados. Si existen, se recorre la lista de datos y se genera una fila en la tabla por cada uno de ellos, mostrando su nombre y valor, además de dos botones: uno para editar y otro para eliminar el dato seleccionado. Estos botones permiten interactuar con cada dato individualmente.</p>
+
+```javascript
+// Función para mostrar los datos almacenados en sessionStorage en la tabla
+function mostrarDatosSession() {
+    const tabla = document.getElementById('tablasessionstorage');
+    tabla.innerHTML = '';  // Limpiar la tabla antes de agregar los nuevos datos
+
+    // Obtener los datos del sessionStorage
+    let datosSession = JSON.parse(sessionStorage.getItem('datosSessionStorage')) || [];
+
+    if (datosSession.length === 0) {
+        // Si no hay datos, mostrar un mensaje en la tabla
+        const row = document.createElement('tr');
+        row.innerHTML = `<td colspan="3" style="text-align: center;">No hay datos almacenados</td>`;
+        tabla.appendChild(row);
+    } else {
+        // Recorrer los datos y agregar filas a la tabla
+        datosSession.forEach((item, index) => {
+            const row = document.createElement('tr');
+
+            // Crear las celdas para el nombre, valor y acción
+            row.innerHTML = `
+                <td>${item.nombre}</td>
+                <td>${item.valor}</td>
+                <td>
+                    <button id="editar-${index}" class="update" onclick="editarItemSession(${index})">Editar</button>
+                    <button id="eliminar-${index}" class="delete" onclick="eliminarItemSession(${index})">Borrar</button>
+                </td>
+            `;
+
+            // Añadir la fila a la tabla
+            tabla.appendChild(row);
+        });
+    }
+}
+```
+
+<p>Cuando el usuario hace clic en el botón "Editar", se ejecuta la función <strong>editarItemSession(index)</strong>, que carga los datos del item seleccionado en los campos del formulario, permitiendo su modificación. Además, se activa el modo de edición, configurando la variable isEditingSession en true y guardando el índice del item editado en editIndexSession.</p>
+
+```javascript
+// Función para editar un item del sessionStorage
+function editarItemSession(index) {
+    // Obtener los datos existentes en sessionStorage
+    let datosSession = JSON.parse(sessionStorage.getItem('datosSessionStorage')) || [];
+
+    // Cargar los datos del item seleccionado en el formulario
+    const item = datosSession[index];
+    document.getElementById('nombreSessionStorage').value = item.nombre;
+    document.getElementById('valorSessionStorage').value = item.valor;
+
+    // Cambiar el estado para editar el item
+    isEditingSession = true;
+    editIndexSession = index;
+}
+
+```
+
+<p>Por último, la función <strong>eliminarItemSession(index)</strong> permite eliminar un item del sessionStorage mediante su índice en la lista. Utiliza el método splice() para eliminar el elemento y luego actualiza el sessionStorage con la lista de datos modificada. Después de eliminar un item, la tabla se actualiza para reflejar los cambios.</p>
+
+```javascript
+// Función para eliminar un item del sessionStorage
+function eliminarItemSession(index) {
+    // Obtener los datos existentes en sessionStorage
+    let datosSession = JSON.parse(sessionStorage.getItem('datosSessionStorage')) || [];
+
+    // Eliminar el item en la posición indicada
+    datosSession.splice(index, 1);
+
+    // Guardar el array actualizado de vuelta en sessionStorage
+    sessionStorage.setItem('datosSessionStorage', JSON.stringify(datosSession));
+
+    // Actualizar la tabla de datos
+    mostrarDatosSession();
+}
+
+```
+
+<br>
+<h3>IndexedDB con API</h3>
+<hr>
+<p>Este código maneja la interacción con una base de datos local usando IndexedDB para almacenar y gestionar datos de personajes. Al cargar la página, se inicializa IndexedDB y se configura el comportamiento de los botones para guardar datos, cargar datos desde una API, y gestionar registros con editar y eliminar.</p>
+
+```javascript
+"use strict";
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Inicializamos IndexedDB y mostramos los datos cuando la página se carga
+    iniciarIndexedDB();
+
+    // Manejar el guardado en IndexedDB
+    document.getElementById('guardarIndexedDB').addEventListener('click', guardarEnIndexedDB);
+
+    // Asociar los botones +1 y +3 con las funciones de cargar datos desde la API
+    document.getElementById('cargarUnoIndexedDB').addEventListener('click', function () {
+        cargarDatosDesdeAPI(1); // Cargar 1 dato
+    });
+
+    document.getElementById('cargarTresIndexedDB').addEventListener('click', function () {
+        cargarDatosDesdeAPI(3); // Cargar 3 datos
+    });
+});
+
+// Variables de estado para el modo de edición
+let isEditingIndexedDB = false;
+let editIdIndexedDB = null;
+
+// Inicializar la base de datos IndexedDB
+let db;
+
+```
+
+<p>En primer lugar, al cargar el documento, se ejecuta la función <strong>iniciarIndexedDB()</strong> que configura la base de datos IndexedDB. Si no existe, se crea un almacén de objetos denominado "items", con una clave primaria id que se autoincrementa. Una vez inicializada la base de datos, la función mostrarDatosIndexedDB() se encarga de mostrar los registros en una tabla HTML.</p>
+
+```javascript
+function iniciarIndexedDB() {
+    const request = indexedDB.open('miIndexedDB', 1);
+
+    request.onupgradeneeded = function (event) {
+        db = event.target.result;
+
+        if (!db.objectStoreNames.contains('items')) {
+            db.createObjectStore('items', { keyPath: 'id', autoIncrement: true });
+        }
+    };
+
+    request.onsuccess = function (event) {
+        db = event.target.result;
+        console.log("IndexedDB inicializado correctamente.");
+        mostrarDatosIndexedDB(); // Mostrar los datos después de que IndexedDB se haya inicializado
+    };
+
+    request.onerror = function (event) {
+        console.error("Error al inicializar IndexedDB:", event.target.error);
+    };
+}
+
+```
+
+<p>El código también configura eventos para los botones de la interfaz. Uno de estos botones, "guardarIndexedDB", se asocia a la función <strong>guardarEnIndexedDB()</strong>, la cual guarda o actualiza datos en la base de datos. Los campos de entrada requeridos son "nombre", "raza" y "estado". Si alguno de estos campos no se completa, se muestra una alerta pidiendo que se ingresen todos los datos. Si el modo de edición está activo, la función actualiza el registro existente; si no, agrega un nuevo item a la base de datos. Después de guardar o actualizar los datos, se limpia el formulario y se actualiza la tabla con los datos almacenados.</p>
+
+```javascript
+// Guardar o editar un registro en IndexedDB
+function guardarEnIndexedDB() {
+    const nombre = document.getElementById('nombreIndexedDB').value;
+    const raza = document.getElementById('razaIndexedDB').value; 
+    const estado = document.getElementById('estadoIndexedDB').value; 
+
+    if (!db) {
+        console.error("IndexedDB no está inicializado");
+        return;
+    }
+
+    // Validar que los tres campos están completos
+    if (!nombre || !raza || !estado) {
+        alert("Por favor, completa todos los campos."); // Si falta algún campo, se muestra el mensaje
+        return;
+    }
+
+    const transaction = db.transaction(['items'], 'readwrite');
+    const store = transaction.objectStore('items');
+    const item = { nombre, raza, estado };
+
+    if (isEditingIndexedDB && editIdIndexedDB !== null) {
+        item.id = editIdIndexedDB; // Usar el ID existente para actualizar
+        store.put(item); // Actualizar el item
+    } else {
+        store.add(item); // Agregar un nuevo item
+    }
+
+    transaction.oncomplete = function () {
+        console.log("Elemento guardado:", item);
+        limpiarFormularioIndexedDB();
+        mostrarDatosIndexedDB(); // Actualizar la tabla después de guardar
+        isEditingIndexedDB = false; // Salir del modo de edición
+        editIdIndexedDB = null;
+    };
+
+    transaction.onerror = function (event) {
+        console.error("Error al guardar en IndexedDB:", event.target.error);
+    };
+}
+
+```
+
+<p>La función <strong>mostrarDatosIndexedDB()</strong> muestra todos los registros almacenados en la base de datos. Si no hay datos, muestra un mensaje indicando que no hay elementos almacenados. De lo contrario, recorre los datos de IndexedDB y los agrega a una tabla HTML, donde cada registro incluye botones de "Editar" y "Borrar". Estos botones permiten al usuario modificar o eliminar los datos de forma interactiva.</p>
+
+```javascript
+// Mostrar los datos almacenados en IndexedDB
+function mostrarDatosIndexedDB() {
+    if (!db) {
+        console.error("IndexedDB no está inicializado");
+        return;
+    }
+
+    const tabla = document.getElementById('tablaindexedDB');
+    tabla.innerHTML = ''; // Limpiar la tabla antes de agregar los nuevos datos
+
+    const transaction = db.transaction(['items'], 'readonly');
+    const store = transaction.objectStore('items');
+    const request = store.getAll();
+
+    request.onsuccess = function () {
+        const datos = request.result;
+
+        if (datos.length === 0) {
+            // Mostrar mensaje si no hay datos
+            const row = document.createElement('tr');
+            row.innerHTML = `<td colspan="4" style="text-align: center;">No hay datos almacenados</td>`;
+            tabla.appendChild(row);
+        } else {
+            // Agregar filas a la tabla con los datos
+            datos.forEach(item => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${item.nombre}</td>
+                    <td>${item.raza}</td>
+                    <td>${item.estado}</td> <!-- Mostrar el nuevo campo "Estado" -->
+                    <td>
+                        <button class="update" onclick="editarItemIndexedDB(${item.id})">Editar</button>
+                        <button class="delete" onclick="eliminarItemIndexedDB(${item.id})">Borrar</button>
+                    </td>
+                `;
+
+                tabla.appendChild(row);
+            });
+        }
+    };
+
+    request.onerror = function (event) {
+        console.error("Error al obtener datos de IndexedDB:", event.target.error);
+    };
+}
+```
+
+<p>Cuando se hace clic en el botón "Editar", se ejecuta la función <strong>editarItemIndexedDB(id)</strong>, que carga los datos del personaje en los campos de entrada del formulario y cambia el estado de la aplicación a modo de edición. Si el usuario guarda el registro en este modo, el elemento se actualiza en la base de datos. El botón "Borrar", por su parte, llama a la función <strong>eliminarItemIndexedDB(id)</strong>, que elimina el registro correspondiente de la base de datos y actualiza la tabla.</p>
+
+```javascript
+// Editar un registro en IndexedDB
+function editarItemIndexedDB(id) {
+    const transaction = db.transaction(['items'], 'readonly');
+    const store = transaction.objectStore('items');
+    const request = store.get(id);
+
+    request.onsuccess = function () {
+        const item = request.result;
+
+        if (item) {
+            // Cargar los datos en el formulario
+            document.getElementById('nombreIndexedDB').value = item.nombre;
+            document.getElementById('razaIndexedDB').value = item.raza; 
+            document.getElementById('estadoIndexedDB').value = item.estado;
+
+            // Activar el modo de edición
+            isEditingIndexedDB = true;
+            editIdIndexedDB = id;
+        }
+    };
+
+    request.onerror = function (event) {
+        console.error("Error al cargar el elemento para edición:", event.target.error);
+    };
+}
+
+// Eliminar un registro en IndexedDB
+function eliminarItemIndexedDB(id) {
+    const transaction = db.transaction(['items'], 'readwrite');
+    const store = transaction.objectStore('items');
+    const request = store.delete(id);
+
+    request.onsuccess = function () {
+        console.log("Elemento eliminado correctamente.");
+        mostrarDatosIndexedDB(); // Actualizar la tabla después de la eliminación
+    };
+
+    request.onerror = function (event) {
+        console.error("Error al eliminar el elemento:", event.target.error);
+    };
+}
+```
+
+<p>Otro aspecto importante es la integración con una API externa, específicamente la API de Rick and Morty. Cuando el usuario hace clic en los botones "cargarUnoIndexedDB" o "cargarTresIndexedDB", se ejecutan las funciones <strong>cargarDatosDesdeAPI(1)</strong> y <strong>cargarDatosDesdeAPI(3)</strong>, respectivamente, que hacen una solicitud a la API para obtener uno o tres personajes aleatorios. Estos datos se guardan en IndexedDB con los campos "nombre", "raza" y "estado", y luego se actualiza la tabla con los nuevos datos.</p>
+
+```javascript
+// Función para cargar datos desde la API y guardarlos en IndexedDB
+async function cargarDatosDesdeAPI(cantidad) {
+    try {
+        const url = `https://rickandmortyapi.com/api/character/`;
+
+        // Realizar la solicitud para obtener personajes
+        let data = [];
+        for (let i = 0; i < cantidad; i++) {
+            let index = Math.floor(Math.random() * 826) + 1; // Índice aleatorio
+            const response = await fetch(`${url}${index}`);
+
+            if (!response.ok) {
+                throw new Error("Ha ocurrido un error en la solicitud");
+            }
+
+            const character = await response.json();
+            data.push(character);
+
+            // Guardar el personaje en IndexedDB
+            const nombre = character.name;
+            const raza = character.species;
+            const estado = character.status; 
+
+            const transaction = db.transaction(['items'], 'readwrite');
+            const store = transaction.objectStore('items');
+            store.add({ nombre, raza, estado });
+
+            console.log(`Personaje ${nombre} guardado en IndexedDB`);
+        }
+
+        // Mostrar los datos después de obtenerlos
+        mostrarDatosIndexedDB();
+
+    } catch (error) {
+        console.error("Error al obtener los datos desde la API:", error);
+    }
+}
+```
+
+<a href="https://albaromero6.github.io/PortFolio-JS-ES6/SeptaEntrega/index.html#" target="_blank">
+  <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
+</a>
+<br>
+
+<h2>Octava entrega</h2>
+<h3>Gestión de Estructura de Datos con POO y Modularización</h3>
+<hr>
+<p>Esta entrega, tiene como objetivo implementar y practicar el uso de estructuras de datos como pilas, colas y listas utilizando Programación Orientada a Objetos (POO) y modularización. El primer ejercicio simula una pila para gestionar la cesta de la colada o la lavadora, donde los elementos se agregan y se eliminan siguiendo el principio LIFO (último en entrar, primero en salir). El segundo ejercicio gestiona una cola para controlar los vehículos que llegan a un taller, donde los autos se reparan en el orden de llegada, aplicando el principio FIFO (primero en entrar, primero en salir). El último ejercicio consiste en dos listas de tareas: una lista de tareas normales, donde las tareas se acumulan y al dar al botón de eliminar se elimina una al azar, y otra lista de tareas con prioridad, donde a cada tarea se le asigna un número de prioridad del 0 al 9, y estas tareas se ordenan conforme se agregan a la lista. Al eliminar una tarea de esta lista, se elimina la de mayor prioridad. El código está modularizado en clases y funciones que facilitan la organización y mantenimiento del proyecto, permitiendo una implementación eficiente de cada estructura de datos.</p>
+<br>
+<h3>Pila o Colada</h3>
+<hr>
+<p>El archivo <strong>pila.js</strong> define la clase Pila, que simula el funcionamiento de una pila para gestionar las prendas en una lavadora, utilizando una estructura de datos tipo lista (array). La clase tiene un límite de capacidad definido por maxSize (10 prendas en este caso). En el constructor, se inicializa un array vacío llamado elementos para almacenar las prendas. El método introducir agrega una prenda a la pila, pero primero verifica si la pila ya está llena; si es así, devuelve un mensaje indicando que la lavadora está llena. El método obtener elimina y devuelve la última prenda añadida (siguiendo el principio LIFO), o un mensaje si la pila está vacía. El método siguiente devuelve la prenda que está en la parte superior de la pila sin retirarla. El método estaLlena verifica si la pila ha alcanzado su capacidad máxima, y obtenerContenido devuelve todas las prendas actuales en la pila. En conjunto, esta clase maneja las operaciones básicas de una pila con restricciones de capacidad.</p>
+
+```javascript
+"use strict";
+
+export class Pila {
+    constructor() {
+        this.elementos = [];
+        this.maxSize = 10; // Límite de la pila
+    }
+
+    introducir(prenda) {
+        if (this.elementos.length >= this.maxSize) {
+            return "La lavadora está llena";
+        }
+        this.elementos.push(prenda);
+        return null;
+    }
+
+    obtener() {
+        if (this.elementos.length === 0) {
+            return "No hay más prendas para lavar";
+        }
+        return this.elementos.pop();
+    }
+
+    siguiente() {
+        if (this.elementos.length > 0) {
+            return this.elementos[this.elementos.length - 1]; // Devuelve el último elemento de la pila
+        }
+        return null;
+    }
+
+    estaLlena() {
+        return this.elementos.length >= this.maxSize;
+    }
+
+    obtenerContenido() {
+        return this.elementos;
+    }
+}
+
+```
+
+<p>El archivo <strong>pilaModulo.js</strong> define la función initPila, que gestiona la interacción entre la interfaz de usuario y la clase Pila en el contexto de una lavadora que maneja prendas. En primer lugar, se importa la clase Pila desde pila.js y se crea una nueva instancia de Pila. Luego, se obtienen los elementos del DOM necesarios, como el formulario para agregar prendas, el área para mostrar mensajes de estado, la tabla donde se visualizan las prendas y los botones para guardar y retirar prendas. La función actualizarTabla se encarga de actualizar el contenido de la tabla cada vez que se agrega o se retira una prenda, creando filas dinámicamente con los nombres de las prendas y añadiéndolas a la tabla. El evento del botón guardarColada permite añadir una prenda seleccionada a la pila; si la pila está llena, muestra un mensaje de advertencia, y si no, muestra el mensaje de confirmación de que la prenda ha sido añadida. El evento del botón retirarColada permite retirar la última prenda agregada, mostrando un mensaje adecuado según si la pila está vacía o no. Este módulo conecta la lógica de la pila con la interfaz de usuario, permitiendo al usuario gestionar la cesta de la colada.</p>
+
+```javascript
+"use strict";
+
+import { Pila } from '../clases/pila.js';
+
+export function initPila() {
+    const pila = new Pila();
+    const form = document.getElementById('cestaColadaForm');
+    const mensajeDiv = document.getElementById('mensaje');
+    const tablaBody = document.getElementById('tablaCestaColada');
+    const guardarBtn = document.getElementById('guardarColada');
+    const retirarBtn = document.getElementById('retirarColada');
+
+    // Función para actualizar la tabla
+    const actualizarTabla = () => {
+        tablaBody.innerHTML = "";
+        pila.obtenerContenido().forEach((prenda) => {
+            const fila = document.createElement('tr');
+            fila.innerHTML = `<td>${prenda}</td>`; // Mostrar el icono y el texto
+            tablaBody.appendChild(fila);
+        });
+    };
+
+    // Evento para añadir prendas
+    guardarBtn.addEventListener('click', () => {
+        const prendaSelect = document.getElementById('prendaColada');
+        const prenda = prendaSelect.value; 
+        const prendaConIcono = prendaSelect.options[prendaSelect.selectedIndex].innerText; // Incluye el icono
+
+        if (!prenda) {
+            mensajeDiv.textContent = "Selecciona una prenda";
+            return;
+        }
+
+        const mensaje = pila.introducir(prendaConIcono); // Guardar el texto con el icono
+        if (mensaje) {
+            mensajeDiv.textContent = mensaje;
+        } else {
+            mensajeDiv.textContent = `"${prenda}" añadido a la lavadora`;
+        }
+        actualizarTabla();
+    });
+
+    // Evento para retirar prendas
+    retirarBtn.addEventListener('click', () => {
+        const prenda = pila.obtener();
+        if (typeof prenda === "string") {
+            mensajeDiv.textContent = prenda; // Mensaje de error
+        } else {
+            mensajeDiv.textContent = "${prenda}";
+        }
+        actualizarTabla();
+    });
+}
+
+```
+<br>
+<h3>Cola o Taller</h3>
+<hr>
+<p>El archivo <strong>cola.js</strong> define la clase Cola, que simula el funcionamiento de una cola para gestionar los vehículos que llegan a un taller de reparaciones. La clase utiliza un array llamado vehiculos para almacenar los vehículos en la cola, y tiene un límite de capacidad maxima definida (10 vehículos en este caso). El método llega agrega un vehículo a la cola si no se ha alcanzado el límite máximo, o devuelve un mensaje indicando que el taller está completo si la cola está llena. El método atiendo retira el primer vehículo de la cola (siguiendo el principio FIFO) y lo devuelve para ser reparado, o devuelve un mensaje indicando que no hay vehículos para reparar si la cola está vacía. El método siguiente devuelve el primer vehículo en la cola sin retirarlo, y estaLlena verifica si la cola ha alcanzado su capacidad máxima. Finalmente, el método obtenerContenido devuelve todos los vehículos actualmente en la cola. En resumen, esta clase maneja las operaciones básicas de una cola para gestionar la entrada y salida de vehículos en un taller, asegurando que el taller no sobrepase su capacidad máxima y respetando el orden de llegada.</p>
+
+```javascript
+"use strict";
+
+export class Cola {
+    constructor() {
+        this.vehiculos = [];
+        this.maximo = 10;  // Límite de vehículos en la cola
+    }
+
+    llega(vehiculo) {
+        if (this.vehiculos.length < this.maximo) {
+            this.vehiculos.push(vehiculo);
+            return null;  // Se ha añadido correctamente
+        }
+        return "El taller está completo, empieza a reparar";  // Cola llena
+    }
+
+    atiendo() {
+        if (this.vehiculos.length === 0) {
+            return "No hay más vehículos que reparar";  // No hay vehículos en la cola
+        }
+        return this.vehiculos.shift();  // Retirar el primer vehículo
+    }
+
+    siguiente() {
+        return this.vehiculos.length > 0 ? this.vehiculos[0] : null;
+    }
+
+    estaLlena() {
+        return this.vehiculos.length >= this.maximo;
+    }
+
+    obtenerContenido() {
+        return this.vehiculos;
+    }
+}
+
+```
+
+<p>El archivo <strong>tallerModulo.js</strong> define la clase Taller, que gestiona la interacción con la cola de vehículos que esperan ser reparados en un taller. Primero se importa la clase Cola desde cola.js para crear una instancia de una cola que controla la llegada y reparación de vehículos. En el constructor, además de inicializar la cola, se define un objeto vehiculosConEmoticonos que asocia tipos de vehículos con sus respectivos emoticonos. También se obtienen los elementos del DOM necesarios, como la tabla para mostrar la cola de vehículos, el área para los mensajes, el selector de vehículos y los botones para añadir y atender vehículos. La clase incluye un método privado _inicializarEventos para manejar los eventos de los botones: el botón de "guardar" agrega un vehículo a la cola, y el botón de "atender" atiende (elimina) el primer vehículo de la cola para su reparación. Al añadir un vehículo, se muestra un mensaje de error si la cola está llena, o se actualiza la tabla con los vehículos en espera. Al atender un vehículo, se muestra el siguiente vehículo que será reparado o un mensaje si no hay más vehículos en la cola. La tabla de la cola se actualiza dinámicamente para reflejar el estado de los vehículos en espera, mostrando tanto el emoticono como el nombre del vehículo. En conjunto, este módulo gestiona las operaciones del taller, conectando la lógica de la cola con la interfaz de usuario.</p>
+
+```javascript
+"use strict";
+
+import { Cola } from '../clases/cola.js';  // Importamos la clase Cola
+
+export class Taller {
+    constructor() {
+        this.cola = new Cola();  // Crear una instancia de la cola
+        this.vehiculosConEmoticonos = {
+            "Vagón de tranvía": "🚋",
+            "Coche antiguo": "🚗",
+            "Taxi": "🚖",
+            "Autobús": "🚌",
+            "Moto": "🏍️",
+            "Bicicleta": "🚲",
+            "Caravana": "🚐"
+        };
+        this.tablaColaTaller = document.getElementById('tablaColaTaller');
+        this.mensajeTaller = document.getElementById('mensajeTaller');
+        this.vehiculoSelect = document.getElementById('vehiculoTaller');
+        this.botonGuardar = document.getElementById('guardarVehiculo');
+        this.botonAtender = document.getElementById('atenderVehiculo');
+
+        // Inicializar eventos
+        this._inicializarEventos();
+    }
+
+    // Inicializar los eventos de los botones
+    _inicializarEventos() {
+        this.botonGuardar.addEventListener('click', () => this.llegaVehiculo());
+        this.botonAtender.addEventListener('click', () => this.atiendoVehiculo());
+    }
+
+    // Función para añadir un vehículo a la cola
+    llegaVehiculo() {
+        const vehiculo = this.vehiculoSelect.value;
+
+        if (vehiculo === "") {
+            this.mensajeTaller.textContent = "Por favor, selecciona un vehículo";
+            return;
+        }
+
+        // Intentamos añadir el vehículo a la cola
+        const mensajeError = this.cola.llega(vehiculo);
+        if (mensajeError) {
+            this.mensajeTaller.textContent = mensajeError;
+        } else {
+            this.vehiculoSelect.value = "";  // Limpiar la selección
+            this.mensajeTaller.textContent = "";  // Limpiar los mensajes previos
+            this.actualizarTabla();  // Actualizar tabla
+        }
+    }
+
+    // Función para atender arreglar el primer vehículo de la cola
+    atiendoVehiculo() {
+        const vehiculoAtendido = this.cola.atiendo();
+        if (vehiculoAtendido === "No hay más vehículos que reparar") {
+            this.mensajeTaller.textContent = vehiculoAtendido;
+        } else {
+            const siguienteVehiculo = this.cola.siguiente();
+            if (siguienteVehiculo) {
+                this.mensajeTaller.textContent = `El siguiente vehículo a reparar es: ${siguienteVehiculo}`;
+            } else {
+                this.mensajeTaller.textContent = "No hay más vehículos que reparar";
+            }
+            this.actualizarTabla();  // Actualizar tabla
+        }
+    }
+
+    // Función para actualizar la tabla con los vehículos en espera
+    actualizarTabla() {
+        this.tablaColaTaller.innerHTML = "";  // Limpiar la tabla antes de actualizar
+
+        const vehiculos = this.cola.obtenerContenido();
+        vehiculos.forEach(vehiculo => {
+            const fila = document.createElement('tr');
+            const celda = document.createElement('td');
+            celda.textContent = `${this.vehiculosConEmoticonos[vehiculo]} ${vehiculo}`;
+            fila.appendChild(celda);
+            this.tablaColaTaller.appendChild(fila);
+        });
+    }
+}
+```
+<br>
+<h3>Lista o Tareas</h3>
+<hr>
+<p>El archivo <strong>tareas.js</strong> define dos clases para gestionar listas de tareas: TareasNormales y TareasConPrioridad. La clase TareasNormales maneja una lista de tareas sin orden de prioridad, con un límite máximo de 10 tareas. El método agregarTarea añade una nueva tarea en una posición aleatoria dentro de la lista, pero solo si no se ha alcanzado el máximo, devolviendo un mensaje de advertencia si está llena. El método eliminarTarea elimina una tarea seleccionada al azar de la lista, devolviendo un mensaje si la lista está vacía. Por otro lado, la clase TareasConPrioridad gestiona una lista de tareas con prioridad asignada, donde cada tarea tiene un nivel de prioridad entre 0 y 9. El método agregarTarea añade una tarea junto con su prioridad, valida que esta sea un número en el rango permitido, y luego ordena la lista para que las tareas con mayor prioridad aparezcan primero. El método eliminarTarea elimina la tarea con mayor prioridad, devolviendo un mensaje si no quedan tareas. Ambas clases incluyen un método obtenerTareas para devolver el estado actual de sus respectivas listas. En conjunto, estas clases permiten gestionar tanto tareas normales como tareas organizadas por prioridad de forma eficiente.</p>
+
+```javascript
+"use strict";
+
+// Clase para manejar las tareas normales
+export class TareasNormales {
+    constructor() {
+        this.tareas = [];
+        this.maxTareas = 10;
+    }
+
+    agregarTarea(tarea) {
+        if (this.tareas.length >= this.maxTareas) {
+            return "Se te han acumulado, empieza a hacer tareas";
+        }
+        this.tareas.splice(Math.floor(Math.random() * (this.tareas.length + 1)), 0, tarea);
+        return null;
+    }
+
+    eliminarTarea() {
+        if (this.tareas.length === 0) {
+            return "No quedan tareas por hacer";
+        }
+        this.tareas.splice(Math.floor(Math.random() * this.tareas.length), 1);
+        return null;
+    }
+
+    obtenerTareas() {
+        return this.tareas;
+    }
+}
+
+// Clase para manejar las tareas con prioridad
+export class TareasConPrioridad {
+    constructor() {
+        this.tareas = [];
+    }
+
+    agregarTarea(tarea, prioridad) {
+        if (isNaN(prioridad) || prioridad < 0 || prioridad > 9) {
+            return "Por favor, escribe una tarea y una prioridad válida";
+        }
+        this.tareas.push({ tarea, prioridad });
+        this.tareas.sort((a, b) => b.prioridad - a.prioridad);
+        return null;
+    }
+
+    eliminarTarea() {
+        if (this.tareas.length === 0) {
+            return "No quedan tareas por hacer";
+        }
+        this.tareas.shift();
+        return null;
+    }
+
+    obtenerTareas() {
+        return this.tareas;
+    }
+}
+
+```
+
+<p>El archivo <strong>tareasModulo.js</strong> define la clase TareasApp, que gestiona la interacción con dos listas de tareas: tareas normales y tareas con prioridad. En el constructor, se crean instancias de las clases TareasNormales y TareasConPrioridad, se obtienen los elementos del DOM necesarios para mostrar y manipular ambas listas, y se inicializan los eventos de los botones para añadir y eliminar tareas. Los métodos _agregarTarea y _eliminarTarea permiten al usuario añadir tareas normales a la lista o eliminar una tarea aleatoria, actualizando la tabla correspondiente y mostrando mensajes en caso de error, como cuando la lista está llena o vacía. De manera similar, los métodos _agregarTareaConPrioridad y _eliminarTareaConPrioridad permiten añadir tareas con una prioridad especificada y eliminar la tarea con mayor prioridad, mostrando mensajes en caso de entrada inválida o si no quedan tareas. Los métodos actualizarTablaTareasNormales y actualizarTablaTareasConPrioridad actualizan dinámicamente las tablas, mostrando las tareas normales o las tareas con prioridad junto con sus valores. En conjunto, esta clase conecta la lógica de las tareas con la interfaz de usuario, permitiendo gestionar las listas de tareas de forma intuitiva y ordenada.</p>
+
+```javascript
+"use strict";
+
+import { TareasNormales, TareasConPrioridad } from '../clases/tareas.js';
+
+export class TareasApp {
+    constructor() {
+        // Instanciamos las clases de tareas
+        this.tareasNormales = new TareasNormales();
+        this.tareasConPrioridad = new TareasConPrioridad();
+
+        // Selección de elementos DOM
+        this.tablaTareas = document.getElementById('tablaTareas');
+        this.tablaTareasPrioridad = document.getElementById('tablaTareasPrioridad');
+        this.mensajeTareasNormales = document.getElementById('mensajeTareasNormales');
+        this.mensajeTareasPrioridad = document.getElementById('mensajeTareasPrioridad');
+        this.tareaInput = document.getElementById('tareaInput');
+        this.prioridadInput = document.getElementById('prioridadInput');
+        this.prioridadValor = document.getElementById('prioridadValor');
+
+        // Botones
+        this.botonAnadirTarea = document.getElementById('anadirTarea');
+        this.botonEliminarTarea = document.getElementById('eliminarTarea');
+        this.botonAnadirPrioridad = document.getElementById('anadirPrioridad');
+        this.botonEliminarPrioridad = document.getElementById('eliminarPrioridad');
+
+        // Inicializamos eventos
+        this._inicializarEventos();
+    }
+
+    // Inicializar eventos de los botones
+    _inicializarEventos() {
+        this.botonAnadirTarea.addEventListener('click', () => this._agregarTarea());
+        this.botonEliminarTarea.addEventListener('click', () => this._eliminarTarea());
+        this.botonAnadirPrioridad.addEventListener('click', () => this._agregarTareaConPrioridad());
+        this.botonEliminarPrioridad.addEventListener('click', () => this._eliminarTareaConPrioridad());
+    }
+
+    // Añadir tarea normal
+    _agregarTarea() {
+        const tarea = this.tareaInput.value.trim();
+        this.mensajeTareasNormales.textContent = "";
+
+        if (!tarea) {
+            this.mensajeTareasNormales.textContent = "Por favor, escribe una tarea";
+            return;
+        }
+
+        const mensajeError = this.tareasNormales.agregarTarea(tarea);
+        if (mensajeError) {
+            this.mensajeTareasNormales.textContent = mensajeError;
+        } else {
+            this.tareaInput.value = "";
+            this.actualizarTablaTareasNormales();
+        }
+    }
+
+    // Eliminar tarea normal
+    _eliminarTarea() {
+        this.mensajeTareasNormales.textContent = "";
+        const mensajeError = this.tareasNormales.eliminarTarea();
+        if (mensajeError) {
+            this.mensajeTareasNormales.textContent = mensajeError;
+        } else {
+            this.actualizarTablaTareasNormales();
+        }
+    }
+
+    // Añadir tarea con prioridad
+    _agregarTareaConPrioridad() {
+        const tarea = this.prioridadInput.value.trim();
+        const prioridad = parseInt(this.prioridadValor.value, 10);
+        this.mensajeTareasPrioridad.textContent = "";
+
+        if (!tarea || isNaN(prioridad) || prioridad < 0 || prioridad > 9) {
+            this.mensajeTareasPrioridad.textContent = "Por favor, escribe una tarea y una prioridad válida";
+            return;
+        }
+
+        const mensajeError = this.tareasConPrioridad.agregarTarea(tarea, prioridad);
+        if (mensajeError) {
+            this.mensajeTareasPrioridad.textContent = mensajeError;
+        } else {
+            this.prioridadInput.value = "";
+            this.prioridadValor.value = "";
+            this.actualizarTablaTareasConPrioridad();
+        }
+    }
+
+    // Eliminar tarea con mayor prioridad
+    _eliminarTareaConPrioridad() {
+        this.mensajeTareasPrioridad.textContent = "";
+        const mensajeError = this.tareasConPrioridad.eliminarTarea();
+        if (mensajeError) {
+            this.mensajeTareasPrioridad.textContent = mensajeError;
+        } else {
+            this.actualizarTablaTareasConPrioridad();
+        }
+    }
+
+    // Actualizar tabla de tareas normales
+    actualizarTablaTareasNormales() {
+        this.tablaTareas.innerHTML = "";
+        const tareas = this.tareasNormales.obtenerTareas();
+        tareas.forEach(tarea => {
+            const fila = document.createElement('tr');
+            const celda = document.createElement('td');
+            celda.textContent = tarea;
+            fila.appendChild(celda);
+            this.tablaTareas.appendChild(fila);
+        });
+    }
+
+    // Actualizar tabla de tareas con prioridad
+    actualizarTablaTareasConPrioridad() {
+        this.tablaTareasPrioridad.innerHTML = "";
+        const tareas = this.tareasConPrioridad.obtenerTareas();
+        tareas.forEach(({ tarea, prioridad }) => {
+            const fila = document.createElement('tr');
+            const celdaTarea = document.createElement('td');
+            const celdaPrioridad = document.createElement('td');
+            celdaTarea.textContent = tarea;
+            celdaPrioridad.textContent = prioridad;
+            fila.appendChild(celdaTarea);
+            fila.appendChild(celdaPrioridad);
+            this.tablaTareasPrioridad.appendChild(fila);
+        });
+    }
+}
+
+```
+
+<p>El archivo <strong>init.js</strong> actúa como el punto de entrada para inicializar los tres ejercicios de la aplicación: la pila, la cola y las listas de tareas. Utiliza el evento DOMContentLoaded para asegurarse de que el DOM esté completamente cargado antes de ejecutar cualquier lógica. Para la funcionalidad de la pila, llama a la función initPila desde el módulo correspondiente, inicializando el sistema de gestión de prendas en la lavadora. Para la funcionalidad de la cola, crea una nueva instancia de la clase Taller, configurando la lógica para gestionar vehículos que llegan al taller. Finalmente, para las listas de tareas, instancia la clase TareasApp, habilitando la interacción con las tareas normales y las tareas con prioridad. Este archivo centraliza la inicialización de los tres módulos, asegurando que cada uno esté listo para su uso al cargar la página, integrando de forma clara la modularidad de la aplicación.</p>
+
+```javascript
+"use strict";
+
+import { initPila } from '../modulos/pilaModulo.js';
+import { Taller } from '../modulos/tallerModulo.js'; 
+import { TareasApp } from '../modulos/tareasModulo.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+    initPila();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    new Taller();  
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    new TareasApp();
+});
+
+```
+
+<a href="https://albaromero6.github.io/PortFolio-JS-ES6/SeptaEntrega/index.html#" target="_blank">
+  <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
+</a>
+<br>
