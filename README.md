@@ -2044,3 +2044,230 @@ export class Taller {
     }
 }
 ```
+<br>
+<h3>Lista o Tareas</h3>
+<hr>
+<p>El archivo <strong>tareas.js</strong> define dos clases para gestionar listas de tareas: TareasNormales y TareasConPrioridad. La clase TareasNormales maneja una lista de tareas sin orden de prioridad, con un límite máximo de 10 tareas. El método agregarTarea añade una nueva tarea en una posición aleatoria dentro de la lista, pero solo si no se ha alcanzado el máximo, devolviendo un mensaje de advertencia si está llena. El método eliminarTarea elimina una tarea seleccionada al azar de la lista, devolviendo un mensaje si la lista está vacía. Por otro lado, la clase TareasConPrioridad gestiona una lista de tareas con prioridad asignada, donde cada tarea tiene un nivel de prioridad entre 0 y 9. El método agregarTarea añade una tarea junto con su prioridad, valida que esta sea un número en el rango permitido, y luego ordena la lista para que las tareas con mayor prioridad aparezcan primero. El método eliminarTarea elimina la tarea con mayor prioridad, devolviendo un mensaje si no quedan tareas. Ambas clases incluyen un método obtenerTareas para devolver el estado actual de sus respectivas listas. En conjunto, estas clases permiten gestionar tanto tareas normales como tareas organizadas por prioridad de forma eficiente.</p>
+
+```javascript
+"use strict";
+
+// Clase para manejar las tareas normales
+export class TareasNormales {
+    constructor() {
+        this.tareas = [];
+        this.maxTareas = 10;
+    }
+
+    agregarTarea(tarea) {
+        if (this.tareas.length >= this.maxTareas) {
+            return "Se te han acumulado, empieza a hacer tareas";
+        }
+        this.tareas.splice(Math.floor(Math.random() * (this.tareas.length + 1)), 0, tarea);
+        return null;
+    }
+
+    eliminarTarea() {
+        if (this.tareas.length === 0) {
+            return "No quedan tareas por hacer";
+        }
+        this.tareas.splice(Math.floor(Math.random() * this.tareas.length), 1);
+        return null;
+    }
+
+    obtenerTareas() {
+        return this.tareas;
+    }
+}
+
+// Clase para manejar las tareas con prioridad
+export class TareasConPrioridad {
+    constructor() {
+        this.tareas = [];
+    }
+
+    agregarTarea(tarea, prioridad) {
+        if (isNaN(prioridad) || prioridad < 0 || prioridad > 9) {
+            return "Por favor, escribe una tarea y una prioridad válida";
+        }
+        this.tareas.push({ tarea, prioridad });
+        this.tareas.sort((a, b) => b.prioridad - a.prioridad);
+        return null;
+    }
+
+    eliminarTarea() {
+        if (this.tareas.length === 0) {
+            return "No quedan tareas por hacer";
+        }
+        this.tareas.shift();
+        return null;
+    }
+
+    obtenerTareas() {
+        return this.tareas;
+    }
+}
+
+```
+
+<p>El archivo <strong>tareasModulo.js</strong> define la clase TareasApp, que gestiona la interacción con dos listas de tareas: tareas normales y tareas con prioridad. En el constructor, se crean instancias de las clases TareasNormales y TareasConPrioridad, se obtienen los elementos del DOM necesarios para mostrar y manipular ambas listas, y se inicializan los eventos de los botones para añadir y eliminar tareas. Los métodos _agregarTarea y _eliminarTarea permiten al usuario añadir tareas normales a la lista o eliminar una tarea aleatoria, actualizando la tabla correspondiente y mostrando mensajes en caso de error, como cuando la lista está llena o vacía. De manera similar, los métodos _agregarTareaConPrioridad y _eliminarTareaConPrioridad permiten añadir tareas con una prioridad especificada y eliminar la tarea con mayor prioridad, mostrando mensajes en caso de entrada inválida o si no quedan tareas. Los métodos actualizarTablaTareasNormales y actualizarTablaTareasConPrioridad actualizan dinámicamente las tablas, mostrando las tareas normales o las tareas con prioridad junto con sus valores. En conjunto, esta clase conecta la lógica de las tareas con la interfaz de usuario, permitiendo gestionar las listas de tareas de forma intuitiva y ordenada.</p>
+
+```javascript
+"use strict";
+
+import { TareasNormales, TareasConPrioridad } from '../clases/tareas.js';
+
+export class TareasApp {
+    constructor() {
+        // Instanciamos las clases de tareas
+        this.tareasNormales = new TareasNormales();
+        this.tareasConPrioridad = new TareasConPrioridad();
+
+        // Selección de elementos DOM
+        this.tablaTareas = document.getElementById('tablaTareas');
+        this.tablaTareasPrioridad = document.getElementById('tablaTareasPrioridad');
+        this.mensajeTareasNormales = document.getElementById('mensajeTareasNormales');
+        this.mensajeTareasPrioridad = document.getElementById('mensajeTareasPrioridad');
+        this.tareaInput = document.getElementById('tareaInput');
+        this.prioridadInput = document.getElementById('prioridadInput');
+        this.prioridadValor = document.getElementById('prioridadValor');
+
+        // Botones
+        this.botonAnadirTarea = document.getElementById('anadirTarea');
+        this.botonEliminarTarea = document.getElementById('eliminarTarea');
+        this.botonAnadirPrioridad = document.getElementById('anadirPrioridad');
+        this.botonEliminarPrioridad = document.getElementById('eliminarPrioridad');
+
+        // Inicializamos eventos
+        this._inicializarEventos();
+    }
+
+    // Inicializar eventos de los botones
+    _inicializarEventos() {
+        this.botonAnadirTarea.addEventListener('click', () => this._agregarTarea());
+        this.botonEliminarTarea.addEventListener('click', () => this._eliminarTarea());
+        this.botonAnadirPrioridad.addEventListener('click', () => this._agregarTareaConPrioridad());
+        this.botonEliminarPrioridad.addEventListener('click', () => this._eliminarTareaConPrioridad());
+    }
+
+    // Añadir tarea normal
+    _agregarTarea() {
+        const tarea = this.tareaInput.value.trim();
+        this.mensajeTareasNormales.textContent = "";
+
+        if (!tarea) {
+            this.mensajeTareasNormales.textContent = "Por favor, escribe una tarea";
+            return;
+        }
+
+        const mensajeError = this.tareasNormales.agregarTarea(tarea);
+        if (mensajeError) {
+            this.mensajeTareasNormales.textContent = mensajeError;
+        } else {
+            this.tareaInput.value = "";
+            this.actualizarTablaTareasNormales();
+        }
+    }
+
+    // Eliminar tarea normal
+    _eliminarTarea() {
+        this.mensajeTareasNormales.textContent = "";
+        const mensajeError = this.tareasNormales.eliminarTarea();
+        if (mensajeError) {
+            this.mensajeTareasNormales.textContent = mensajeError;
+        } else {
+            this.actualizarTablaTareasNormales();
+        }
+    }
+
+    // Añadir tarea con prioridad
+    _agregarTareaConPrioridad() {
+        const tarea = this.prioridadInput.value.trim();
+        const prioridad = parseInt(this.prioridadValor.value, 10);
+        this.mensajeTareasPrioridad.textContent = "";
+
+        if (!tarea || isNaN(prioridad) || prioridad < 0 || prioridad > 9) {
+            this.mensajeTareasPrioridad.textContent = "Por favor, escribe una tarea y una prioridad válida";
+            return;
+        }
+
+        const mensajeError = this.tareasConPrioridad.agregarTarea(tarea, prioridad);
+        if (mensajeError) {
+            this.mensajeTareasPrioridad.textContent = mensajeError;
+        } else {
+            this.prioridadInput.value = "";
+            this.prioridadValor.value = "";
+            this.actualizarTablaTareasConPrioridad();
+        }
+    }
+
+    // Eliminar tarea con mayor prioridad
+    _eliminarTareaConPrioridad() {
+        this.mensajeTareasPrioridad.textContent = "";
+        const mensajeError = this.tareasConPrioridad.eliminarTarea();
+        if (mensajeError) {
+            this.mensajeTareasPrioridad.textContent = mensajeError;
+        } else {
+            this.actualizarTablaTareasConPrioridad();
+        }
+    }
+
+    // Actualizar tabla de tareas normales
+    actualizarTablaTareasNormales() {
+        this.tablaTareas.innerHTML = "";
+        const tareas = this.tareasNormales.obtenerTareas();
+        tareas.forEach(tarea => {
+            const fila = document.createElement('tr');
+            const celda = document.createElement('td');
+            celda.textContent = tarea;
+            fila.appendChild(celda);
+            this.tablaTareas.appendChild(fila);
+        });
+    }
+
+    // Actualizar tabla de tareas con prioridad
+    actualizarTablaTareasConPrioridad() {
+        this.tablaTareasPrioridad.innerHTML = "";
+        const tareas = this.tareasConPrioridad.obtenerTareas();
+        tareas.forEach(({ tarea, prioridad }) => {
+            const fila = document.createElement('tr');
+            const celdaTarea = document.createElement('td');
+            const celdaPrioridad = document.createElement('td');
+            celdaTarea.textContent = tarea;
+            celdaPrioridad.textContent = prioridad;
+            fila.appendChild(celdaTarea);
+            fila.appendChild(celdaPrioridad);
+            this.tablaTareasPrioridad.appendChild(fila);
+        });
+    }
+}
+
+```
+
+<p>El archivo <strong>init.js</strong> actúa como el punto de entrada para inicializar los tres ejercicios de la aplicación: la pila, la cola y las listas de tareas. Utiliza el evento DOMContentLoaded para asegurarse de que el DOM esté completamente cargado antes de ejecutar cualquier lógica. Para la funcionalidad de la pila, llama a la función initPila desde el módulo correspondiente, inicializando el sistema de gestión de prendas en la lavadora. Para la funcionalidad de la cola, crea una nueva instancia de la clase Taller, configurando la lógica para gestionar vehículos que llegan al taller. Finalmente, para las listas de tareas, instancia la clase TareasApp, habilitando la interacción con las tareas normales y las tareas con prioridad. Este archivo centraliza la inicialización de los tres módulos, asegurando que cada uno esté listo para su uso al cargar la página, integrando de forma clara la modularidad de la aplicación.</p>
+
+```javascript
+"use strict";
+
+import { initPila } from '../modulos/pilaModulo.js';
+import { Taller } from '../modulos/tallerModulo.js'; 
+import { TareasApp } from '../modulos/tareasModulo.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+    initPila();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    new Taller();  
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    new TareasApp();
+});
+
+```
+
+<a href="https://albaromero6.github.io/PortFolio-JS-ES6/SeptaEntrega/index.html#" target="_blank">
+  <img src="https://img.shields.io/badge/Pulsa_aquí-9acd32?style=for-the-badge" alt="Pulsa aquí">
+</a>
+<br>
