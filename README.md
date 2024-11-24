@@ -1957,3 +1957,90 @@ export class Cola {
 }
 
 ```
+
+<p>El archivo <strong>tallerModulo.js</strong> define la clase Taller, que gestiona la interacción con la cola de vehículos que esperan ser reparados en un taller. Primero se importa la clase Cola desde cola.js para crear una instancia de una cola que controla la llegada y reparación de vehículos. En el constructor, además de inicializar la cola, se define un objeto vehiculosConEmoticonos que asocia tipos de vehículos con sus respectivos emoticonos. También se obtienen los elementos del DOM necesarios, como la tabla para mostrar la cola de vehículos, el área para los mensajes, el selector de vehículos y los botones para añadir y atender vehículos. La clase incluye un método privado _inicializarEventos para manejar los eventos de los botones: el botón de "guardar" agrega un vehículo a la cola, y el botón de "atender" atiende (elimina) el primer vehículo de la cola para su reparación. Al añadir un vehículo, se muestra un mensaje de error si la cola está llena, o se actualiza la tabla con los vehículos en espera. Al atender un vehículo, se muestra el siguiente vehículo que será reparado o un mensaje si no hay más vehículos en la cola. La tabla de la cola se actualiza dinámicamente para reflejar el estado de los vehículos en espera, mostrando tanto el emoticono como el nombre del vehículo. En conjunto, este módulo gestiona las operaciones del taller, conectando la lógica de la cola con la interfaz de usuario.</p>
+
+```javascript
+"use strict";
+
+import { Cola } from '../clases/cola.js';  // Importamos la clase Cola
+
+export class Taller {
+    constructor() {
+        this.cola = new Cola();  // Crear una instancia de la cola
+        this.vehiculosConEmoticonos = {
+            "Vagón de tranvía": "🚋",
+            "Coche antiguo": "🚗",
+            "Taxi": "🚖",
+            "Autobús": "🚌",
+            "Moto": "🏍️",
+            "Bicicleta": "🚲",
+            "Caravana": "🚐"
+        };
+        this.tablaColaTaller = document.getElementById('tablaColaTaller');
+        this.mensajeTaller = document.getElementById('mensajeTaller');
+        this.vehiculoSelect = document.getElementById('vehiculoTaller');
+        this.botonGuardar = document.getElementById('guardarVehiculo');
+        this.botonAtender = document.getElementById('atenderVehiculo');
+
+        // Inicializar eventos
+        this._inicializarEventos();
+    }
+
+    // Inicializar los eventos de los botones
+    _inicializarEventos() {
+        this.botonGuardar.addEventListener('click', () => this.llegaVehiculo());
+        this.botonAtender.addEventListener('click', () => this.atiendoVehiculo());
+    }
+
+    // Función para añadir un vehículo a la cola
+    llegaVehiculo() {
+        const vehiculo = this.vehiculoSelect.value;
+
+        if (vehiculo === "") {
+            this.mensajeTaller.textContent = "Por favor, selecciona un vehículo";
+            return;
+        }
+
+        // Intentamos añadir el vehículo a la cola
+        const mensajeError = this.cola.llega(vehiculo);
+        if (mensajeError) {
+            this.mensajeTaller.textContent = mensajeError;
+        } else {
+            this.vehiculoSelect.value = "";  // Limpiar la selección
+            this.mensajeTaller.textContent = "";  // Limpiar los mensajes previos
+            this.actualizarTabla();  // Actualizar tabla
+        }
+    }
+
+    // Función para atender arreglar el primer vehículo de la cola
+    atiendoVehiculo() {
+        const vehiculoAtendido = this.cola.atiendo();
+        if (vehiculoAtendido === "No hay más vehículos que reparar") {
+            this.mensajeTaller.textContent = vehiculoAtendido;
+        } else {
+            const siguienteVehiculo = this.cola.siguiente();
+            if (siguienteVehiculo) {
+                this.mensajeTaller.textContent = `El siguiente vehículo a reparar es: ${siguienteVehiculo}`;
+            } else {
+                this.mensajeTaller.textContent = "No hay más vehículos que reparar";
+            }
+            this.actualizarTabla();  // Actualizar tabla
+        }
+    }
+
+    // Función para actualizar la tabla con los vehículos en espera
+    actualizarTabla() {
+        this.tablaColaTaller.innerHTML = "";  // Limpiar la tabla antes de actualizar
+
+        const vehiculos = this.cola.obtenerContenido();
+        vehiculos.forEach(vehiculo => {
+            const fila = document.createElement('tr');
+            const celda = document.createElement('td');
+            celda.textContent = `${this.vehiculosConEmoticonos[vehiculo]} ${vehiculo}`;
+            fila.appendChild(celda);
+            this.tablaColaTaller.appendChild(fila);
+        });
+    }
+}
+```
